@@ -91,7 +91,7 @@ export default function AboutClient({ settings, testimonials, services, technolo
                     <h3 className="font-outfit font-semibold text-white text-sm mb-1.5">
                       {service.title}
                     </h3>
-                    <p className="text-[var(--muted-foreground)] text-xs leading-relaxed">
+                    <p className="text-[var(--muted-foreground)] text-xs leading-relaxed break-words whitespace-pre-wrap">
                       {service.description}
                     </p>
                   </div>

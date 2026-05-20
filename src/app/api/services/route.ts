@@ -35,11 +35,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Validation failed', issues: parsed.error.issues }, { status: 400 })
     }
 
-    const item = await prisma.service.create({
-      data: parsed.data,
-    })
-
-    return NextResponse.json(item, { status: 201 })
+    const service = await prisma.service.create({ data: parsed.data })
+    const { revalidatePath } = require('next/cache');
+    revalidatePath('/about');
+    return NextResponse.json(service, { status: 201 })
   } catch (error) {
     console.error('[POST /api/services]', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })

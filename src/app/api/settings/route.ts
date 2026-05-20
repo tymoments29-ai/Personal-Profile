@@ -80,6 +80,11 @@ export async function PATCH(request: Request) {
         data: { ...defaultSettings, ...parsed.data },
       })
     }
+    
+    // Import dynamically to avoid top-level issues, or just require
+    const { revalidatePath } = require('next/cache');
+    revalidatePath('/about');
+    revalidatePath('/');
 
     return NextResponse.json(settings)
   } catch (error) {
