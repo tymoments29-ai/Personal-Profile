@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma'
 import { auth } from '@/lib/auth'
 import { z } from 'zod'
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 
 const schema = z.object({
   title: z.string().min(1).optional(),

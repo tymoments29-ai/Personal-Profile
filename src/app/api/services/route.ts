@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma'
 import { auth } from '@/lib/auth'
 import { z } from 'zod'
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 
 const schema = z.object({
   title: z.string().min(1),
@@ -36,7 +37,6 @@ export async function POST(request: Request) {
     }
 
     const service = await prisma.service.create({ data: parsed.data })
-    const { revalidatePath } = require('next/cache');
     revalidatePath('/about');
     return NextResponse.json(service, { status: 201 })
   } catch (error) {

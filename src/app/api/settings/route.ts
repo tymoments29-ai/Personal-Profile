@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma'
 import { auth } from '@/lib/auth'
 import { z } from 'zod'
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 
 const defaultSettings = {
   profilePhotoUrl: null,
@@ -79,10 +80,6 @@ export async function PATCH(request: Request) {
       settings = await prisma.siteSettings.create({
         data: { ...defaultSettings, ...parsed.data },
       })
-    }
-    
-    // Import dynamically to avoid top-level issues, or just require
-    const { revalidatePath } = require('next/cache');
     revalidatePath('/about');
     revalidatePath('/');
 
