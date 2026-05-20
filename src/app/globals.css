@@ -1,0 +1,366 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-outfit);
+  --font-mono: var(--font-jetbrains);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  /* Custom portfolio colors */
+  --color-gold: var(--gold);
+  --color-gold-hover: var(--gold-hover);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* ============================================
+   PORTFOLIO DARK THEME — Design System
+   ============================================ */
+
+:root {
+  /* Force dark mode as default for portfolio */
+  color-scheme: dark;
+
+  /* Portfolio Brand Colors */
+  --gold: oklch(0.75 0.15 70);          /* #f5a623 */
+  --gold-hover: oklch(0.80 0.16 75);    /* #fbbf24 */
+  --gold-muted: oklch(0.75 0.15 70 / 15%);
+
+  /* Surface Colors */
+  --bg-deep: #0b0b12;
+  --bg-primary: #0f0f1a;
+  --bg-secondary: #161625;
+  --bg-card: #1c1c30;
+  --bg-elevated: #222238;
+
+  /* shadcn tokens — Dark Portfolio Theme */
+  --background: oklch(0.08 0.01 265);    /* #0f0f1a */
+  --foreground: oklch(0.94 0.01 265);    /* #e8e8f0 */
+  --card: oklch(0.12 0.015 265);         /* #1c1c30 */
+  --card-foreground: oklch(0.94 0.01 265);
+  --popover: oklch(0.14 0.015 265);
+  --popover-foreground: oklch(0.94 0.01 265);
+  --primary: oklch(0.75 0.15 70);        /* Gold accent */
+  --primary-foreground: oklch(0.08 0.01 265);
+  --secondary: oklch(0.14 0.015 265);
+  --secondary-foreground: oklch(0.94 0.01 265);
+  --muted: oklch(0.16 0.015 265);
+  --muted-foreground: oklch(0.58 0.02 265);
+  --accent: oklch(0.75 0.15 70 / 15%);
+  --accent-foreground: oklch(0.75 0.15 70);
+  --destructive: oklch(0.6 0.22 25);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.75 0.15 70 / 40%);
+  --radius: 0.75rem;
+  --surface: oklch(0.12 0.015 265);
+  --surface-elevated: oklch(0.14 0.015 265);
+
+  /* Chart colors */
+  --chart-1: oklch(0.75 0.15 70);
+  --chart-2: oklch(0.65 0.15 250);
+  --chart-3: oklch(0.65 0.15 150);
+  --chart-4: oklch(0.65 0.15 320);
+  --chart-5: oklch(0.65 0.15 30);
+
+  /* Sidebar */
+  --sidebar: oklch(0.10 0.012 265);
+  --sidebar-foreground: oklch(0.94 0.01 265);
+  --sidebar-primary: oklch(0.75 0.15 70);
+  --sidebar-primary-foreground: oklch(0.08 0.01 265);
+  --sidebar-accent: oklch(0.75 0.15 70 / 15%);
+  --sidebar-accent-foreground: oklch(0.75 0.15 70);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: oklch(0.75 0.15 70 / 40%);
+
+  /* Font families */
+  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-outfit: 'Outfit', system-ui, sans-serif;
+  --font-jetbrains: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Keep dark class as alias for consistency */
+.dark {
+  --background: oklch(0.08 0.01 265);
+  --foreground: oklch(0.94 0.01 265);
+  --card: oklch(0.12 0.015 265);
+  --card-foreground: oklch(0.94 0.01 265);
+  --popover: oklch(0.14 0.015 265);
+  --popover-foreground: oklch(0.94 0.01 265);
+  --primary: oklch(0.75 0.15 70);
+  --primary-foreground: oklch(0.08 0.01 265);
+  --secondary: oklch(0.14 0.015 265);
+  --secondary-foreground: oklch(0.94 0.01 265);
+  --muted: oklch(0.16 0.015 265);
+  --muted-foreground: oklch(0.58 0.02 265);
+  --accent: oklch(0.75 0.15 70 / 15%);
+  --accent-foreground: oklch(0.75 0.15 70);
+  --destructive: oklch(0.6 0.22 25);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.75 0.15 70 / 40%);
+  --surface: oklch(0.12 0.015 265);
+  --surface-elevated: oklch(0.14 0.015 265);
+  --sidebar: oklch(0.10 0.012 265);
+  --sidebar-foreground: oklch(0.94 0.01 265);
+  --sidebar-primary: oklch(0.75 0.15 70);
+  --sidebar-primary-foreground: oklch(0.08 0.01 265);
+  --sidebar-accent: oklch(0.75 0.15 70 / 15%);
+  --sidebar-accent-foreground: oklch(0.75 0.15 70);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: oklch(0.75 0.15 70 / 40%);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-inter);
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-inter);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100dvh;
+    background: var(--bg-primary);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-outfit);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  code, pre, kbd {
+    font-family: var(--font-jetbrains);
+  }
+
+  ::selection {
+    background: oklch(0.75 0.15 70 / 30%);
+    color: #fff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: oklch(1 0 0 / 15%);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.75 0.15 70 / 50%);
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+@layer utilities {
+  /* Gold gradient text */
+  .text-gold {
+    color: var(--gold);
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #f5a623 0%, #fbbf24 50%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glass effect */
+  .glass {
+    background: oklch(1 0 0 / 4%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid oklch(1 0 0 / 8%);
+  }
+
+  .glass-strong {
+    background: oklch(1 0 0 / 8%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid oklch(1 0 0 / 12%);
+  }
+
+  /* Glow effects */
+  .glow-gold {
+    box-shadow: 0 0 20px oklch(0.75 0.15 70 / 25%),
+                0 0 40px oklch(0.75 0.15 70 / 10%);
+  }
+
+  .glow-gold-hover {
+    transition: box-shadow 0.3s ease;
+  }
+
+  .glow-gold-hover:hover {
+    box-shadow: 0 0 20px oklch(0.75 0.15 70 / 35%),
+                0 0 40px oklch(0.75 0.15 70 / 15%);
+  }
+
+  /* Card hover lift */
+  .card-hover {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px oklch(0 0 0 / 40%);
+  }
+
+  /* Animated border gradient */
+  .border-gradient {
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+  }
+
+  .border-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, oklch(0.75 0.15 70 / 50%), transparent, oklch(0.65 0.15 250 / 30%));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Hide leaflet attribution for cleaner look */
+  .leaflet-control-attribution {
+    display: none !important;
+  }
+}
+
+/* ============================================
+   TIPTAP EDITOR STYLES
+   ============================================ */
+
+.tiptap-content {
+  font-family: var(--font-inter);
+  line-height: 1.75;
+  color: var(--foreground);
+}
+
+.tiptap-content h1 { font-family: var(--font-outfit); font-size: 2rem; font-weight: 700; margin: 1.5rem 0 0.75rem; }
+.tiptap-content h2 { font-family: var(--font-outfit); font-size: 1.5rem; font-weight: 600; margin: 1.25rem 0 0.625rem; }
+.tiptap-content h3 { font-family: var(--font-outfit); font-size: 1.25rem; font-weight: 600; margin: 1rem 0 0.5rem; }
+.tiptap-content p { margin: 0.75rem 0; }
+.tiptap-content ul, .tiptap-content ol { padding-left: 1.5rem; margin: 0.75rem 0; }
+.tiptap-content li { margin: 0.25rem 0; }
+.tiptap-content a { color: var(--gold); text-decoration: underline; }
+.tiptap-content blockquote {
+  border-left: 3px solid var(--gold);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+.tiptap-content code {
+  font-family: var(--font-jetbrains);
+  background: oklch(1 0 0 / 8%);
+  padding: 0.15em 0.4em;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+.tiptap-content pre {
+  background: oklch(0 0 0 / 50%);
+  border: 1px solid oklch(1 0 0 / 10%);
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+.tiptap-content pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.875rem;
+  color: #e2e8f0;
+}
+.tiptap-content img {
+  max-width: 100%;
+  border-radius: 0.5rem;
+  margin: 1rem auto;
+}
+.tiptap-content hr {
+  border: none;
+  border-top: 1px solid oklch(1 0 0 / 10%);
+  margin: 2rem 0;
+}
+
+/* ProseMirror editor focus state */
+.ProseMirror {
+  outline: none;
+  min-height: 300px;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--muted-foreground);
+  pointer-events: none;
+  float: left;
+  height: 0;
+}

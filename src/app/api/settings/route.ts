@@ -1,0 +1,89 @@
+import { prisma } from '@/lib/prisma'
+import { auth } from '@/lib/auth'
+import { z } from 'zod'
+import { NextResponse } from 'next/server'
+
+const defaultSettings = {
+  profilePhotoUrl: null,
+  nameEn: 'Sukristiyo',
+  nameId: null,
+  subtitleEn: 'DevOps | SRE | Cloud Engineer | Data Center',
+  subtitleId: null,
+  aboutTextEn: '',
+  aboutTextId: null,
+  email: 'sukrisstiyo29@gmail.com',
+  phone: '+62 821-7016-7025',
+  birthDate: 'September 26, 1999',
+  location: 'Jakarta, Indonesia',
+  githubUrl: null,
+  linkedinUrl: null,
+  twitterUrl: null,
+  instagramUrl: null,
+  facebookUrl: null,
+}
+
+const settingsPatchSchema = z.object({
+  profilePhotoUrl: z.string().url().optional(),
+  nameEn: z.string().optional(),
+  nameId: z.string().optional(),
+  subtitleEn: z.string().optional(),
+  subtitleId: z.string().optional(),
+  aboutTextEn: z.string().optional(),
+  aboutTextId: z.string().optional(),
+  email: z.string().email().optional(),
+  phone: z.string().optional(),
+  birthDate: z.string().optional(),
+  location: z.string().optional(),
+  githubUrl: z.string().url().optional(),
+  linkedinUrl: z.string().url().optional(),
+  twitterUrl: z.string().url().optional(),
+  instagramUrl: z.string().url().optional(),
+  facebookUrl: z.string().url().optional(),
+})
+
+export async function GET() {
+  try {
+    let settings = await prisma.siteSettings.findFirst()
+    if (!settings) {
+      settings = await prisma.siteSettings.create({ data: defaultSettings })
+    }
+    return NextResponse.json(settings)
+  } catch (error) {
+    console.error('[GET /api/settings]', error)
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+  }
+}
+
+export async function PATCH(request: Request) {
+  try {
+    const session = await auth()
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const body = await request.json()
+    const parsed = settingsPatchSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Validation failed', issues: parsed.error.issues }, { status: 400 })
+    }
+
+    // Ensure a record exists before updating
+    const existing = await prisma.siteSettings.findFirst()
+    let settings
+    if (existing) {
+      settings = await prisma.siteSettings.update({
+        where: { id: existing.id },
+        data: parsed.data,
+      })
+    } else {
+      settings = await prisma.siteSettings.create({
+        data: { ...defaultSettings, ...parsed.data },
+      })
+    }
+
+    return NextResponse.json(settings)
+  } catch (error) {
+    console.error('[PATCH /api/settings]', error)
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+  }
+}

@@ -1,0 +1,174 @@
+'use client'
+
+import Image from 'next/image'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import {
+  Mail,
+  Phone,
+  Calendar,
+  MapPin,
+  Github,
+  Linkedin,
+  Twitter,
+  Instagram,
+  Facebook,
+} from 'lucide-react'
+import type { SiteSettings } from '@prisma/client'
+
+interface SidebarProps {
+  settings: SiteSettings | null
+  mobile?: boolean
+}
+
+const socialLinks = [
+  { key: 'githubUrl', icon: Github, label: 'GitHub' },
+  { key: 'linkedinUrl', icon: Linkedin, label: 'LinkedIn' },
+  { key: 'twitterUrl', icon: Twitter, label: 'Twitter / X' },
+  { key: 'instagramUrl', icon: Instagram, label: 'Instagram' },
+  { key: 'facebookUrl', icon: Facebook, label: 'Facebook' },
+] as const
+
+const contactItems = [
+  { key: 'email', icon: Mail, label: 'Email', isLink: (val: string) => `mailto:${val}` },
+  { key: 'phone', icon: Phone, label: 'Phone', isLink: (val: string) => `tel:${val}` },
+  { key: 'birthDate', icon: Calendar, label: 'Birthday', isLink: null },
+  { key: 'location', icon: MapPin, label: 'Location', isLink: null },
+] as const
+
+export default function Sidebar({ settings, mobile = false }: SidebarProps) {
+  const name = settings?.nameEn || 'Sukristiyo'
+  const subtitle = settings?.subtitleEn || 'DevOps · SRE · Cloud Engineer · Data Center'
+  const profilePhoto = settings?.profilePhotoUrl
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+  }
+
+  return (
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className={`glass rounded-3xl overflow-hidden ${mobile ? 'p-5' : 'p-6'}`}
+    >
+      {/* Profile Section */}
+      {!mobile && (
+        <motion.div variants={itemVariants} className="flex flex-col items-center text-center mb-6">
+          {/* Avatar */}
+          <div className="relative mb-4">
+            <div className="relative w-28 h-28 rounded-2xl overflow-hidden border-2 border-[var(--gold)] glow-gold">
+              {profilePhoto ? (
+                <Image
+                  src={profilePhoto}
+                  alt={name}
+                  fill
+                  className="object-cover"
+                  sizes="112px"
+                  priority
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-amber-400 via-[var(--gold)] to-amber-700 flex items-center justify-center">
+                  <span className="text-4xl font-outfit font-bold text-[#0f0f1a]">
+                    {name.charAt(0)}
+                  </span>
+                </div>
+              )}
+            </div>
+            {/* Online indicator */}
+            <span className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-[var(--bg-secondary)]" />
+          </div>
+
+          {/* Name */}
+          <motion.h1
+            variants={itemVariants}
+            className="font-outfit text-xl font-bold text-white mb-1"
+          >
+            {name}
+          </motion.h1>
+
+          {/* Subtitle badge */}
+          <motion.div variants={itemVariants}>
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-[var(--gold-muted)] text-[var(--gold)] border border-[var(--gold)]/20">
+              {subtitle.split('·')[0]?.trim() || subtitle}
+            </span>
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* Divider */}
+      {!mobile && (
+        <motion.div variants={itemVariants} className="border-t border-white/8 mb-5" />
+      )}
+
+      {/* Contact Info */}
+      <motion.div variants={itemVariants} className="space-y-3 mb-5">
+        {contactItems.map(({ key, icon: Icon, label, isLink }) => {
+          const value = settings?.[key as keyof SiteSettings] as string | undefined | null
+          if (!value) return null
+
+          return (
+            <div key={key} className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-lg bg-[var(--gold-muted)] flex items-center justify-center flex-shrink-0 mt-0.5">
+                <Icon className="w-4 h-4 text-[var(--gold)]" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs text-[var(--muted-foreground)] font-medium uppercase tracking-wide mb-0.5">
+                  {label}
+                </p>
+                {isLink ? (
+                  <a
+                    href={isLink(value)}
+                    className="text-sm text-white hover:text-[var(--gold)] transition-colors truncate block"
+                  >
+                    {value}
+                  </a>
+                ) : (
+                  <p className="text-sm text-white truncate">{value}</p>
+                )}
+              </div>
+            </div>
+          )
+        })}
+      </motion.div>
+
+      {/* Divider */}
+      <motion.div variants={itemVariants} className="border-t border-white/8 mb-5" />
+
+      {/* Social Media */}
+      <motion.div variants={itemVariants}>
+        <p className="text-xs text-[var(--muted-foreground)] font-medium uppercase tracking-wide mb-3">
+          Social Media
+        </p>
+        <div className="flex gap-2 flex-wrap">
+          {socialLinks.map(({ key, icon: Icon, label }) => {
+            const url = settings?.[key as keyof SiteSettings] as string | undefined | null
+            if (!url) return null
+
+            return (
+              <Link
+                key={key}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="group w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-[var(--muted-foreground)] hover:text-[var(--gold)] hover:border-[var(--gold)]/40 hover:bg-[var(--gold-muted)] transition-all duration-200"
+              >
+                <Icon className="w-4 h-4" />
+              </Link>
+            )
+          })}
+        </div>
+      </motion.div>
+    </motion.div>
+  )
+}

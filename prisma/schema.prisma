@@ -1,0 +1,144 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  directUrl         = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SiteSettings {
+  id              String   @id @default(cuid())
+  profilePhotoUrl String?
+  nameEn          String   @default("Sukristiyo")
+  nameId          String?
+  subtitleEn      String   @default("DevOps | SRE | Cloud Engineer | Data Center")
+  subtitleId      String?
+  aboutTextEn     String   @default("") @db.Text
+  aboutTextId     String?  @db.Text
+  email           String   @default("sukrisstiyo29@gmail.com")
+  phone           String   @default("+62 821-7016-7025")
+  birthDate       String   @default("September 26, 1999")
+  location        String   @default("Jakarta, Indonesia")
+  githubUrl       String?
+  linkedinUrl     String?
+  twitterUrl      String?
+  instagramUrl    String?
+  facebookUrl     String?
+  updatedAt       DateTime @updatedAt
+}
+
+model BlogPost {
+  id           String    @id @default(cuid())
+  title        String
+  titleId      String?
+  slug         String    @unique
+  thumbnailUrl String?
+  category     String    @default("General")
+  excerptEn    String    @default("") @db.Text
+  excerptId    String?   @db.Text
+  contentEn    String    @default("") @db.Text
+  contentId    String?   @db.Text
+  status       String    @default("draft")
+  publishedAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model PortfolioProject {
+  id            String   @id @default(cuid())
+  title         String
+  category      String   @default("web-development")
+  thumbnailUrl  String?
+  descriptionEn String   @default("") @db.Text
+  descriptionId String?  @db.Text
+  techStack     String[]
+  repoUrl       String?
+  liveUrl       String?
+  year          Int      @default(2024)
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model ResumeEducation {
+  id            String   @id @default(cuid())
+  institution   String
+  degree        String
+  field         String
+  startYear     Int
+  endYear       Int?
+  descriptionEn String?  @db.Text
+  descriptionId String?  @db.Text
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model ResumeExperience {
+  id               String   @id @default(cuid())
+  company          String
+  position         String
+  startDate        String
+  endDate          String?
+  descriptionEn    String   @default("") @db.Text
+  descriptionId    String?  @db.Text
+  responsibilities String[]
+  order            Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  fullName  String
+  email     String
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  position  String
+  avatarUrl String?
+  quoteEn   String   @db.Text
+  quoteId   String?  @db.Text
+  rating    Int      @default(5)
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Technology {
+  id        String   @id @default(cuid())
+  name      String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Service {
+  id            String   @id @default(cuid())
+  title         String
+  description   String   @db.Text
+  iconName      String   @default("Check")
+  colorClass    String   @default("from-blue-500/20 to-blue-600/10")
+  iconColor     String   @default("text-blue-400")
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
