@@ -80,6 +80,7 @@ export async function PATCH(request: Request) {
       settings = await prisma.siteSettings.create({
         data: { ...defaultSettings, ...parsed.data },
       })
+    }
     revalidatePath('/about');
     revalidatePath('/');
 
