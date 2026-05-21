@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import {
   LayoutDashboard, FileText, Briefcase, GraduationCap,
   MessageSquare, MessageCircle, Settings, LogOut, Info,
-  Menu, X,
+  Menu, X, PanelLeftClose, PanelLeftOpen,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
@@ -26,22 +26,25 @@ const navItems = [
 ];
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  // Desktop: starts open. Mobile: starts closed.
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const pathname = usePathname();
   const { data: session } = useSession();
 
-  const title = pathname.split("/").filter(Boolean).pop()?.replace(/-/g, " ") || "Dashboard";
+  const title =
+    pathname.split("/").filter(Boolean).pop()?.replace(/-/g, " ") || "Dashboard";
   const displayTitle = title.charAt(0).toUpperCase() + title.slice(1);
 
+  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
   const closeSidebar = () => setSidebarOpen(false);
 
   return (
     <div className="flex h-screen overflow-hidden bg-background text-foreground">
 
-      {/* ── Mobile Overlay ── */}
+      {/* ── Mobile overlay (only when sidebar open on small screens) ── */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm lg:hidden"
           onClick={closeSidebar}
         />
       )}
@@ -49,27 +52,33 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       {/* ── Sidebar ── */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-40 flex h-screen w-64 flex-col border-r border-border bg-background/95 dark:bg-black/80 backdrop-blur-xl transition-transform duration-300 ease-in-out",
-          // Desktop: always visible; Mobile: slide in/out
-          "md:relative md:translate-x-0",
-          sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+          // On mobile: fixed overlay drawer
+          "fixed inset-y-0 left-0 z-40 flex h-screen w-64 flex-col",
+          "border-r border-border bg-background/95 dark:bg-zinc-950/95 backdrop-blur-xl",
+          "transition-transform duration-300 ease-in-out",
+          // On desktop: part of flex layout (not fixed)
+          "lg:relative lg:z-auto lg:flex",
+          sidebarOpen
+            ? "translate-x-0"
+            : "-translate-x-full lg:-translate-x-full lg:hidden"
         )}
       >
         {/* Sidebar header */}
         <div className="flex h-16 items-center justify-between px-6 border-b border-border flex-shrink-0">
           <Link
             href="/admin/dashboard"
-            onClick={closeSidebar}
+            onClick={() => { if (window.innerWidth < 1024) closeSidebar() }}
             className="text-xl font-bold tracking-tighter text-foreground"
           >
             AdminPanel<span className="text-primary">.</span>
           </Link>
-          {/* Close button (mobile only) */}
+          {/* Close/collapse button */}
           <button
-            onClick={closeSidebar}
-            className="md:hidden p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
+            onClick={toggleSidebar}
+            className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
+            title="Hide sidebar"
           >
-            <X className="h-5 w-5" />
+            <PanelLeftClose className="h-5 w-5" />
           </button>
         </div>
 
@@ -82,7 +91,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               <Link
                 key={item.name}
                 href={item.href}
-                onClick={closeSidebar}
+                onClick={() => { if (window.innerWidth < 1024) closeSidebar() }}
                 className={cn(
                   "group flex items-center rounded-md px-3 py-2.5 text-sm font-medium transition-all duration-200",
                   isActive
@@ -93,7 +102,9 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 <Icon
                   className={cn(
                     "mr-3 h-5 w-5 flex-shrink-0 transition-colors duration-200",
-                    isActive ? "text-primary" : "text-muted-foreground group-hover:text-accent-foreground"
+                    isActive
+                      ? "text-primary"
+                      : "text-muted-foreground group-hover:text-accent-foreground"
                   )}
                   aria-hidden="true"
                 />
@@ -120,15 +131,20 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
 
         {/* Topbar */}
-        <header className="flex h-16 items-center justify-between border-b border-border bg-background/50 px-4 md:px-8 backdrop-blur-xl z-20 sticky top-0 flex-shrink-0">
+        <header className="flex h-16 items-center justify-between border-b border-border bg-background/50 px-4 md:px-6 backdrop-blur-xl z-20 sticky top-0 flex-shrink-0">
           <div className="flex items-center gap-3">
-            {/* Hamburger (mobile only) */}
+            {/* Toggle sidebar button — visible on ALL screen sizes */}
             <button
-              onClick={() => setSidebarOpen(true)}
-              className="md:hidden p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
-              aria-label="Open sidebar"
+              onClick={toggleSidebar}
+              className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
+              aria-label={sidebarOpen ? "Hide sidebar" : "Show sidebar"}
+              title={sidebarOpen ? "Hide sidebar" : "Show sidebar"}
             >
-              <Menu className="h-5 w-5" />
+              {sidebarOpen ? (
+                <PanelLeftClose className="h-5 w-5" />
+              ) : (
+                <PanelLeftOpen className="h-5 w-5" />
+              )}
             </button>
             <h1 className="text-lg md:text-xl font-semibold text-foreground tracking-tight capitalize">
               {displayTitle}
@@ -137,7 +153,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
           <div className="flex items-center space-x-2 md:space-x-4">
             <ThemeToggle />
-            <div className="flex items-center space-x-2 md:space-x-3 border-l border-border pl-2 md:pl-4">
+            <div className="flex items-center space-x-2 border-l border-border pl-2 md:pl-4">
               <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30 flex-shrink-0">
                 <span className="text-sm font-medium text-primary">
                   {session?.user?.name?.charAt(0) || "A"}
