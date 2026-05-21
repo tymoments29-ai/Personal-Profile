@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useEffect, useCallback } from 'react'
 import { motion, useScroll, useSpring } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Calendar, Clock, ChevronLeft, Share2, Check, Copy, AlignLeft } from 'lucide-react'
+import { Calendar, Clock, ChevronLeft, Share2 } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
 import { useLocale, useTranslations } from 'next-intl'
 
@@ -30,16 +30,9 @@ interface BlogDetailClientProps {
   readingTime: number
 }
 
-interface TocItem {
-  id: string
-  text: string
-  level: number
-}
+
 
 export default function BlogDetailClient({ post, readingTime }: BlogDetailClientProps) {
-  const [toc, setToc] = useState<TocItem[]>([])
-  const [activeId, setActiveId] = useState<string>('')
-  const [tocOpen, setTocOpen] = useState(false)
   const locale = useLocale()
   const t = useTranslations('Blog')
 
@@ -87,46 +80,7 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
   }, [])
 
   useEffect(() => {
-    // Generate TOC from content headers (h2, h3)
-    const parser = new DOMParser()
-    const doc = parser.parseFromString(postContent, 'text/html')
-    const headings = Array.from(doc.querySelectorAll('h2, h3'))
-
-    const tocItems = headings.map((heading) => {
-      const text = heading.textContent || ''
-      const id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-').replace(/^-+|-+$/g, '')
-      return { id, text, level: Number(heading.tagName.replace('H', '')) }
-    })
-
-    setToc(tocItems)
-
-    // Add IDs to DOM headings
-    const contentDiv = document.getElementById('blog-content')
-    if (contentDiv) {
-      contentDiv.querySelectorAll('h2, h3').forEach((h) => {
-        const text = h.textContent || ''
-        h.id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-').replace(/^-+|-+$/g, '')
-      })
-    }
-
-    // Add copy buttons
     addCopyButtons()
-
-    // Intersection Observer for TOC active state
-    const callback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) setActiveId(entry.target.id)
-      })
-    }
-
-    const observer = new IntersectionObserver(callback, {
-      rootMargin: '-80px 0px -70% 0px',
-    })
-
-    const headingElements = document.querySelectorAll('#blog-content h2, #blog-content h3')
-    headingElements.forEach((el) => observer.observe(el))
-
-    return () => observer.disconnect()
   }, [postContent, addCopyButtons])
 
   const handleShare = async () => {
@@ -208,57 +162,14 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
           </div>
         )}
 
-        {/* ── Main Layout: Content left + TOC right ── */}
-        <div className="flex flex-col lg:flex-row gap-8 items-start">
-
-          {/* ── Left: Article Content (main) ── */}
-          <main className="flex-1 min-w-0">
-            <div
-              id="blog-content"
-              className="do-article-content"
-              dangerouslySetInnerHTML={{ __html: postContent }}
-            />
-          </main>
-
-          {/* ── Right: TOC Sidebar (DigitalOcean style) ── */}
-          {toc.length > 0 && (
-            <aside className="lg:w-56 xl:w-64 flex-shrink-0 lg:sticky lg:top-24 w-full">
-              {/* Mobile TOC toggle */}
-              <button
-                className="lg:hidden w-full flex items-center justify-between px-4 py-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-sm font-medium text-[var(--foreground)] mb-2"
-                onClick={() => setTocOpen(!tocOpen)}
-              >
-                <span className="flex items-center gap-2">
-                  <AlignLeft className="w-4 h-4" />
-                  {t('toc')}
-                </span>
-                <ChevronLeft className={`w-4 h-4 transition-transform ${tocOpen ? 'rotate-90' : '-rotate-90'}`} />
-              </button>
-
-              <div className={`do-toc ${tocOpen ? 'block' : 'hidden lg:block'}`}>
-                <div className="do-toc-header">
-                  {t('toc')}
-                </div>
-                <nav>
-                  {toc.map((item) => (
-                    <a
-                      key={item.id}
-                      href={`#${item.id}`}
-                      onClick={() => setTocOpen(false)}
-                      className={`do-toc-item ${activeId === item.id ? 'active' : ''} ${item.level === 3 ? 'sub' : ''}`}
-                    >
-                      {item.level === 2 && (
-                        <span className="do-toc-bullet" />
-                      )}
-                      {item.text}
-                    </a>
-                  ))}
-                </nav>
-              </div>
-            </aside>
-          )}
-
-        </div>
+        {/* ── Article Content ── */}
+        <main>
+          <div
+            id="blog-content"
+            className="do-article-content"
+            dangerouslySetInnerHTML={{ __html: postContent }}
+          />
+        </main>
       </div>
     </div>
   )
