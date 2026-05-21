@@ -4,23 +4,27 @@ import { prisma } from '@/lib/prisma'
 import BlogDetailClient from '@/components/public/blog/BlogDetailClient'
 import { estimateReadingTime } from '@/lib/utils'
 
-// Force dynamic rendering — prevents SSG issues with DB data at build time
+import { cache } from 'react'
+
 export const dynamic = 'force-dynamic'
+// Vercel function timeout 30s — gives Neon DB time to wake up on cold start
+export const maxDuration = 30
 
 interface PageProps {
-  params: Promise<{ slug: string, locale: string }>
+  params: Promise<{ slug: string; locale: string }>
 }
 
-async function getBlogPost(slug: string, retries = 2) {
-  for (let i = 0; i <= retries; i++) {
+// React cache deduplicates the DB call across generateMetadata + page render
+const getBlogPost = cache(async (slug: string) => {
+  for (let i = 0; i <= 3; i++) {
     try {
       const post = await prisma.blogPost.findUnique({ where: { slug } })
       if (!post || post.status !== 'published') return null
       return post
     } catch (err) {
-      if (i < retries) {
-        // Wait 1s before retry (Neon DB cold start)
-        await new Promise((r) => setTimeout(r, 1000))
+      if (i < 3) {
+        // Progressive backoff: 1s, 2s, 3s — for Neon cold start
+        await new Promise((r) => setTimeout(r, (i + 1) * 1000))
       } else {
         console.error('[getBlogPost] DB error after retries:', err)
         return null
@@ -28,7 +32,7 @@ async function getBlogPost(slug: string, retries = 2) {
     }
   }
   return null
-}
+})
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug, locale } = await params
