@@ -50,6 +50,8 @@ export const metadata: Metadata = {
   },
 }
 
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -59,6 +61,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="antialiased">
         {children}
+        <SpeedInsights />
         <Toaster
           theme="dark"
           richColors
