@@ -147,7 +147,7 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
             </span>
             <div className="flex items-center gap-2 text-[var(--muted-foreground)]">
               <Calendar className="w-4 h-4" />
-              <time dateTime={post.publishedAt?.toISOString()}>
+              <time dateTime={post.publishedAt ?? undefined}>
                 {formatDate(post.publishedAt)}
               </time>
             </div>
