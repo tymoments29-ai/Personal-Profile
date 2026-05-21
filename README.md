@@ -9,8 +9,6 @@ Website Live: [https://sukristiyo.my.id](https://sukristiyo.my.id)
 Semua dokumentasi teknis mendetail, termasuk Arsitektur Aplikasi dan *Product Requirements Document* (PRD), telah dirapikan ke dalam folder `docs/`.
 
 - [PRD & Implementasi Detail](./docs/PRD%20&%20Implementasi_personal.md)
-- [Catatan Agen / AI](./docs/AGENTS.md)
-- [Aturan Kode / Panduan Claude](./docs/CLAUDE.md)
 
 ## 🚀 Fitur Utama
 
