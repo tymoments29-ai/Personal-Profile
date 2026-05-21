@@ -6,7 +6,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Calendar, Clock, ChevronLeft, Share2 } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
-import type { BlogPost } from '@prisma/client'
 import { useLocale, useTranslations } from 'next-intl'
 
 type SerializedBlogPost = {
