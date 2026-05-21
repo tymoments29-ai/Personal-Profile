@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sukristiyo (Tayo) - Personal Portfolio & CMS
 
-## Getting Started
+Selamat datang di repositori kode sumber *website* portofolio pribadi Sukristiyo. Proyek ini dibangun menggunakan **Next.js 15 (App Router)** dan dilengkapi dengan sistem manajemen konten mandiri (CMS) lengkap berbasis **Prisma** dan **Neon PostgreSQL**.
 
-First, run the development server:
+Website Live: [https://sukristiyo.my.id](https://sukristiyo.my.id)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 📖 Dokumentasi Teknis
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Semua dokumentasi teknis mendetail, termasuk Arsitektur Aplikasi dan *Product Requirements Document* (PRD), telah dirapikan ke dalam folder `docs/`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [PRD & Implementasi Detail](./docs/PRD%20&%20Implementasi_personal.md)
+- [Catatan Agen / AI](./docs/AGENTS.md)
+- [Aturan Kode / Panduan Claude](./docs/CLAUDE.md)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Fitur Utama
 
-## Learn More
+- **Public Frontend:** Layout asimetris responsif dengan *glassmorphism*, dark mode, dan integrasi animasi halus (Framer Motion).
+- **Backend Admin (CMS):** Sistem *dashboard* tertutup dengan autentikasi (NextAuth) untuk mengelola portofolio, artikel blog, kotak masuk kontak, riwayat hidup, tautan sosial media, pengaturan web, dsb.
+- **Teknologi Caching Modern:** Terintegrasi penuh dengan `revalidatePath` Next.js untuk pembaharuan data seketika tanpa kompromi performa.
+- **Upload File Cloud:** Terintegrasi dengan Vercel Blob untuk penyimpanan foto profil dan aset gambar portofolio.
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Framework:** Next.js 15 (App Router)
+- **Bahasa:** TypeScript
+- **Styling:** Tailwind CSS + UI Components (Shadcn UI, Base UI, Framer Motion)
+- **Database:** Neon PostgreSQL Serverless
+- **ORM:** Prisma
+- **Autentikasi:** Auth.js (NextAuth v5)
+- **Penyimpanan (Storage):** Vercel Blob Storage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 💻 Panduan Menjalankan Secara Lokal
 
-## Deploy on Vercel
+1. **Clone repositori ini:**
+   ```bash
+   git clone https://github.com/sukristiyo/about-me-v1.git
+   ```
+2. **Install dependency:**
+   ```bash
+   npm install
+   ```
+3. **Konfigurasi Environment Variables:**
+   Siapkan file `.env` di *root directory* dan lengkapi konfigurasi database serta auth:
+   ```env
+   DATABASE_URL="postgresql://..."
+   DIRECT_URL="postgresql://..."
+   AUTH_SECRET="your-secret-key"
+   BLOB_READ_WRITE_TOKEN="vercel-blob-token"
+   ```
+4. **Jalankan Sinkronisasi Database:**
+   ```bash
+   npx prisma db push
+   ```
+5. **Mulai mode pengembangan (Development):**
+   ```bash
+   npm run dev
+   ```
+6. **Buka di browser:** Navigasi ke [http://localhost:3000](http://localhost:3000).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+*Dikembangkan dengan semangat untuk efisiensi, performa, dan desain modern.*
