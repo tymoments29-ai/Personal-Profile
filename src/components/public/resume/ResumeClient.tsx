@@ -32,109 +32,107 @@ export default function ResumeClient({ education, experience }: ResumeClientProp
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="space-y-12"
+      className="max-w-4xl mx-auto space-y-16"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        
-        {/* ── Education Timeline ── */}
-        <section>
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-12 h-12 rounded-2xl glass flex items-center justify-center">
-              <GraduationCap className="w-6 h-6 text-[var(--gold)]" />
-            </div>
-            <h2 className="font-outfit text-2xl font-bold text-[var(--foreground)]">{t('education')}</h2>
+      {/* ── Education Timeline ── */}
+      <section className="relative">
+        <div className="flex items-center gap-6 mb-8 relative z-10">
+          <div className="w-12 h-12 rounded-xl bg-[#1e1e20] border border-[var(--border)] flex items-center justify-center shrink-0 shadow-md">
+            <GraduationCap className="w-5 h-5 text-[var(--gold)]" />
           </div>
+          <h2 className="font-outfit text-2xl font-bold text-[var(--foreground)]">{t('education')}</h2>
+        </div>
 
-          <div className="relative border-l border-[var(--border)] ml-6 space-y-8 pb-4">
-            {education.map((item, index) => (
-              <motion.div
-                key={item.id}
-                variants={itemVariants}
-                className="relative pl-8"
-              >
-                {/* Timeline Dot */}
-                <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-[var(--gold)] shadow-[0_0_10px_var(--gold-muted)]" />
-                
-                {/* Content Card */}
-                <div className="glass rounded-2xl p-5 hover:border-[var(--gold)]/30 transition-colors">
-                  <h3 className="font-outfit text-lg font-semibold text-[var(--foreground)] mb-1">
-                    {item.institution}
-                  </h3>
-                  <div className="flex flex-wrap items-center gap-2 mb-3">
-                    <span className="text-[var(--gold)] font-medium text-sm">
-                      {item.degree} — {item.field}
-                    </span>
-                    <span className="text-[var(--muted-foreground)] text-xs bg-black/5 px-2 py-0.5 rounded-full">
-                      {item.startYear} - {item.endYear || (locale === 'id' ? 'Sekarang' : 'Present')}
-                    </span>
-                  </div>
-                  {(locale === 'id' ? item.descriptionId || item.descriptionEn : item.descriptionEn) && (
-                    <p className="text-[var(--muted-foreground)] text-sm leading-relaxed">
-                      {locale === 'id' ? item.descriptionId || item.descriptionEn : item.descriptionEn}
-                    </p>
-                  )}
+        {/* Vertical Line */}
+        <div className="absolute left-6 top-12 bottom-0 w-[1px] bg-[var(--border)]" />
+
+        <div className="space-y-10 pb-4">
+          {education.map((item) => (
+            <motion.div
+              key={item.id}
+              variants={itemVariants}
+              className="relative pl-14"
+            >
+              {/* Timeline Dot */}
+              <div className="absolute left-[18px] top-1.5 w-3 h-3 rounded-full bg-[var(--gold)] border-2 border-[#1e1e20] shadow-[0_0_0_4px_var(--background)]" />
+              
+              {/* Content */}
+              <div className="space-y-2">
+                <h3 className="font-outfit text-lg font-bold text-[var(--foreground)] leading-tight">
+                  {item.institution}
+                </h3>
+                <p className="text-[var(--gold)] font-medium text-sm">
+                  {item.startYear} — {item.endYear || (locale === 'id' ? 'Sekarang' : 'Present')}
+                </p>
+                <div className="text-[var(--muted-foreground)] text-sm">
+                  <span className="text-gray-300">{item.degree}</span> | {item.field}
                 </div>
-              </motion.div>
-            ))}
+                {(locale === 'id' ? item.descriptionId || item.descriptionEn : item.descriptionEn) && (
+                  <p className="text-[var(--muted-foreground)] text-sm leading-relaxed mt-2">
+                    {locale === 'id' ? item.descriptionId || item.descriptionEn : item.descriptionEn}
+                  </p>
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Experience Timeline ── */}
+      <section className="relative">
+        <div className="flex items-center gap-6 mb-8 relative z-10">
+          <div className="w-12 h-12 rounded-xl bg-[#1e1e20] border border-[var(--border)] flex items-center justify-center shrink-0 shadow-md">
+            <Briefcase className="w-5 h-5 text-[var(--gold)]" />
           </div>
-        </section>
+          <h2 className="font-outfit text-2xl font-bold text-[var(--foreground)]">{t('experience')}</h2>
+        </div>
 
-        {/* ── Experience Timeline ── */}
-        <section>
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-12 h-12 rounded-2xl glass flex items-center justify-center">
-              <Briefcase className="w-6 h-6 text-[var(--gold)]" />
-            </div>
-            <h2 className="font-outfit text-2xl font-bold text-[var(--foreground)]">{t('experience')}</h2>
-          </div>
+        {/* Vertical Line */}
+        <div className="absolute left-6 top-12 bottom-0 w-[1px] bg-[var(--border)]" />
 
-          <div className="relative border-l border-[var(--border)] ml-6 space-y-8 pb-4">
-            {experience.map((item, index) => (
-              <motion.div
-                key={item.id}
-                variants={itemVariants}
-                className="relative pl-8"
-              >
-                {/* Timeline Dot */}
-                <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-[var(--gold)] shadow-[0_0_10px_var(--gold-muted)]" />
-                
-                {/* Content Card */}
-                <div className="glass rounded-2xl p-5 hover:border-[var(--gold)]/30 transition-colors">
-                  <h3 className="font-outfit text-lg font-semibold text-[var(--foreground)] mb-1">
-                    {item.position}
-                  </h3>
-                  <div className="flex flex-wrap items-center gap-2 mb-4">
-                    <span className="text-[var(--gold)] font-medium text-sm">
-                      {item.company}
-                    </span>
-                    <span className="text-[var(--muted-foreground)] text-xs bg-black/5 px-2 py-0.5 rounded-full">
-                      {item.startDate} - {item.endDate || (locale === 'id' ? 'Sekarang' : 'Present')}
-                    </span>
-                  </div>
-                  
-                  {(locale === 'id' ? item.descriptionId || item.descriptionEn : item.descriptionEn) && (
-                    <p className="text-[var(--muted-foreground)] text-sm leading-relaxed mb-4">
-                      {locale === 'id' ? item.descriptionId || item.descriptionEn : item.descriptionEn}
-                    </p>
-                  )}
-
-                  {item.responsibilities.length > 0 && (
-                    <ul className="space-y-2">
-                      {item.responsibilities.map((resp, i) => (
-                        <li key={i} className="text-[var(--muted-foreground)] text-sm flex items-start gap-2">
-                          <span className="text-[var(--gold)] mt-1.5 text-[10px]">♦</span>
-                          <span className="flex-1">{resp}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+        <div className="space-y-10 pb-4">
+          {experience.map((item) => (
+            <motion.div
+              key={item.id}
+              variants={itemVariants}
+              className="relative pl-14"
+            >
+              {/* Timeline Dot */}
+              <div className="absolute left-[18px] top-1.5 w-3 h-3 rounded-full bg-[var(--gold)] border-2 border-[#1e1e20] shadow-[0_0_0_4px_var(--background)]" />
+              
+              {/* Content */}
+              <div className="space-y-2">
+                <h3 className="font-outfit text-lg font-bold text-[var(--foreground)] leading-tight">
+                  {item.position}
+                </h3>
+                <p className="text-[var(--gold)] font-medium text-sm">
+                  {item.startDate} — {item.endDate || (locale === 'id' ? 'Sekarang' : 'Present')}
+                </p>
+                <div className="text-[var(--muted-foreground)] text-sm">
+                  <span className="text-gray-300 font-medium">{item.company}</span>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
+                
+                {(locale === 'id' ? item.descriptionId || item.descriptionEn : item.descriptionEn) && (
+                  <p className="text-[var(--muted-foreground)] text-sm leading-relaxed mt-2">
+                    {locale === 'id' ? item.descriptionId || item.descriptionEn : item.descriptionEn}
+                  </p>
+                )}
 
-      </div>
+                {item.responsibilities.length > 0 && (
+                  <ul className="space-y-1.5 mt-3">
+                    {item.responsibilities.map((resp, i) => (
+                      <li key={i} className="text-[var(--muted-foreground)] text-sm flex items-start gap-2">
+                        <span className="text-[var(--gold)] mt-1.5 text-[10px]">•</span>
+                        <span className="flex-1">{resp}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
     </motion.div>
   )
 }

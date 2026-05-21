@@ -33,6 +33,8 @@ export async function GET(
   }
 }
 
+import { translateToIndonesian } from '@/lib/translator'
+
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -50,9 +52,15 @@ export async function PATCH(
       return NextResponse.json({ error: 'Validation failed', issues: parsed.error.issues }, { status: 400 })
     }
 
+    const dataToSave = { ...parsed.data };
+    if (dataToSave.descriptionEn) {
+      const translated = await translateToIndonesian(dataToSave.descriptionEn);
+      if (translated) dataToSave.descriptionId = translated;
+    }
+
     const project = await prisma.portfolioProject.update({
       where: { id },
-      data: parsed.data,
+      data: dataToSave,
     })
     return NextResponse.json(project)
   } catch (error) {

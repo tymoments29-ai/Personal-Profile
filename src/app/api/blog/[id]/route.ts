@@ -37,6 +37,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   return NextResponse.json(post)
 }
 
+import { translateToIndonesian } from '@/lib/translator'
+
 // PATCH /api/blog/[id] — update post (admin only)
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
@@ -54,6 +56,13 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
 
   if (data.title) {
     updateData.slug = slugify(data.title) + '-' + id.slice(-6)
+    updateData.titleId = await translateToIndonesian(data.title) || undefined;
+  }
+  if (data.excerptEn) {
+    updateData.excerptId = await translateToIndonesian(data.excerptEn) || undefined;
+  }
+  if (data.contentEn) {
+    updateData.contentId = await translateToIndonesian(data.contentEn) || undefined;
   }
   if (data.publishedAt !== undefined) {
     updateData.publishedAt = data.publishedAt ? new Date(data.publishedAt) : null

@@ -71,7 +71,8 @@ export async function GET(request: Request) {
   })
 }
 
-// POST /api/blog — create new post (admin only)
+import { translateToIndonesian } from '@/lib/translator'
+
 export async function POST(request: Request) {
   const session = await auth()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -85,10 +86,17 @@ export async function POST(request: Request) {
   const data = parsed.data
   const slug = data.slug || (slugify(data.title) + '-' + Date.now().toString(36))
 
+  const titleId = await translateToIndonesian(data.title) || undefined;
+  const excerptId = data.excerptEn ? await translateToIndonesian(data.excerptEn) || undefined : undefined;
+  const contentId = data.contentEn ? await translateToIndonesian(data.contentEn) || undefined : undefined;
+
   const post = await prisma.blogPost.create({
     data: {
       ...data,
       slug,
+      titleId,
+      excerptId,
+      contentId,
       publishedAt: data.publishedAt ? new Date(data.publishedAt) : null,
     },
   })

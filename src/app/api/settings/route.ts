@@ -55,6 +55,8 @@ export async function GET() {
   }
 }
 
+import { translateToIndonesian } from '@/lib/translator'
+
 export async function PATCH(request: Request) {
   try {
     const session = await auth()
@@ -68,17 +70,32 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: 'Validation failed', issues: parsed.error.issues }, { status: 400 })
     }
 
+    const dataToSave = { ...parsed.data };
+    
+    if (dataToSave.nameEn) {
+      const translated = await translateToIndonesian(dataToSave.nameEn);
+      if (translated) dataToSave.nameId = translated;
+    }
+    if (dataToSave.subtitleEn) {
+      const translated = await translateToIndonesian(dataToSave.subtitleEn);
+      if (translated) dataToSave.subtitleId = translated;
+    }
+    if (dataToSave.aboutTextEn) {
+      const translated = await translateToIndonesian(dataToSave.aboutTextEn);
+      if (translated) dataToSave.aboutTextId = translated;
+    }
+
     // Ensure a record exists before updating
     const existing = await prisma.siteSettings.findFirst()
     let settings
     if (existing) {
       settings = await prisma.siteSettings.update({
         where: { id: existing.id },
-        data: parsed.data,
+        data: dataToSave,
       })
     } else {
       settings = await prisma.siteSettings.create({
-        data: { ...defaultSettings, ...parsed.data },
+        data: { ...defaultSettings, ...dataToSave },
       })
     }
     revalidatePath('/about');

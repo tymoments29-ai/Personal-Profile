@@ -26,6 +26,8 @@ export async function GET() {
   }
 }
 
+import { translateToIndonesian } from '@/lib/translator'
+
 export async function POST(request: Request) {
   try {
     const session = await auth()
@@ -39,7 +41,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Validation failed', issues: parsed.error.issues }, { status: 400 })
     }
 
-    const experience = await prisma.resumeExperience.create({ data: parsed.data })
+    const dataToSave = { ...parsed.data };
+    if (dataToSave.descriptionEn) {
+      const translated = await translateToIndonesian(dataToSave.descriptionEn);
+      if (translated) dataToSave.descriptionId = translated;
+    }
+
+    const experience = await prisma.resumeExperience.create({ data: dataToSave })
     return NextResponse.json(experience, { status: 201 })
   } catch (error) {
     console.error('[POST /api/resume/experience]', error)

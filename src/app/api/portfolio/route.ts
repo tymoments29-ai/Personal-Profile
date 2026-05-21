@@ -28,6 +28,8 @@ export async function GET() {
   }
 }
 
+import { translateToIndonesian } from '@/lib/translator'
+
 export async function POST(request: Request) {
   try {
     const session = await auth()
@@ -41,7 +43,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Validation failed', issues: parsed.error.issues }, { status: 400 })
     }
 
-    const project = await prisma.portfolioProject.create({ data: parsed.data })
+    const dataToSave = { ...parsed.data };
+    if (dataToSave.descriptionEn) {
+      const translated = await translateToIndonesian(dataToSave.descriptionEn);
+      if (translated) dataToSave.descriptionId = translated;
+    }
+
+    const project = await prisma.portfolioProject.create({ data: dataToSave })
     return NextResponse.json(project, { status: 201 })
   } catch (error) {
     console.error('[POST /api/portfolio]', error)
