@@ -7,7 +7,7 @@ import { slugify } from '@/lib/utils'
 const updateSchema = z.object({
   title: z.string().min(1).optional(),
   titleId: z.string().optional(),
-  thumbnailUrl: z.string().optional(),
+  thumbnailUrl: z.string().nullable().optional(),
   category: z.string().optional(),
   excerptEn: z.string().optional(),
   excerptId: z.string().optional(),

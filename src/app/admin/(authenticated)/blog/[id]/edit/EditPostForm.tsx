@@ -13,12 +13,14 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
+import { ImageUpload } from "@/components/admin/ImageUpload";
 
 const postSchema = z.object({
   title: z.string().min(1, "Title is required"),
   slug: z.string().min(1, "Slug is required"),
   contentEn: z.string().min(1, "Content is required"),
   excerptEn: z.string().optional(),
+  thumbnailUrl: z.string().optional(),
   published: z.boolean(),
 });
 
@@ -29,6 +31,7 @@ interface EditPostFormProps {
     slug: string;
     contentEn: string;
     excerptEn: string;
+    thumbnailUrl: string | null;
     status: string;
   };
 }
@@ -43,7 +46,8 @@ export function EditPostForm({ post }: EditPostFormProps) {
       title: post.title,
       slug: post.slug,
       contentEn: post.contentEn,
-      excerptEn: post.excerptEn,
+      excerptEn: post.excerptEn || "",
+      thumbnailUrl: post.thumbnailUrl || "",
       published: post.status === "published",
     },
   });
@@ -60,6 +64,7 @@ export function EditPostForm({ post }: EditPostFormProps) {
         slug: values.slug,
         contentEn: values.contentEn,
         excerptEn: values.excerptEn,
+        thumbnailUrl: values.thumbnailUrl || null,
         status: values.published ? "published" : "draft",
         publishedAt: values.published ? new Date().toISOString() : null,
       };
@@ -142,6 +147,20 @@ export function EditPostForm({ post }: EditPostFormProps) {
                 )}
               />
             </div>
+
+            <FormField
+              control={form.control}
+              name="thumbnailUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-muted-foreground">Blog Thumbnail Image</FormLabel>
+                  <FormControl>
+                    <ImageUpload value={field.value} onChange={field.onChange} />
+                  </FormControl>
+                  <FormMessage className="text-red-400" />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}

@@ -34,7 +34,8 @@
   },
   "Blog": {
     "title": "Blog",
-    "publishedOn": "Published on"
+    "publishedOn": "Published on",
+    "latestArticles": "Latest Articles"
   },
   "Contact": {
     "title": "Contact Me",

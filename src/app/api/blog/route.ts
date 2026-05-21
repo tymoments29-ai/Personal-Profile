@@ -8,7 +8,7 @@ const blogPostSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   titleId: z.string().optional(),
   slug: z.string().optional(),
-  thumbnailUrl: z.string().optional(),
+  thumbnailUrl: z.string().nullable().optional(),
   category: z.string().default('General'),
   excerptEn: z.string().default(''),
   excerptId: z.string().optional(),

@@ -34,7 +34,8 @@
   },
   "Blog": {
     "title": "Blog",
-    "publishedOn": "Diterbitkan pada"
+    "publishedOn": "Diterbitkan pada",
+    "latestArticles": "Artikel Terbaru"
   },
   "Contact": {
     "title": "Hubungi Saya",
