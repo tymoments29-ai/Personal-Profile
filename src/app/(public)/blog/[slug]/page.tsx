@@ -58,12 +58,18 @@ export default async function BlogDetailPage({ params }: PageProps) {
 
 // Generate static paths for all published posts (SSG)
 export async function generateStaticParams() {
-  const posts = await prisma.blogPost.findMany({
-    where: { status: 'published' },
-    select: { slug: true },
-  })
+  try {
+    const posts = await prisma.blogPost.findMany({
+      where: { status: 'published' },
+      select: { slug: true },
+    })
 
-  return posts.map((post) => ({
-    slug: post.slug,
-  }))
+    return posts.map((post) => ({
+      slug: post.slug,
+    }))
+  } catch (error) {
+    console.error("Failed to fetch posts for static paths:", error)
+    // Return empty array to fallback to dynamic rendering if DB is unreachable during build
+    return []
+  }
 }
