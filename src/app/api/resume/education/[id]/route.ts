@@ -8,7 +8,7 @@ const educationPatchSchema = z.object({
   degree: z.string().min(1).optional(),
   field: z.string().min(1).optional(),
   startYear: z.number().int().optional(),
-  endYear: z.number().int().optional(),
+  endYear: z.number().int().nullable().optional(),
   descriptionEn: z.string().optional(),
   descriptionId: z.string().optional(),
   order: z.number().int().optional(),

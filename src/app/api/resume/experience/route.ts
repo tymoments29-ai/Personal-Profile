@@ -7,7 +7,7 @@ const experienceSchema = z.object({
   company: z.string().min(1),
   position: z.string().min(1),
   startDate: z.string().min(1),
-  endDate: z.string().optional(),
+  endDate: z.string().nullable().optional(),
   descriptionEn: z.string().min(1),
   descriptionId: z.string().optional(),
   responsibilities: z.array(z.string()),

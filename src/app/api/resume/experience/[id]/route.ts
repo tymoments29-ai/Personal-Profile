@@ -7,7 +7,7 @@ const experiencePatchSchema = z.object({
   company: z.string().min(1).optional(),
   position: z.string().min(1).optional(),
   startDate: z.string().min(1).optional(),
-  endDate: z.string().optional(),
+  endDate: z.string().nullable().optional(),
   descriptionEn: z.string().min(1).optional(),
   descriptionId: z.string().optional(),
   responsibilities: z.array(z.string()).optional(),
