@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { motion, useScroll, useSpring } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Calendar, Clock, ChevronLeft, Share2 } from 'lucide-react'
+import { Calendar, Clock, ChevronLeft, Share2, Check, Copy, AlignLeft } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
 import { useLocale, useTranslations } from 'next-intl'
 
@@ -39,9 +39,10 @@ interface TocItem {
 export default function BlogDetailClient({ post, readingTime }: BlogDetailClientProps) {
   const [toc, setToc] = useState<TocItem[]>([])
   const [activeId, setActiveId] = useState<string>('')
+  const [tocOpen, setTocOpen] = useState(false)
   const locale = useLocale()
   const t = useTranslations('Blog')
-  
+
   const { scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -53,68 +54,88 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
   const postTitle = locale === 'id' ? post.titleId || post.title : post.title
   const postExcerpt = locale === 'id' ? post.excerptId || post.excerptEn : post.excerptEn
 
+  // Add copy buttons to all code blocks
+  const addCopyButtons = useCallback(() => {
+    const contentDiv = document.getElementById('blog-content')
+    if (!contentDiv) return
+
+    contentDiv.querySelectorAll('pre').forEach((pre) => {
+      if (pre.querySelector('.copy-btn')) return // Already added
+
+      const wrapper = document.createElement('div')
+      wrapper.className = 'code-block-wrapper'
+      pre.parentNode?.insertBefore(wrapper, pre)
+      wrapper.appendChild(pre)
+
+      const copyBtn = document.createElement('button')
+      copyBtn.className = 'copy-btn'
+      copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg> Copy`
+      
+      copyBtn.addEventListener('click', async () => {
+        const code = pre.querySelector('code')?.textContent || pre.textContent || ''
+        await navigator.clipboard.writeText(code)
+        copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`
+        copyBtn.classList.add('copied')
+        setTimeout(() => {
+          copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg> Copy`
+          copyBtn.classList.remove('copied')
+        }, 2000)
+      })
+
+      wrapper.appendChild(copyBtn)
+    })
+  }, [])
+
   useEffect(() => {
     // Generate TOC from content headers (h2, h3)
     const parser = new DOMParser()
     const doc = parser.parseFromString(postContent, 'text/html')
     const headings = Array.from(doc.querySelectorAll('h2, h3'))
-    
+
     const tocItems = headings.map((heading) => {
-      // Add id to the actual DOM later if needed, but for now we just extract text
       const text = heading.textContent || ''
       const id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-').replace(/^-+|-+$/g, '')
-      return {
-        id,
-        text,
-        level: Number(heading.tagName.replace('H', ''))
-      }
+      return { id, text, level: Number(heading.tagName.replace('H', '')) }
     })
-    
+
     setToc(tocItems)
 
-    // Optional: Add IDs to the content div headings for scroll spy
+    // Add IDs to DOM headings
     const contentDiv = document.getElementById('blog-content')
     if (contentDiv) {
-      const domHeadings = contentDiv.querySelectorAll('h2, h3')
-      domHeadings.forEach((h) => {
+      contentDiv.querySelectorAll('h2, h3').forEach((h) => {
         const text = h.textContent || ''
         h.id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-').replace(/^-+|-+$/g, '')
       })
     }
 
+    // Add copy buttons
+    addCopyButtons()
+
     // Intersection Observer for TOC active state
     const callback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveId(entry.target.id)
-        }
+        if (entry.isIntersecting) setActiveId(entry.target.id)
       })
     }
 
     const observer = new IntersectionObserver(callback, {
-      rootMargin: '0px 0px -80% 0px',
+      rootMargin: '-80px 0px -70% 0px',
     })
 
     const headingElements = document.querySelectorAll('#blog-content h2, #blog-content h3')
-    headingElements.forEach((element) => observer.observe(element))
+    headingElements.forEach((el) => observer.observe(el))
 
     return () => observer.disconnect()
-  }, [postContent])
+  }, [postContent, addCopyButtons])
 
   const handleShare = async () => {
     if (navigator.share) {
       try {
-        await navigator.share({
-          title: postTitle,
-          text: postExcerpt,
-          url: window.location.href,
-        })
-      } catch (error) {
-        console.log('Error sharing', error)
-      }
+        await navigator.share({ title: postTitle, text: postExcerpt, url: window.location.href })
+      } catch {}
     } else {
-      navigator.clipboard.writeText(window.location.href)
-      // Could add a toast here
+      await navigator.clipboard.writeText(window.location.href)
     }
   }
 
@@ -122,63 +143,61 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
     <div className="relative">
       {/* ── Reading Progress Bar ── */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-[var(--gold)] origin-left z-50"
+        className="fixed top-0 left-0 right-0 h-0.5 bg-[var(--gold)] origin-left z-50"
         style={{ scaleX }}
       />
 
-      <div className="max-w-5xl mx-auto space-y-8">
-        
+      <div className="max-w-6xl mx-auto">
+
         {/* ── Back Navigation ── */}
         <Link
           href={`/${locale}/blog`}
-          className="inline-flex items-center gap-2 text-sm text-[var(--muted-foreground)] hover:text-[var(--gold)] transition-colors group"
+          className="inline-flex items-center gap-2 text-sm text-[var(--muted-foreground)] hover:text-[var(--gold)] transition-colors group mb-6"
         >
-          <div className="w-8 h-8 rounded-full glass flex items-center justify-center group-hover:bg-[var(--gold)]/10 transition-colors">
-            <ChevronLeft className="w-4 h-4" />
-          </div>
+          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           {t('back')}
         </Link>
 
         {/* ── Article Header ── */}
-        <header className="space-y-6">
-          <div className="flex flex-wrap items-center gap-4 text-xs font-medium">
-            <span className="px-3 py-1 rounded-full bg-[var(--gold)]/10 text-[var(--gold)] border border-[var(--gold)]/20">
+        <header className="mb-8 pb-8 border-b border-[var(--border)]">
+          <div className="flex flex-wrap items-center gap-3 mb-4">
+            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[var(--gold)]/10 text-[var(--gold)] border border-[var(--gold)]/20">
               {post.category}
             </span>
-            <div className="flex items-center gap-2 text-[var(--muted-foreground)]">
-              <Calendar className="w-4 h-4" />
-              <time dateTime={post.publishedAt ?? undefined}>
-                {formatDate(post.publishedAt)}
-              </time>
-            </div>
-            <div className="flex items-center gap-2 text-[var(--muted-foreground)]">
-              <Clock className="w-4 h-4" />
-              <span>{readingTime} {t('readTime')}</span>
+            <div className="flex items-center gap-4 text-xs text-[var(--muted-foreground)]">
+              <span className="flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5" />
+                <time dateTime={post.publishedAt ?? undefined}>{formatDate(post.publishedAt)}</time>
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5" />
+                {readingTime} {t('readTime')}
+              </span>
             </div>
           </div>
 
-          <h1 className="font-outfit text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight">
+          <h1 className="font-outfit text-3xl sm:text-4xl font-bold text-[var(--foreground)] leading-tight mb-4">
             {postTitle}
           </h1>
 
-          <p className="text-lg text-[var(--muted-foreground)] leading-relaxed max-w-3xl">
-            {postExcerpt}
-          </p>
+          {postExcerpt && (
+            <p className="text-base text-[var(--muted-foreground)] leading-relaxed max-w-3xl mb-6">
+              {postExcerpt}
+            </p>
+          )}
 
-          <div className="flex items-center gap-4 pt-4 border-t border-[var(--border)]">
-            <button
-              onClick={handleShare}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg glass text-sm text-[var(--foreground)] hover:bg-white/10 transition-colors"
-            >
-              <Share2 className="w-4 h-4" />
-              {t('share')}
-            </button>
-          </div>
+          <button
+            onClick={handleShare}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-sm text-[var(--foreground)] hover:border-[var(--gold)] hover:text-[var(--gold)] transition-all"
+          >
+            <Share2 className="w-3.5 h-3.5" />
+            {t('share')}
+          </button>
         </header>
 
         {/* ── Hero Image ── */}
         {post.thumbnailUrl && (
-          <div className="relative w-full aspect-video rounded-2xl overflow-hidden glass border border-[var(--border)]">
+          <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-[var(--border)] mb-10">
             <Image
               src={post.thumbnailUrl}
               alt={postTitle}
@@ -189,37 +208,39 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
           </div>
         )}
 
-        {/* ── Content Layout ── */}
+        {/* ── Main Layout: Sidebar TOC + Content ── */}
         <div className="flex flex-col lg:flex-row gap-10 items-start">
-          
-          {/* Main Content */}
-          <main className="flex-1 min-w-0">
-            <div
-              id="blog-content"
-              className="tiptap-content max-w-none"
-              dangerouslySetInnerHTML={{ __html: postContent }}
-            />
-          </main>
 
-          {/* Table of Contents (Sidebar) */}
+          {/* ── Left: TOC Sidebar (DigitalOcean style) ── */}
           {toc.length > 0 && (
-            <aside className="hidden lg:block w-72 flex-shrink-0 sticky top-24">
-              <div className="glass rounded-2xl p-6">
-                <h3 className="font-outfit text-sm font-bold text-[var(--foreground)] uppercase tracking-wider mb-4">
+            <aside className="lg:w-64 xl:w-72 flex-shrink-0 lg:sticky lg:top-24 w-full">
+              {/* Mobile TOC toggle */}
+              <button
+                className="lg:hidden w-full flex items-center justify-between px-4 py-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-sm font-medium text-[var(--foreground)] mb-2"
+                onClick={() => setTocOpen(!tocOpen)}
+              >
+                <span className="flex items-center gap-2">
+                  <AlignLeft className="w-4 h-4" />
                   {t('toc')}
-                </h3>
-                <nav className="space-y-1">
+                </span>
+                <ChevronLeft className={`w-4 h-4 transition-transform ${tocOpen ? 'rotate-90' : '-rotate-90'}`} />
+              </button>
+
+              <div className={`do-toc ${tocOpen ? 'block' : 'hidden lg:block'}`}>
+                <div className="do-toc-header">
+                  {t('toc')}
+                </div>
+                <nav>
                   {toc.map((item) => (
                     <a
                       key={item.id}
                       href={`#${item.id}`}
-                      className={`block text-sm py-1.5 transition-colors ${
-                        activeId === item.id
-                          ? 'text-[var(--gold)] font-medium'
-                          : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
-                      }`}
-                      style={{ paddingLeft: `${(item.level - 2) * 1}rem` }}
+                      onClick={() => setTocOpen(false)}
+                      className={`do-toc-item ${activeId === item.id ? 'active' : ''} ${item.level === 3 ? 'sub' : ''}`}
                     >
+                      {item.level === 2 && (
+                        <span className="do-toc-bullet" />
+                      )}
                       {item.text}
                     </a>
                   ))}
@@ -227,6 +248,15 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
               </div>
             </aside>
           )}
+
+          {/* ── Right: Article Content ── */}
+          <main className="flex-1 min-w-0">
+            <div
+              id="blog-content"
+              className="do-article-content"
+              dangerouslySetInnerHTML={{ __html: postContent }}
+            />
+          </main>
 
         </div>
       </div>

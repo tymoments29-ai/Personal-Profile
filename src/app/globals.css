@@ -318,13 +318,155 @@
   }
 
   /* Hide leaflet attribution for cleaner look */
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-inter);
+    
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-inter);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100dvh;
+    background: var(--bg-primary);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-outfit);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  code, pre, kbd {
+    font-family: var(--font-jetbrains);
+  }
+
+  ::selection {
+    background: oklch(0.55 0.15 250 / 20%);
+    color: inherit;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0 0 0 / 15%);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.55 0.15 250 / 50%);
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+@layer utilities {
+  /* Gold/Accent gradient text */
+  .text-gold {
+    color: var(--gold);
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glass effect for light mode */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  }
+
+  .glass-strong {
+    background: var(--glass-strong-bg);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid var(--glass-strong-border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Glow effects */
+  .glow-gold {
+    box-shadow: 0 0 20px oklch(0.55 0.15 250 / 15%),
+                0 0 40px oklch(0.55 0.15 250 / 5%);
+  }
+
+  .glow-gold-hover {
+    transition: box-shadow 0.3s ease;
+  }
+
+  .glow-gold-hover:hover {
+    box-shadow: 0 0 20px oklch(0.55 0.15 250 / 25%),
+                0 0 40px oklch(0.55 0.15 250 / 10%);
+  }
+
+  /* Card hover lift */
+  .card-hover {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px oklch(0 0 0 / 40%);
+  }
+
+  /* Animated border gradient */
+  .border-gradient {
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+  }
+
+  .border-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, oklch(0.75 0.15 70 / 50%), transparent, oklch(0.65 0.15 250 / 30%));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Hide leaflet attribution for cleaner look */
   .leaflet-control-attribution {
     display: none !important;
   }
 }
 
 /* ============================================
-   TIPTAP EDITOR STYLES
+   TIPTAP EDITOR STYLES (admin)
    ============================================ */
 
 .tiptap-content {
@@ -391,4 +533,295 @@
   pointer-events: none;
   float: left;
   height: 0;
+}
+
+/* ============================================
+   DIGITAL OCEAN STYLE BLOG
+   ============================================ */
+
+/* ── TOC Sidebar ── */
+.do-toc {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.do-toc-header {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.do-toc-item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 0.15s ease;
+  line-height: 1.4;
+}
+
+.do-toc-item:hover {
+  color: var(--foreground);
+  background: oklch(0.5 0 0 / 5%);
+}
+
+.do-toc-item.active {
+  color: var(--gold);
+  border-left-color: var(--gold);
+  background: oklch(0.7 0.12 60 / 6%);
+  font-weight: 500;
+}
+
+.do-toc-item.sub {
+  padding-left: 2rem;
+  font-size: 0.75rem;
+}
+
+.do-toc-bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.do-toc-item.active .do-toc-bullet {
+  opacity: 1;
+  background: var(--gold);
+}
+
+/* ── Article Content (DO style) ── */
+.do-article-content {
+  font-family: var(--font-inter);
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--foreground);
+}
+
+.do-article-content h1 {
+  font-family: var(--font-outfit);
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border);
+  line-height: 1.3;
+}
+
+/* Step headings like DigitalOcean "Step 1 — Title" */
+.do-article-content h2 {
+  font-family: var(--font-outfit);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.35;
+}
+
+.do-article-content h3 {
+  font-family: var(--font-outfit);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 2rem 0 0.75rem;
+}
+
+.do-article-content h4 {
+  font-family: var(--font-outfit);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 1.5rem 0 0.5rem;
+}
+
+.do-article-content p {
+  margin: 1rem 0;
+  color: var(--foreground);
+  opacity: 0.9;
+}
+
+.do-article-content ul,
+.do-article-content ol {
+  padding-left: 1.75rem;
+  margin: 1rem 0;
+}
+
+.do-article-content li {
+  margin: 0.375rem 0;
+  padding-left: 0.25rem;
+}
+
+.do-article-content ul li::marker {
+  color: var(--gold);
+}
+
+.do-article-content ol li::marker {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.do-article-content a {
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.15s;
+}
+
+.do-article-content a:hover {
+  opacity: 0.8;
+}
+
+/* Inline code */
+.do-article-content :not(pre) > code {
+  font-family: var(--font-jetbrains);
+  font-size: 0.875em;
+  background: oklch(0.5 0 0 / 12%);
+  border: 1px solid oklch(0.5 0 0 / 12%);
+  color: #e05252;
+  padding: 0.1em 0.45em;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+}
+
+/* Code block wrapper with copy button */
+.code-block-wrapper {
+  position: relative;
+  margin: 1.5rem 0;
+}
+
+.do-article-content pre {
+  background: #1b1f27;
+  border: 1px solid #2d3748;
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  margin: 0;
+}
+
+.do-article-content pre code {
+  font-family: var(--font-jetbrains);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: #a8b2c3;
+  background: none;
+  border: none;
+  padding: 0;
+  white-space: pre;
+}
+
+/* Shell prompt style */
+.do-article-content pre code .line::before {
+  content: '';
+}
+
+/* Copy button */
+.copy-btn {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: var(--font-inter);
+  background: #2d3748;
+  color: #a8b2c3;
+  border: 1px solid #3d4a5c;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  z-index: 10;
+}
+
+.copy-btn:hover {
+  background: #3d4a5c;
+  color: #e2e8f0;
+}
+
+.copy-btn.copied {
+  background: #1a3a2a;
+  color: #48bb78;
+  border-color: #2f6848;
+}
+
+/* Blockquote */
+.do-article-content blockquote {
+  border-left: 4px solid var(--gold);
+  background: oklch(0.7 0.12 60 / 5%);
+  padding: 1rem 1.25rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin: 1.5rem 0;
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+
+/* Note / callout style */
+.do-article-content .callout,
+.do-article-content aside {
+  background: oklch(0.5 0.1 240 / 8%);
+  border: 1px solid oklch(0.5 0.1 240 / 20%);
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+}
+
+/* HR */
+.do-article-content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2.5rem 0;
+}
+
+/* Image */
+.do-article-content img {
+  max-width: 100%;
+  border-radius: 0.75rem;
+  margin: 1.5rem auto;
+  display: block;
+  border: 1px solid var(--border);
+}
+
+/* Table */
+.do-article-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.do-article-content th {
+  background: var(--surface);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.do-article-content td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.do-article-content tr:last-child td {
+  border-bottom: none;
 }
