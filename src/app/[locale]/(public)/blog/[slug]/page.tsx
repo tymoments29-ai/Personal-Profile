@@ -4,17 +4,23 @@ import { prisma } from '@/lib/prisma'
 import BlogDetailClient from '@/components/public/blog/BlogDetailClient'
 import { estimateReadingTime } from '@/lib/utils'
 
+// Force dynamic rendering — prevents SSG issues with DB data at build time
+export const dynamic = 'force-dynamic'
+
 interface PageProps {
   params: Promise<{ slug: string, locale: string }>
 }
 
 async function getBlogPost(slug: string) {
-  const post = await prisma.blogPost.findUnique({
-    where: { slug },
-  })
-  
-  if (!post || post.status !== 'published') return null
-  return post
+  try {
+    const post = await prisma.blogPost.findUnique({
+      where: { slug },
+    })
+    if (!post || post.status !== 'published') return null
+    return post
+  } catch {
+    return null
+  }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -66,22 +72,4 @@ export default async function BlogDetailPage({ params }: PageProps) {
   }
 
   return <BlogDetailClient post={serializedPost} readingTime={readingTime} />
-}
-
-// Generate static paths for all published posts (SSG)
-export async function generateStaticParams() {
-  try {
-    const posts = await prisma.blogPost.findMany({
-      where: { status: 'published' },
-      select: { slug: true },
-    })
-
-    return posts.map((post) => ({
-      slug: post.slug,
-    }))
-  } catch (error) {
-    console.error("Failed to fetch posts for static paths:", error)
-    // Return empty array to fallback to dynamic rendering if DB is unreachable during build
-    return []
-  }
 }
