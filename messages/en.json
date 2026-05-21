@@ -35,7 +35,11 @@
   "Blog": {
     "title": "Blog",
     "publishedOn": "Published on",
-    "latestArticles": "Latest Articles"
+    "latestArticles": "Latest Articles",
+    "back": "Back to Blog",
+    "readTime": "min read",
+    "share": "Share",
+    "toc": "Table of Contents"
   },
   "Contact": {
     "title": "Contact Me",

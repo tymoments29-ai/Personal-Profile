@@ -35,7 +35,11 @@
   "Blog": {
     "title": "Blog",
     "publishedOn": "Diterbitkan pada",
-    "latestArticles": "Artikel Terbaru"
+    "latestArticles": "Artikel Terbaru",
+    "back": "Kembali ke Blog",
+    "readTime": "mnt baca",
+    "share": "Bagikan",
+    "toc": "Daftar Isi"
   },
   "Contact": {
     "title": "Hubungi Saya",
