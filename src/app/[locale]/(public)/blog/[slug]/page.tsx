@@ -11,16 +11,23 @@ interface PageProps {
   params: Promise<{ slug: string, locale: string }>
 }
 
-async function getBlogPost(slug: string) {
-  try {
-    const post = await prisma.blogPost.findUnique({
-      where: { slug },
-    })
-    if (!post || post.status !== 'published') return null
-    return post
-  } catch {
-    return null
+async function getBlogPost(slug: string, retries = 2) {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const post = await prisma.blogPost.findUnique({ where: { slug } })
+      if (!post || post.status !== 'published') return null
+      return post
+    } catch (err) {
+      if (i < retries) {
+        // Wait 1s before retry (Neon DB cold start)
+        await new Promise((r) => setTimeout(r, 1000))
+      } else {
+        console.error('[getBlogPost] DB error after retries:', err)
+        return null
+      }
+    }
   }
+  return null
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -28,7 +35,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = await getBlogPost(slug)
 
   if (!post) {
-    return { title: 'Post Not Found' }
+    return {
+      title: 'Blog | Sukristiyo',
+      openGraph: { title: 'Blog | Sukristiyo', siteName: 'Sukristiyo Portfolio' },
+    }
   }
 
   const title = locale === 'id' ? post.titleId || post.title : post.title
