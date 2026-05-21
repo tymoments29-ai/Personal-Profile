@@ -22,5 +22,8 @@ export const authConfig = {
       return session
     },
   },
+  session: {
+    maxAge: 20 * 60, // 20 minutes
+  },
   providers: [], // Added in auth.ts
 } satisfies NextAuthConfig

@@ -40,7 +40,7 @@ export default function LoginPage() {
         toast.error("Invalid credentials");
       } else {
         toast.success("Logged in successfully");
-        router.push("/admin/dashboard");
+        window.location.href = "/admin/dashboard";
       }
     } catch (error) {
       toast.error("An error occurred");
