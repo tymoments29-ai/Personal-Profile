@@ -30,7 +30,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       data: parsed.data,
     })
 
-    revalidatePath('/')
+    revalidatePath('/', 'layout')
     return NextResponse.json(item)
   } catch (error) {
     console.error('[PATCH /api/social-links/[id]]', error)
@@ -47,7 +47,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     await prisma.socialLink.delete({
       where: { id },
     })
-    revalidatePath('/')
+    revalidatePath('/', 'layout')
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('[DELETE /api/social-links/[id]]', error)

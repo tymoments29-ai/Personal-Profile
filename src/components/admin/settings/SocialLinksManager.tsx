@@ -122,9 +122,28 @@ export default function SocialLinksManager() {
                 <Input required type="url" value={formData.url} onChange={e => setFormData({ ...formData, url: e.target.value })} className="bg-black/40 border-white/10 text-white" />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-zinc-300">Icon Name (Lucide React)</label>
-                <Input required value={formData.iconName} onChange={e => setFormData({ ...formData, iconName: e.target.value })} placeholder="Github, Linkedin, Youtube..." className="bg-black/40 border-white/10 text-white" />
-                <p className="text-xs text-zinc-500">Capitalize first letter. Ex: Github, Linkedin, Youtube, Twitch, Twitter, Instagram</p>
+                <label className="text-sm font-medium text-zinc-300">Icon / Logo</label>
+                <select
+                  required
+                  value={formData.iconName}
+                  onChange={e => setFormData({ ...formData, iconName: e.target.value })}
+                  className="w-full rounded-md border border-white/10 bg-zinc-900 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary appearance-none"
+                >
+                  <option value="Link">Default Link</option>
+                  <option value="Github">GitHub</option>
+                  <option value="Linkedin">LinkedIn</option>
+                  <option value="Twitter">Twitter / X</option>
+                  <option value="Instagram">Instagram</option>
+                  <option value="Facebook">Facebook</option>
+                  <option value="Youtube">YouTube</option>
+                  <option value="Twitch">Twitch</option>
+                  <option value="Dribbble">Dribbble</option>
+                  <option value="Figma">Figma</option>
+                  <option value="Globe">Website Globe</option>
+                  <option value="Mail">Mail</option>
+                  <option value="MessageCircle">Message / WhatsApp</option>
+                </select>
+                <p className="text-xs text-zinc-500">Pilih logo yang sesuai dengan platform</p>
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-zinc-300">Order</label>

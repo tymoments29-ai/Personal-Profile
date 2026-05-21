@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     }
 
     const link = await prisma.socialLink.create({ data: parsed.data })
-    revalidatePath('/')
+    revalidatePath('/', 'layout')
     return NextResponse.json(link, { status: 201 })
   } catch (error) {
     console.error('[POST /api/social-links]', error)
