@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Sidebar from '@/components/layout/Sidebar'
 import TabNav from '@/components/layout/TabNav'
+import ParticleBackground from '@/components/layout/ParticleBackground'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { SiteSettings, SocialLink } from '@prisma/client'
 
@@ -17,21 +18,7 @@ export default function PublicLayoutClient({ children, settings, socialLinks }: 
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)]">
-      {/* Background ambient glow */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div
-          className="absolute -top-40 -left-40 w-80 h-80 rounded-full opacity-10"
-          style={{
-            background: 'radial-gradient(circle, var(--gold) 0%, transparent 70%)',
-          }}
-        />
-        <div
-          className="absolute top-1/2 -right-40 w-96 h-96 rounded-full opacity-5"
-          style={{
-            background: 'radial-gradient(circle, var(--secondary) 0%, transparent 70%)',
-          }}
-        />
-      </div>
+      <ParticleBackground />
 
       {/* Desktop: 2-column layout */}
       <div className="relative flex min-h-screen mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 gap-6 py-8">

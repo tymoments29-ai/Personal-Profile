@@ -13,16 +13,18 @@ const tabs = [
   { href: '/contact', label: 'Contact', icon: Mail },
 ]
 
+import { ThemeToggle } from '@/components/layout/ThemeToggle'
+
 export default function TabNav() {
   const pathname = usePathname()
 
   return (
     <nav
-      className="glass rounded-2xl p-1.5"
+      className="glass rounded-2xl p-1.5 flex items-center justify-between gap-2"
       role="navigation"
       aria-label="Main navigation"
     >
-      <ul className="flex gap-1" role="list">
+      <ul className="flex flex-1 gap-1" role="list">
         {tabs.map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href || pathname.startsWith(`${href}/`)
 
@@ -57,6 +59,11 @@ export default function TabNav() {
           )
         })}
       </ul>
+      
+      {/* Theme Toggle Button */}
+      <div className="flex-shrink-0 border-l border-[var(--border)] pl-2 ml-1">
+        <ThemeToggle />
+      </div>
     </nav>
   )
 }
