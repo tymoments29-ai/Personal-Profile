@@ -13,49 +13,43 @@ interface ImageUploadProps {
 
 export function ImageUpload({ value, onChange, label = "Upload Image" }: ImageUploadProps) {
   const [isDragging, setIsDragging] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFile = (file: File) => {
+  const handleFile = async (file: File) => {
     if (!file.type.startsWith("image/")) {
       alert("Please upload an image file");
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = document.createElement("img");
-      img.onload = () => {
-        // Create canvas to resize image
-        const canvas = document.createElement("canvas");
-        const MAX_WIDTH = 1200;
-        const MAX_HEIGHT = 1200;
-        let width = img.width;
-        let height = img.height;
+    if (file.size > 2 * 1024 * 1024) {
+      alert("File size exceeds 2MB limit");
+      return;
+    }
 
-        if (width > height) {
-          if (width > MAX_WIDTH) {
-            height *= MAX_WIDTH / width;
-            width = MAX_WIDTH;
-          }
-        } else {
-          if (height > MAX_HEIGHT) {
-            width *= MAX_HEIGHT / height;
-            height = MAX_HEIGHT;
-          }
-        }
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("folder", "blog-thumbnails"); // Optional categorization
 
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext("2d");
-        ctx?.drawImage(img, 0, 0, width, height);
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
 
-        // Convert to base64 jpeg
-        const dataUrl = canvas.toDataURL("image/jpeg", 0.7);
-        onChange(dataUrl);
-      };
-      img.src = e.target?.result as string;
-    };
-    reader.readAsDataURL(file);
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to upload image");
+      }
+
+      const data = await res.json();
+      onChange(data.url);
+    } catch (error: any) {
+      alert(error.message || "Failed to upload image");
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -85,22 +79,26 @@ export function ImageUpload({ value, onChange, label = "Upload Image" }: ImageUp
         </div>
       ) : (
         <div
-          className={`relative flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-xl transition-colors cursor-pointer bg-muted/50 ${
+          className={`relative flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-xl transition-colors ${
+            isUploading ? "cursor-not-allowed opacity-70" : "cursor-pointer"
+          } ${
             isDragging ? "border-primary bg-primary/10" : "border-border hover:bg-muted"
           }`}
           onDragOver={(e) => {
+            if (isUploading) return;
             e.preventDefault();
             setIsDragging(true);
           }}
           onDragLeave={() => setIsDragging(false)}
           onDrop={onDrop}
-          onClick={() => fileInputRef.current?.click()}
+          onClick={() => !isUploading && fileInputRef.current?.click()}
         >
           <input
             ref={fileInputRef}
             type="file"
             accept="image/*"
             className="hidden"
+            disabled={isUploading}
             onChange={(e) => {
               if (e.target.files && e.target.files.length > 0) {
                 handleFile(e.target.files[0]);
@@ -108,11 +106,20 @@ export function ImageUpload({ value, onChange, label = "Upload Image" }: ImageUp
             }}
           />
           <div className="flex flex-col items-center justify-center pt-5 pb-6 text-muted-foreground">
-            <UploadCloud className="w-10 h-10 mb-3" />
-            <p className="mb-2 text-sm font-medium">
-              <span className="text-primary font-semibold">Click to upload</span> or drag and drop
-            </p>
-            <p className="text-xs">PNG, JPG or WEBP (Max. 1200x1200px)</p>
+            {isUploading ? (
+              <>
+                <div className="w-10 h-10 mb-3 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+                <p className="mb-2 text-sm font-medium text-primary">Uploading to Vercel Blob...</p>
+              </>
+            ) : (
+              <>
+                <UploadCloud className="w-10 h-10 mb-3" />
+                <p className="mb-2 text-sm font-medium">
+                  <span className="text-primary font-semibold">Click to upload</span> or drag and drop
+                </p>
+                <p className="text-xs">PNG, JPG or WEBP (Max 2MB)</p>
+              </>
+            )}
           </div>
         </div>
       )}
