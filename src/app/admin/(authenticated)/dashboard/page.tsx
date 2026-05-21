@@ -28,23 +28,23 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight text-white">Dashboard Overview</h2>
-        <p className="text-zinc-400 mt-1">Welcome back. Here's what's happening with your portfolio today.</p>
+        <h2 className="text-3xl font-bold tracking-tight text-foreground">Dashboard Overview</h2>
+        <p className="text-muted-foreground mt-1">Welcome back. Here's what's happening with your portfolio today.</p>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, i) => {
           const Icon = stat.icon;
           return (
-            <Card key={i} className="bg-white/5 border-white/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/5">
+            <Card key={i} className="bg-card border-border backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/5">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-zinc-300">{stat.title}</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">{stat.title}</CardTitle>
                 <div className={`p-2 rounded-xl ${stat.bg}`}>
                   <Icon className={`h-5 w-5 ${stat.color}`} />
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-white">{stat.value}</div>
+                <div className="text-3xl font-bold text-card-foreground">{stat.value}</div>
               </CardContent>
             </Card>
           );
@@ -52,22 +52,22 @@ export default async function DashboardPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4 bg-white/5 border-white/10 backdrop-blur-xl">
+        <Card className="col-span-4 bg-card border-border backdrop-blur-xl">
           <CardHeader>
-            <CardTitle className="text-white">Recent Activity</CardTitle>
+            <CardTitle className="text-card-foreground">Recent Activity</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-zinc-400 text-sm flex items-center justify-center h-48 border border-dashed border-white/10 rounded-lg bg-black/20">
+            <div className="text-muted-foreground text-sm flex items-center justify-center h-48 border border-dashed border-border rounded-lg bg-muted/50">
               Activity chart or list will appear here
             </div>
           </CardContent>
         </Card>
-        <Card className="col-span-3 bg-white/5 border-white/10 backdrop-blur-xl">
+        <Card className="col-span-3 bg-card border-border backdrop-blur-xl">
           <CardHeader>
-            <CardTitle className="text-white">Quick Actions</CardTitle>
+            <CardTitle className="text-card-foreground">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-             <div className="text-zinc-400 text-sm flex items-center justify-center h-48 border border-dashed border-white/10 rounded-lg bg-black/20">
+             <div className="text-muted-foreground text-sm flex items-center justify-center h-48 border border-dashed border-border rounded-lg bg-muted/50">
                 Quick action shortcuts placeholder
              </div>
           </CardContent>

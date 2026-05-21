@@ -32,9 +32,9 @@ export function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="flex h-screen w-64 flex-col border-r border-white/10 bg-black/50 backdrop-blur-xl">
-      <div className="flex h-16 items-center px-6 border-b border-white/10">
-        <Link href="/admin/dashboard" className="text-xl font-bold tracking-tighter text-white">
+    <div className="flex h-screen w-64 flex-col border-r border-border bg-background/80 dark:bg-black/50 backdrop-blur-xl">
+      <div className="flex h-16 items-center px-6 border-b border-border">
+        <Link href="/admin/dashboard" className="text-xl font-bold tracking-tighter text-foreground">
           AdminPanel<span className="text-primary">.</span>
         </Link>
       </div>
@@ -50,14 +50,14 @@ export function AdminSidebar() {
               className={cn(
                 "group flex items-center rounded-md px-3 py-2 text-sm font-medium transition-all duration-200",
                 isActive 
-                  ? "bg-white/10 text-white" 
-                  : "text-zinc-400 hover:bg-white/5 hover:text-white"
+                  ? "bg-accent text-accent-foreground" 
+                  : "text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground"
               )}
             >
               <Icon 
                 className={cn(
                   "mr-3 h-5 w-5 flex-shrink-0 transition-colors duration-200",
-                  isActive ? "text-primary" : "text-zinc-500 group-hover:text-zinc-300"
+                  isActive ? "text-primary" : "text-muted-foreground group-hover:text-accent-foreground"
                 )} 
                 aria-hidden="true" 
               />
@@ -67,10 +67,10 @@ export function AdminSidebar() {
         })}
       </nav>
 
-      <div className="p-4 border-t border-white/10">
+      <div className="p-4 border-t border-border">
         <Button 
           variant="ghost" 
-          className="w-full justify-start text-zinc-400 hover:text-white hover:bg-white/5"
+          className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-accent/50"
           onClick={() => signOut({ callbackUrl: "/admin/login" })}
         >
           <LogOut className="mr-3 h-5 w-5" />
