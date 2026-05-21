@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
@@ -116,17 +116,17 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight text-white">Site Settings</h2>
-        <p className="text-zinc-400 mt-1">Manage your portfolio details and preferences</p>
+        <h2 className="text-3xl font-bold tracking-tight text-foreground">Site Settings</h2>
+        <p className="text-muted-foreground mt-1">Manage your portfolio details and preferences</p>
       </div>
 
-      <div className="p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-xl">
+      <div className="p-8 rounded-2xl border border-border bg-card backdrop-blur-xl shadow-xl">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             
             {/* Profile Photo Upload */}
-            <div className="flex flex-col md:flex-row items-center gap-8 pb-8 border-b border-white/10">
-              <div className="relative h-32 w-32 rounded-full overflow-hidden border-4 border-white/10 bg-black/40 flex items-center justify-center group shadow-2xl shrink-0">
+            <div className="flex flex-col md:flex-row items-center gap-8 pb-8 border-b border-border">
+              <div className="relative h-32 w-32 rounded-full overflow-hidden border-4 border-border bg-muted flex items-center justify-center group shadow-2xl shrink-0">
                 {profilePhotoUrl ? (
                   <Image src={profilePhotoUrl} alt="Profile" fill className="object-cover" />
                 ) : (
@@ -134,14 +134,14 @@ export default function SettingsPage() {
                 )}
                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <label className="cursor-pointer">
-                    <Upload className="h-8 w-8 text-white hover:scale-110 transition-transform" />
+                    <Upload className="h-8 w-8 text-foreground hover:scale-110 transition-transform" />
                     <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} disabled={isUploading} />
                   </label>
                 </div>
               </div>
               <div className="flex-1 space-y-2 text-center md:text-left">
-                <h3 className="text-lg font-medium text-white">Profile Photo</h3>
-                <p className="text-sm text-zinc-400 max-w-sm mx-auto md:mx-0">
+                <h3 className="text-lg font-medium text-foreground">Profile Photo</h3>
+                <p className="text-sm text-muted-foreground max-w-sm mx-auto md:mx-0">
                   This photo will be displayed on your portfolio and dashboard. Click the image to upload a new one.
                 </p>
                 {isUploading && <span className="text-xs text-primary flex items-center gap-1 justify-center md:justify-start mt-2"><Loader2 className="h-3 w-3 animate-spin" /> Uploading...</span>}
@@ -155,9 +155,9 @@ export default function SettingsPage() {
                   name="nameEn"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-zinc-300">Site Name</FormLabel>
+                      <FormLabel className="text-muted-foreground">Site Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="John Doe's Portfolio" className="bg-black/40 border-white/10 text-white focus-visible:ring-primary h-12" {...field} />
+                        <Input placeholder="John Doe's Portfolio" className="bg-muted border-border text-foreground focus-visible:ring-primary h-12" {...field} />
                       </FormControl>
                       <FormMessage className="text-red-400" />
                     </FormItem>
@@ -169,9 +169,9 @@ export default function SettingsPage() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-zinc-300">Contact Email</FormLabel>
+                      <FormLabel className="text-muted-foreground">Contact Email</FormLabel>
                       <FormControl>
-                        <Input placeholder="hello@johndoe.com" className="bg-black/40 border-white/10 text-white focus-visible:ring-primary h-12" {...field} />
+                        <Input placeholder="hello@johndoe.com" className="bg-muted border-border text-foreground focus-visible:ring-primary h-12" {...field} />
                       </FormControl>
                       <FormMessage className="text-red-400" />
                     </FormItem>
@@ -183,9 +183,9 @@ export default function SettingsPage() {
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-zinc-300">Phone Number</FormLabel>
+                      <FormLabel className="text-muted-foreground">Phone Number</FormLabel>
                       <FormControl>
-                        <Input placeholder="+62 821-xxxx-xxxx" className="bg-black/40 border-white/10 text-white focus-visible:ring-primary h-12" {...field} />
+                        <Input placeholder="+62 821-xxxx-xxxx" className="bg-muted border-border text-foreground focus-visible:ring-primary h-12" {...field} />
                       </FormControl>
                       <FormMessage className="text-red-400" />
                     </FormItem>
@@ -197,9 +197,9 @@ export default function SettingsPage() {
                   name="birthDate"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-zinc-300">Birth Date</FormLabel>
+                      <FormLabel className="text-muted-foreground">Birth Date</FormLabel>
                       <FormControl>
-                        <Input placeholder="September 26, 1999" className="bg-black/40 border-white/10 text-white focus-visible:ring-primary h-12" {...field} />
+                        <Input placeholder="September 26, 1999" className="bg-muted border-border text-foreground focus-visible:ring-primary h-12" {...field} />
                       </FormControl>
                       <FormMessage className="text-red-400" />
                     </FormItem>
@@ -211,9 +211,9 @@ export default function SettingsPage() {
                   name="location"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-zinc-300">Location</FormLabel>
+                      <FormLabel className="text-muted-foreground">Location</FormLabel>
                       <FormControl>
-                        <Input placeholder="Jakarta, Indonesia" className="bg-black/40 border-white/10 text-white focus-visible:ring-primary h-12" {...field} />
+                        <Input placeholder="Jakarta, Indonesia" className="bg-muted border-border text-foreground focus-visible:ring-primary h-12" {...field} />
                       </FormControl>
                       <FormMessage className="text-red-400" />
                     </FormItem>
@@ -226,11 +226,11 @@ export default function SettingsPage() {
                 name="aboutTextEn"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-zinc-300">Site Description / Bio</FormLabel>
+                    <FormLabel className="text-muted-foreground">Site Description / Bio</FormLabel>
                     <FormControl>
                       <Textarea 
                         placeholder="A brief description about you and your work..." 
-                        className="bg-black/40 border-white/10 text-white focus-visible:ring-primary min-h-[120px] resize-none" 
+                        className="bg-muted border-border text-foreground focus-visible:ring-primary min-h-[120px] resize-none" 
                         {...field} 
                       />
                     </FormControl>

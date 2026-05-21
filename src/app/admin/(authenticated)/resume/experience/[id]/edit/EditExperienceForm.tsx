@@ -88,17 +88,17 @@ export function EditExperienceForm({ experience }: EditExperienceFormProps) {
     <div className="space-y-6 max-w-3xl mx-auto">
       <div className="flex items-center gap-4">
         <Link href="/admin/resume">
-          <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-white">
+          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
             <ArrowLeft className="h-5 w-5" />
           </Button>
         </Link>
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-white">Edit Experience</h2>
-          <p className="text-zinc-400 text-sm">Update your work experience entry</p>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Edit Experience</h2>
+          <p className="text-muted-foreground text-sm">Update your work experience entry</p>
         </div>
       </div>
 
-      <div className="p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
+      <div className="p-6 rounded-2xl border border-border bg-card backdrop-blur-xl">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
@@ -107,9 +107,9 @@ export function EditExperienceForm({ experience }: EditExperienceFormProps) {
                 name="company"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-zinc-300">Company</FormLabel>
+                    <FormLabel className="text-muted-foreground">Company</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. Google" className="bg-black/40 border-white/10 text-white" {...field} />
+                      <Input placeholder="e.g. Google" className="bg-muted border-border text-foreground" {...field} />
                     </FormControl>
                     <FormMessage className="text-red-400" />
                   </FormItem>
@@ -120,9 +120,9 @@ export function EditExperienceForm({ experience }: EditExperienceFormProps) {
                 name="position"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-zinc-300">Position</FormLabel>
+                    <FormLabel className="text-muted-foreground">Position</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. Software Engineer" className="bg-black/40 border-white/10 text-white" {...field} />
+                      <Input placeholder="e.g. Software Engineer" className="bg-muted border-border text-foreground" {...field} />
                     </FormControl>
                     <FormMessage className="text-red-400" />
                   </FormItem>
@@ -136,9 +136,9 @@ export function EditExperienceForm({ experience }: EditExperienceFormProps) {
                 name="startDate"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-zinc-300">Start Date</FormLabel>
+                    <FormLabel className="text-muted-foreground">Start Date</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. 2021" className="bg-black/40 border-white/10 text-white" {...field} />
+                      <Input placeholder="e.g. 2021" className="bg-muted border-border text-foreground" {...field} />
                     </FormControl>
                     <FormMessage className="text-red-400" />
                   </FormItem>
@@ -149,9 +149,9 @@ export function EditExperienceForm({ experience }: EditExperienceFormProps) {
                 name="endDate"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-zinc-300">End Date (Leave empty if Present)</FormLabel>
+                    <FormLabel className="text-muted-foreground">End Date (Leave empty if Present)</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. 2023" className="bg-black/40 border-white/10 text-white" {...field} />
+                      <Input placeholder="e.g. 2023" className="bg-muted border-border text-foreground" {...field} />
                     </FormControl>
                     <FormMessage className="text-red-400" />
                   </FormItem>
@@ -164,9 +164,9 @@ export function EditExperienceForm({ experience }: EditExperienceFormProps) {
               name="descriptionEn"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-zinc-300">Description (EN)</FormLabel>
+                  <FormLabel className="text-muted-foreground">Description (EN)</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Short description of your role..." className="bg-black/40 border-white/10 text-white min-h-[80px]" {...field} />
+                    <Textarea placeholder="Short description of your role..." className="bg-muted border-border text-foreground min-h-[80px]" {...field} />
                   </FormControl>
                   <FormMessage className="text-red-400" />
                 </FormItem>
@@ -178,9 +178,9 @@ export function EditExperienceForm({ experience }: EditExperienceFormProps) {
               name="descriptionId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-zinc-300">Description (ID - Optional)</FormLabel>
+                  <FormLabel className="text-muted-foreground">Description (ID - Optional)</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Deskripsi singkat tentang peran Anda..." className="bg-black/40 border-white/10 text-white min-h-[80px]" {...field} />
+                    <Textarea placeholder="Deskripsi singkat tentang peran Anda..." className="bg-muted border-border text-foreground min-h-[80px]" {...field} />
                   </FormControl>
                   <FormMessage className="text-red-400" />
                 </FormItem>
@@ -192,9 +192,9 @@ export function EditExperienceForm({ experience }: EditExperienceFormProps) {
               name="responsibilities"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-zinc-300">Responsibilities (One per line)</FormLabel>
+                  <FormLabel className="text-muted-foreground">Responsibilities (One per line)</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="- Developed new features&#10;- Optimized database queries" className="bg-black/40 border-white/10 text-white min-h-[120px]" {...field} />
+                    <Textarea placeholder="- Developed new features&#10;- Optimized database queries" className="bg-muted border-border text-foreground min-h-[120px]" {...field} />
                   </FormControl>
                   <FormMessage className="text-red-400" />
                 </FormItem>
@@ -206,9 +206,9 @@ export function EditExperienceForm({ experience }: EditExperienceFormProps) {
               name="order"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-zinc-300">Display Order</FormLabel>
+                  <FormLabel className="text-muted-foreground">Display Order</FormLabel>
                   <FormControl>
-                    <Input type="number" className="bg-black/40 border-white/10 text-white max-w-[200px]" {...field} onChange={(e) => field.onChange(parseInt(e.target.value) || 0)} />
+                    <Input type="number" className="bg-muted border-border text-foreground max-w-[200px]" {...field} onChange={(e) => field.onChange(parseInt(e.target.value) || 0)} />
                   </FormControl>
                   <FormMessage className="text-red-400" />
                 </FormItem>

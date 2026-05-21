@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,13 +17,13 @@ export default async function AboutAdminPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-white">About Details</h2>
-          <p className="text-zinc-400 mt-1">Manage services (What I Do) and Core Technologies</p>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">About Details</h2>
+          <p className="text-muted-foreground mt-1">Manage services (What I Do) and Core Technologies</p>
         </div>
       </div>
 
       <Tabs defaultValue="services" className="space-y-6">
-        <TabsList className="bg-white/5 border border-white/10">
+        <TabsList className="bg-card border border-border">
           <TabsTrigger value="services" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
             Services (What I Do)
           </TabsTrigger>
@@ -40,9 +40,9 @@ export default async function AboutAdminPage() {
               </Button>
             </Link>
           </div>
-          <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden">
-            <table className="w-full text-sm text-left text-zinc-300">
-              <thead className="text-xs uppercase bg-black/40 text-zinc-400">
+          <div className="rounded-xl border border-border bg-card backdrop-blur-xl overflow-hidden">
+            <table className="w-full text-sm text-left text-muted-foreground">
+              <thead className="text-xs uppercase bg-muted text-muted-foreground">
                 <tr>
                   <th className="px-6 py-4 font-medium">Title</th>
                   <th className="px-6 py-4 font-medium">Icon Name</th>
@@ -52,13 +52,13 @@ export default async function AboutAdminPage() {
               </thead>
               <tbody>
                 {services.map((item) => (
-                  <tr key={item.id} className="border-t border-white/10 hover:bg-white/5 transition-colors">
-                    <td className="px-6 py-4 font-medium text-white">{item.title}</td>
+                  <tr key={item.id} className="border-t border-border hover:bg-card transition-colors">
+                    <td className="px-6 py-4 font-medium text-foreground">{item.title}</td>
                     <td className="px-6 py-4">{item.iconName}</td>
                     <td className="px-6 py-4">{item.order}</td>
                     <td className="px-6 py-4 text-right space-x-2">
                       <Link href={`/admin/about/services/${item.id}/edit`}>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-400 hover:text-white">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground">
                           <Edit className="h-4 w-4" />
                         </Button>
                       </Link>
@@ -67,7 +67,7 @@ export default async function AboutAdminPage() {
                 ))}
                 {services.length === 0 && (
                   <tr>
-                    <td colSpan={4} className="px-6 py-8 text-center text-zinc-500">No services found.</td>
+                    <td colSpan={4} className="px-6 py-8 text-center text-muted-foreground">No services found.</td>
                   </tr>
                 )}
               </tbody>
@@ -83,9 +83,9 @@ export default async function AboutAdminPage() {
               </Button>
             </Link>
           </div>
-          <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden">
-            <table className="w-full text-sm text-left text-zinc-300">
-              <thead className="text-xs uppercase bg-black/40 text-zinc-400">
+          <div className="rounded-xl border border-border bg-card backdrop-blur-xl overflow-hidden">
+            <table className="w-full text-sm text-left text-muted-foreground">
+              <thead className="text-xs uppercase bg-muted text-muted-foreground">
                 <tr>
                   <th className="px-6 py-4 font-medium">Name</th>
                   <th className="px-6 py-4 font-medium">Order</th>
@@ -94,12 +94,12 @@ export default async function AboutAdminPage() {
               </thead>
               <tbody>
                 {technologies.map((item) => (
-                  <tr key={item.id} className="border-t border-white/10 hover:bg-white/5 transition-colors">
-                    <td className="px-6 py-4 font-medium text-white">{item.name}</td>
+                  <tr key={item.id} className="border-t border-border hover:bg-card transition-colors">
+                    <td className="px-6 py-4 font-medium text-foreground">{item.name}</td>
                     <td className="px-6 py-4">{item.order}</td>
                     <td className="px-6 py-4 text-right space-x-2">
                       <Link href={`/admin/about/technologies/${item.id}/edit`}>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-400 hover:text-white">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground">
                           <Edit className="h-4 w-4" />
                         </Button>
                       </Link>
@@ -108,7 +108,7 @@ export default async function AboutAdminPage() {
                 ))}
                 {technologies.length === 0 && (
                   <tr>
-                    <td colSpan={3} className="px-6 py-8 text-center text-zinc-500">No technologies found.</td>
+                    <td colSpan={3} className="px-6 py-8 text-center text-muted-foreground">No technologies found.</td>
                   </tr>
                 )}
               </tbody>

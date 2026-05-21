@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -76,17 +76,17 @@ export default function NewPostPage() {
     <div className="space-y-6 max-w-4xl mx-auto">
       <div className="flex items-center gap-4">
         <Link href="/admin/blog">
-          <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-white hover:bg-white/5 rounded-full">
+          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground hover:bg-card rounded-full">
             <ArrowLeft className="h-5 w-5" />
           </Button>
         </Link>
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-white">Create New Post</h2>
-          <p className="text-zinc-400 mt-1">Write and publish a new blog article</p>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">Create New Post</h2>
+          <p className="text-muted-foreground mt-1">Write and publish a new blog article</p>
         </div>
       </div>
 
-      <div className="p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-xl">
+      <div className="p-6 rounded-2xl border border-border bg-card backdrop-blur-xl shadow-xl">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid gap-6 md:grid-cols-2">
@@ -95,11 +95,11 @@ export default function NewPostPage() {
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-zinc-300">Post Title</FormLabel>
+                    <FormLabel className="text-muted-foreground">Post Title</FormLabel>
                     <FormControl>
                       <Input 
                         placeholder="The Future of Web Development" 
-                        className="bg-black/40 border-white/10 text-white focus-visible:ring-primary h-12" 
+                        className="bg-muted border-border text-foreground focus-visible:ring-primary h-12" 
                         {...field}
                         onChange={(e) => {
                           field.onChange(e);
@@ -119,11 +119,11 @@ export default function NewPostPage() {
                 name="slug"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-zinc-300">URL Slug</FormLabel>
+                    <FormLabel className="text-muted-foreground">URL Slug</FormLabel>
                     <FormControl>
                       <Input 
                         placeholder="the-future-of-web-development" 
-                        className="bg-black/40 border-white/10 text-white focus-visible:ring-primary h-12" 
+                        className="bg-muted border-border text-foreground focus-visible:ring-primary h-12" 
                         {...field} 
                       />
                     </FormControl>
@@ -138,11 +138,11 @@ export default function NewPostPage() {
               name="excerptEn"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-zinc-300">Excerpt (Optional)</FormLabel>
+                  <FormLabel className="text-muted-foreground">Excerpt (Optional)</FormLabel>
                   <FormControl>
                     <Input 
                       placeholder="A short summary of the post..." 
-                      className="bg-black/40 border-white/10 text-white focus-visible:ring-primary" 
+                      className="bg-muted border-border text-foreground focus-visible:ring-primary" 
                       {...field} 
                     />
                   </FormControl>
@@ -156,7 +156,7 @@ export default function NewPostPage() {
               name="contentEn"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-zinc-300">Content</FormLabel>
+                  <FormLabel className="text-muted-foreground">Content</FormLabel>
                   <FormControl>
                     <RichTextEditor content={field.value} onChange={field.onChange} />
                   </FormControl>
@@ -165,18 +165,18 @@ export default function NewPostPage() {
               )}
             />
 
-            <div className="flex items-center justify-between pt-4 border-t border-white/10">
+            <div className="flex items-center justify-between pt-4 border-t border-border">
               <FormField
                 control={form.control}
                 name="published"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-center gap-3 space-y-0 p-4 rounded-xl border border-white/10 bg-black/20">
+                  <FormItem className="flex flex-row items-center gap-3 space-y-0 p-4 rounded-xl border border-border bg-muted/50">
                     <FormControl>
                       <Switch checked={field.value} onCheckedChange={field.onChange} className="data-[state=checked]:bg-primary" />
                     </FormControl>
                     <div className="space-y-1 leading-none">
                       <FormLabel className="text-zinc-200">Publish immediately</FormLabel>
-                      <FormDescription className="text-zinc-500 text-xs">
+                      <FormDescription className="text-muted-foreground text-xs">
                         Make this post visible to the public.
                       </FormDescription>
                     </div>

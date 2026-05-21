@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+﻿import { ReactNode } from "react";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth"; // Make sure to use your auth configuration path
 import { AdminSidebar } from "@/components/admin/AdminSidebar";

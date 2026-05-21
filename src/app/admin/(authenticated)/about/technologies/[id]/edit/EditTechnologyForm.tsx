@@ -63,17 +63,17 @@ export function EditTechnologyForm({ technology }: EditTechnologyFormProps) {
     <div className="space-y-6 max-w-3xl mx-auto">
       <div className="flex items-center gap-4">
         <Link href="/admin/about">
-          <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-white">
+          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
             <ArrowLeft className="h-5 w-5" />
           </Button>
         </Link>
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-white">Edit Technology</h2>
-          <p className="text-zinc-400 text-sm">Update item for "Core Technologies"</p>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Edit Technology</h2>
+          <p className="text-muted-foreground text-sm">Update item for "Core Technologies"</p>
         </div>
       </div>
 
-      <div className="p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
+      <div className="p-6 rounded-2xl border border-border bg-card backdrop-blur-xl">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -81,9 +81,9 @@ export function EditTechnologyForm({ technology }: EditTechnologyFormProps) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-zinc-300">Name</FormLabel>
+                  <FormLabel className="text-muted-foreground">Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. AWS, Next.js, Docker" className="bg-black/40 border-white/10 text-white" {...field} />
+                    <Input placeholder="e.g. AWS, Next.js, Docker" className="bg-muted border-border text-foreground" {...field} />
                   </FormControl>
                   <FormMessage className="text-red-400" />
                 </FormItem>
@@ -95,9 +95,9 @@ export function EditTechnologyForm({ technology }: EditTechnologyFormProps) {
               name="order"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-zinc-300">Display Order</FormLabel>
+                  <FormLabel className="text-muted-foreground">Display Order</FormLabel>
                   <FormControl>
-                    <Input type="number" className="bg-black/40 border-white/10 text-white" {...field} onChange={(e) => field.onChange(parseInt(e.target.value) || 0)} />
+                    <Input type="number" className="bg-muted border-border text-foreground" {...field} onChange={(e) => field.onChange(parseInt(e.target.value) || 0)} />
                   </FormControl>
                   <FormMessage className="text-red-400" />
                 </FormItem>
