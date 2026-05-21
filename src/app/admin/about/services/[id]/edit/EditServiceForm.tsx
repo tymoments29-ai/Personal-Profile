@@ -125,9 +125,25 @@ export function EditServiceForm({ service }: EditServiceFormProps) {
                   <FormItem>
                     <FormLabel className="text-zinc-300">Lucide Icon Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. Server, Cloud, Code" className="bg-black/40 border-white/10 text-white" {...field} />
+                      <select
+                        className="flex h-10 w-full rounded-md border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary appearance-none"
+                        {...field}
+                      >
+                        <option value="Terminal" className="bg-zinc-900">Terminal / Linux / CLI</option>
+                        <option value="Server" className="bg-zinc-900">Server / Data Center</option>
+                        <option value="Cloud" className="bg-zinc-900">Cloud Platform</option>
+                        <option value="GitBranch" className="bg-zinc-900">DevOps / CI-CD</option>
+                        <option value="Code" className="bg-zinc-900">Web Development</option>
+                        <option value="Monitor" className="bg-zinc-900">Web Design</option>
+                        <option value="Briefcase" className="bg-zinc-900">Project Manager</option>
+                        <option value="Network" className="bg-zinc-900">Networking</option>
+                        <option value="Database" className="bg-zinc-900">Database</option>
+                        <option value="ShieldCheck" className="bg-zinc-900">Security</option>
+                        <option value="Settings" className="bg-zinc-900">SysAdmin</option>
+                        <option value="Blocks" className="bg-zinc-900">Containers</option>
+                      </select>
                     </FormControl>
-                    <p className="text-xs text-zinc-500">Must be a valid Lucide React icon name.</p>
+                    <p className="text-xs text-zinc-500">Pilih icon yang sesuai dengan jenis layanan IT.</p>
                     <FormMessage className="text-red-400" />
                   </FormItem>
                 )}
