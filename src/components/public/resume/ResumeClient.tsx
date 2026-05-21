@@ -68,7 +68,7 @@ export default function ResumeClient({ education, experience }: ResumeClientProp
                   <span className="text-gray-300">{item.degree}</span> | {item.field}
                 </div>
                 {(locale === 'id' ? item.descriptionId || item.descriptionEn : item.descriptionEn) && (
-                  <p className="text-[var(--muted-foreground)] text-sm leading-relaxed mt-2">
+                  <p className="text-[var(--muted-foreground)] text-sm leading-relaxed mt-2 whitespace-pre-wrap">
                     {locale === 'id' ? item.descriptionId || item.descriptionEn : item.descriptionEn}
                   </p>
                 )}
@@ -113,7 +113,7 @@ export default function ResumeClient({ education, experience }: ResumeClientProp
                 </div>
                 
                 {(locale === 'id' ? item.descriptionId || item.descriptionEn : item.descriptionEn) && (
-                  <p className="text-[var(--muted-foreground)] text-sm leading-relaxed mt-2">
+                  <p className="text-[var(--muted-foreground)] text-sm leading-relaxed mt-2 whitespace-pre-wrap">
                     {locale === 'id' ? item.descriptionId || item.descriptionEn : item.descriptionEn}
                   </p>
                 )}
