@@ -67,7 +67,7 @@ export default function BlogListClient({ posts }: BlogListClientProps) {
               variants={itemVariants}
               className="group glass rounded-2xl overflow-hidden card-hover flex flex-col h-full"
             >
-              <Link href={`/blog/${post.slug}`} className="flex flex-col h-full">
+              <Link href={`/${locale}/blog/${post.slug}`} className="flex flex-col h-full">
                 {/* Thumbnail */}
                 <div className="relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface)]">
                   {post.thumbnailUrl ? (
