@@ -208,12 +208,21 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
           </div>
         )}
 
-        {/* ── Main Layout: Sidebar TOC + Content ── */}
-        <div className="flex flex-col lg:flex-row gap-10 items-start">
+        {/* ── Main Layout: Content left + TOC right ── */}
+        <div className="flex flex-col lg:flex-row gap-8 items-start">
 
-          {/* ── Left: TOC Sidebar (DigitalOcean style) ── */}
+          {/* ── Left: Article Content (main) ── */}
+          <main className="flex-1 min-w-0">
+            <div
+              id="blog-content"
+              className="do-article-content"
+              dangerouslySetInnerHTML={{ __html: postContent }}
+            />
+          </main>
+
+          {/* ── Right: TOC Sidebar (DigitalOcean style) ── */}
           {toc.length > 0 && (
-            <aside className="lg:w-64 xl:w-72 flex-shrink-0 lg:sticky lg:top-24 w-full">
+            <aside className="lg:w-56 xl:w-64 flex-shrink-0 lg:sticky lg:top-24 w-full">
               {/* Mobile TOC toggle */}
               <button
                 className="lg:hidden w-full flex items-center justify-between px-4 py-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-sm font-medium text-[var(--foreground)] mb-2"
@@ -248,15 +257,6 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
               </div>
             </aside>
           )}
-
-          {/* ── Right: Article Content ── */}
-          <main className="flex-1 min-w-0">
-            <div
-              id="blog-content"
-              className="do-article-content"
-              dangerouslySetInnerHTML={{ __html: postContent }}
-            />
-          </main>
 
         </div>
       </div>
