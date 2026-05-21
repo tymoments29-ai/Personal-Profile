@@ -23,7 +23,7 @@ export default function ChangePasswordForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof passwordSchema>>({
-    resolver: zodResolver(passwordSchema),
+    resolver: zodResolver(passwordSchema) as any,
     defaultValues: {
       currentPassword: "",
       newPassword: "",
