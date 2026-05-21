@@ -72,6 +72,7 @@ export const metadata: Metadata = {
 }
 
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/react"
 
 import { ThemeProvider } from '@/components/layout/ThemeProvider'
 
@@ -89,6 +90,7 @@ export default function RootLayout({
           enableSystem
         >
           {children}
+          <Analytics />
           <SpeedInsights />
           <Toaster
             richColors
