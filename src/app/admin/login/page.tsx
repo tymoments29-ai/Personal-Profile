@@ -59,14 +59,14 @@ export default function LoginPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-md p-8 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-2xl shadow-2xl relative z-10"
+        className="w-full max-w-md p-8 rounded-2xl border border-border bg-card/80 dark:bg-black/40 backdrop-blur-2xl shadow-2xl relative z-10"
       >
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/5 border border-white/10 mb-4 shadow-inner">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 mb-4 shadow-sm">
             <Lock className="w-8 h-8 text-primary" />
           </div>
-          <h1 className="text-3xl font-bold tracking-tighter text-white mb-2">Welcome Back</h1>
-          <p className="text-zinc-400 text-sm">Sign in to access your admin dashboard</p>
+          <h1 className="text-3xl font-bold tracking-tighter text-card-foreground mb-2">Welcome Back</h1>
+          <p className="text-muted-foreground text-sm">Sign in to access your admin dashboard</p>
         </div>
 
         <Form {...form}>
@@ -76,18 +76,18 @@ export default function LoginPage() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-zinc-300">Email Address</FormLabel>
+                  <FormLabel className="text-card-foreground">Email Address</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-500" />
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                       <Input 
                         placeholder="admin@example.com" 
-                        className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-zinc-600 focus-visible:ring-primary h-12" 
+                        className="pl-10 bg-background border-input text-foreground placeholder:text-muted-foreground focus-visible:ring-primary h-12" 
                         {...field} 
                       />
                     </div>
                   </FormControl>
-                  <FormMessage className="text-red-400" />
+                  <FormMessage className="text-destructive" />
                 </FormItem>
               )}
             />
@@ -97,19 +97,19 @@ export default function LoginPage() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-zinc-300">Password</FormLabel>
+                  <FormLabel className="text-card-foreground">Password</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-500" />
+                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                       <Input 
                         type="password" 
                         placeholder="••••••••" 
-                        className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-zinc-600 focus-visible:ring-primary h-12" 
+                        className="pl-10 bg-background border-input text-foreground placeholder:text-muted-foreground focus-visible:ring-primary h-12" 
                         {...field} 
                       />
                     </div>
                   </FormControl>
-                  <FormMessage className="text-red-400" />
+                  <FormMessage className="text-destructive" />
                 </FormItem>
               )}
             />
