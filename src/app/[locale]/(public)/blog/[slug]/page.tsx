@@ -5,7 +5,7 @@ import BlogDetailClient from '@/components/public/blog/BlogDetailClient'
 import { estimateReadingTime } from '@/lib/utils'
 
 interface PageProps {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string, locale: string }>
 }
 
 async function getBlogPost(slug: string) {
@@ -18,40 +18,44 @@ async function getBlogPost(slug: string) {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params
+  const { slug, locale } = await params
   const post = await getBlogPost(slug)
 
   if (!post) {
     return { title: 'Post Not Found' }
   }
 
+  const title = locale === 'id' ? post.titleId || post.title : post.title
+  const description = locale === 'id' ? post.excerptId || post.excerptEn : post.excerptEn
+
   return {
-    title: post.title,
-    description: post.excerptEn,
+    title,
+    description,
     openGraph: {
-      title: post.title,
-      description: post.excerptEn,
+      title,
+      description,
       type: 'article',
       publishedTime: post.publishedAt?.toISOString(),
       images: post.thumbnailUrl ? [post.thumbnailUrl] : undefined,
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.title,
-      description: post.excerptEn,
+      title,
+      description,
       images: post.thumbnailUrl ? [post.thumbnailUrl] : undefined,
     },
   }
 }
 
 export default async function BlogDetailPage({ params }: PageProps) {
-  const { slug } = await params
+  const { slug, locale } = await params
   const post = await getBlogPost(slug)
 
   if (!post) notFound()
 
-  // Calculate reading time
-  const readingTime = estimateReadingTime(post.contentEn)
+  // Calculate reading time based on locale
+  const content = locale === 'id' ? post.contentId || post.contentEn : post.contentEn
+  const readingTime = estimateReadingTime(content)
 
   return <BlogDetailClient post={post} readingTime={readingTime} />
 }

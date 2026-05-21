@@ -15,10 +15,12 @@ async function getBlogPosts() {
       select: {
         id: true,
         title: true,
+        titleId: true,
         slug: true,
         thumbnailUrl: true,
         category: true,
         excerptEn: true,
+        excerptId: true,
         publishedAt: true,
       },
     })

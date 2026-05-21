@@ -3,6 +3,7 @@
 import { motion, Variants } from 'framer-motion'
 import { GraduationCap, Briefcase } from 'lucide-react'
 import type { ResumeEducation, ResumeExperience } from '@prisma/client'
+import { useLocale, useTranslations } from 'next-intl'
 
 interface ResumeClientProps {
   education: ResumeEducation[]
@@ -23,6 +24,9 @@ const itemVariants: Variants = {
 }
 
 export default function ResumeClient({ education, experience }: ResumeClientProps) {
+  const locale = useLocale()
+  const t = useTranslations('Resume')
+
   return (
     <motion.div
       variants={containerVariants}
@@ -38,7 +42,7 @@ export default function ResumeClient({ education, experience }: ResumeClientProp
             <div className="w-12 h-12 rounded-2xl glass flex items-center justify-center">
               <GraduationCap className="w-6 h-6 text-[var(--gold)]" />
             </div>
-            <h2 className="font-outfit text-2xl font-bold text-[var(--foreground)]">Education</h2>
+            <h2 className="font-outfit text-2xl font-bold text-[var(--foreground)]">{t('education')}</h2>
           </div>
 
           <div className="relative border-l border-[var(--border)] ml-6 space-y-8 pb-4">
@@ -61,12 +65,12 @@ export default function ResumeClient({ education, experience }: ResumeClientProp
                       {item.degree} — {item.field}
                     </span>
                     <span className="text-[var(--muted-foreground)] text-xs bg-black/5 px-2 py-0.5 rounded-full">
-                      {item.startYear} - {item.endYear || 'Present'}
+                      {item.startYear} - {item.endYear || (locale === 'id' ? 'Sekarang' : 'Present')}
                     </span>
                   </div>
-                  {item.descriptionEn && (
+                  {(locale === 'id' ? item.descriptionId || item.descriptionEn : item.descriptionEn) && (
                     <p className="text-[var(--muted-foreground)] text-sm leading-relaxed">
-                      {item.descriptionEn}
+                      {locale === 'id' ? item.descriptionId || item.descriptionEn : item.descriptionEn}
                     </p>
                   )}
                 </div>
@@ -81,7 +85,7 @@ export default function ResumeClient({ education, experience }: ResumeClientProp
             <div className="w-12 h-12 rounded-2xl glass flex items-center justify-center">
               <Briefcase className="w-6 h-6 text-[var(--gold)]" />
             </div>
-            <h2 className="font-outfit text-2xl font-bold text-[var(--foreground)]">Experience</h2>
+            <h2 className="font-outfit text-2xl font-bold text-[var(--foreground)]">{t('experience')}</h2>
           </div>
 
           <div className="relative border-l border-[var(--border)] ml-6 space-y-8 pb-4">
@@ -104,13 +108,13 @@ export default function ResumeClient({ education, experience }: ResumeClientProp
                       {item.company}
                     </span>
                     <span className="text-[var(--muted-foreground)] text-xs bg-black/5 px-2 py-0.5 rounded-full">
-                      {item.startDate} - {item.endDate || 'Present'}
+                      {item.startDate} - {item.endDate || (locale === 'id' ? 'Sekarang' : 'Present')}
                     </span>
                   </div>
                   
-                  {item.descriptionEn && (
+                  {(locale === 'id' ? item.descriptionId || item.descriptionEn : item.descriptionEn) && (
                     <p className="text-[var(--muted-foreground)] text-sm leading-relaxed mb-4">
-                      {item.descriptionEn}
+                      {locale === 'id' ? item.descriptionId || item.descriptionEn : item.descriptionEn}
                     </p>
                   )}
 

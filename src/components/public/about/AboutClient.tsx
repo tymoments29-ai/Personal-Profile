@@ -4,6 +4,7 @@ import { motion, Variants } from 'framer-motion'
 import * as LucideIcons from 'lucide-react'
 import type { SiteSettings, Testimonial, Service, Technology } from '@prisma/client'
 import TestimonialSlider from './TestimonialSlider'
+import { useLocale, useTranslations } from 'next-intl'
 
 interface AboutClientProps {
   settings: SiteSettings | null
@@ -11,8 +12,6 @@ interface AboutClientProps {
   services: Service[]
   technologies: Technology[]
 }
-
-
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -28,9 +27,12 @@ const itemVariants: Variants = {
 }
 
 export default function AboutClient({ settings, testimonials, services, technologies }: AboutClientProps) {
-  const aboutText =
-    settings?.aboutTextEn ||
-    `I'm a dedicated IT professional specializing in DevOps, Site Reliability Engineering (SRE), and Cloud Infrastructure. With hands-on experience managing enterprise-grade data centers and cloud environments, I bridge the gap between development and operations to deliver reliable, scalable, and secure systems.`
+  const locale = useLocale()
+  const t = useTranslations('About')
+
+  const aboutText = locale === 'id' 
+    ? settings?.aboutTextId || settings?.aboutTextEn || ''
+    : settings?.aboutTextEn || ''
 
   return (
     <motion.div
@@ -43,7 +45,7 @@ export default function AboutClient({ settings, testimonials, services, technolo
       <motion.section variants={itemVariants}>
         <div className="glass rounded-2xl p-6 sm:p-8">
           <h2 className="font-outfit text-2xl font-bold text-[var(--foreground)] mb-4">
-            About <span className="text-gradient-gold">Me</span>
+            {t('title').split(' ')[0]} <span className="text-gradient-gold">{t('title').split(' ').slice(1).join(' ')}</span>
           </h2>
           <p className="text-[var(--muted-foreground)] leading-relaxed text-sm sm:text-base whitespace-pre-wrap">
             {aboutText}
@@ -52,7 +54,7 @@ export default function AboutClient({ settings, testimonials, services, technolo
           {/* Tech Stack Pills */}
           <div className="mt-6">
             <p className="text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider mb-3">
-              Core Technologies
+              {t('technologies')}
             </p>
             <div className="flex flex-wrap gap-2">
               {technologies.map((tech) => (
@@ -71,7 +73,7 @@ export default function AboutClient({ settings, testimonials, services, technolo
       {/* ── Services Grid ── */}
       <motion.section variants={itemVariants}>
         <h2 className="font-outfit text-xl font-semibold text-[var(--foreground)] mb-4">
-          What I <span className="text-gradient-gold">Do</span>
+          {t('services')}
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {services.map((service) => {
@@ -89,10 +91,10 @@ export default function AboutClient({ settings, testimonials, services, technolo
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-outfit font-semibold text-[var(--foreground)] text-sm mb-1.5">
-                      {service.title}
+                      {locale === 'id' ? (service as any).titleId || service.title : service.title}
                     </h3>
                     <p className="text-[var(--muted-foreground)] text-xs leading-relaxed break-words whitespace-pre-wrap">
-                      {service.description}
+                      {locale === 'id' ? (service as any).descriptionId || service.description : service.description}
                     </p>
                   </div>
                 </div>

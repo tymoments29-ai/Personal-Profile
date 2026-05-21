@@ -1,0 +1,47 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "about": "About",
+    "resume": "Resume",
+    "portfolio": "Portfolio",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "Common": {
+    "readMore": "Read More",
+    "viewProject": "View Project",
+    "loading": "Loading...",
+    "error": "An error occurred"
+  },
+  "Hero": {
+    "greeting": "Hello, I'm",
+    "hireMe": "Hire Me",
+    "downloadCv": "Download CV"
+  },
+  "About": {
+    "title": "About Me",
+    "services": "What I Do",
+    "technologies": "Technologies I Use"
+  },
+  "Resume": {
+    "title": "Resume",
+    "experience": "Experience",
+    "education": "Education"
+  },
+  "Portfolio": {
+    "title": "Portfolio",
+    "all": "All"
+  },
+  "Blog": {
+    "title": "Blog",
+    "publishedOn": "Published on"
+  },
+  "Contact": {
+    "title": "Contact Me",
+    "name": "Full Name",
+    "email": "Email Address",
+    "message": "Your Message",
+    "send": "Send Message",
+    "sending": "Sending..."
+  }
+}

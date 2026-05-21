@@ -1,32 +1,32 @@
 import NextAuth from 'next-auth'
 import { authConfig } from '@/lib/auth.config'
-import { NextResponse } from 'next/server'
+import createMiddleware from 'next-intl/middleware'
+import { routing } from './routing'
+
+const intlMiddleware = createMiddleware(routing)
 
 const { auth } = NextAuth(authConfig)
 
 export default auth((req) => {
   const { nextUrl } = req
-  const isLoggedIn = !!req.auth
   const isAdminRoute = nextUrl.pathname.startsWith('/admin')
   const isLoginPage = nextUrl.pathname === '/admin/login'
+  const isLoggedIn = !!req.auth
 
-  // Allow login page for everyone
-  if (isLoginPage) {
-    // If already logged in, redirect to dashboard
-    if (isLoggedIn) {
-      return NextResponse.redirect(new URL('/admin/dashboard', nextUrl))
+  if (isAdminRoute) {
+    if (isLoginPage) {
+      if (isLoggedIn) return Response.redirect(new URL('/admin/dashboard', nextUrl))
+      return
     }
-    return NextResponse.next()
+    if (!isLoggedIn) return Response.redirect(new URL('/admin/login', nextUrl))
+    return
   }
 
-  // Protect all other /admin/* routes
-  if (isAdminRoute && !isLoggedIn) {
-    return NextResponse.redirect(new URL('/admin/login', nextUrl))
-  }
-
-  return NextResponse.next()
+  // Public routes: apply next-intl middleware
+  return intlMiddleware(req)
 })
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  // Skip all internal paths
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|images).*)']
 }

@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { Calendar, Clock, ChevronLeft, Share2 } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
 import type { BlogPost } from '@prisma/client'
+import { useLocale, useTranslations } from 'next-intl'
 
 interface BlogDetailClientProps {
   post: BlogPost
@@ -22,6 +23,8 @@ interface TocItem {
 export default function BlogDetailClient({ post, readingTime }: BlogDetailClientProps) {
   const [toc, setToc] = useState<TocItem[]>([])
   const [activeId, setActiveId] = useState<string>('')
+  const locale = useLocale()
+  const t = useTranslations('Blog')
   
   const { scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, {
@@ -30,10 +33,14 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
     restDelta: 0.001
   })
 
+  const postContent = locale === 'id' ? post.contentId || post.contentEn : post.contentEn
+  const postTitle = locale === 'id' ? post.titleId || post.title : post.title
+  const postExcerpt = locale === 'id' ? post.excerptId || post.excerptEn : post.excerptEn
+
   useEffect(() => {
     // Generate TOC from content headers (h2, h3)
     const parser = new DOMParser()
-    const doc = parser.parseFromString(post.contentEn, 'text/html')
+    const doc = parser.parseFromString(postContent, 'text/html')
     const headings = Array.from(doc.querySelectorAll('h2, h3'))
     
     const tocItems = headings.map((heading) => {
@@ -76,14 +83,14 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
     headingElements.forEach((element) => observer.observe(element))
 
     return () => observer.disconnect()
-  }, [post.contentEn])
+  }, [postContent])
 
   const handleShare = async () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: post.title,
-          text: post.excerptEn,
+          title: postTitle,
+          text: postExcerpt,
           url: window.location.href,
         })
       } catch (error) {
@@ -107,13 +114,13 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
         
         {/* ── Back Navigation ── */}
         <Link
-          href="/blog"
+          href={`/${locale}/blog`}
           className="inline-flex items-center gap-2 text-sm text-[var(--muted-foreground)] hover:text-[var(--gold)] transition-colors group"
         >
           <div className="w-8 h-8 rounded-full glass flex items-center justify-center group-hover:bg-[var(--gold)]/10 transition-colors">
             <ChevronLeft className="w-4 h-4" />
           </div>
-          Back to Articles
+          {t('back')}
         </Link>
 
         {/* ── Article Header ── */}
@@ -130,16 +137,16 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
             </div>
             <div className="flex items-center gap-2 text-[var(--muted-foreground)]">
               <Clock className="w-4 h-4" />
-              <span>{readingTime} min read</span>
+              <span>{readingTime} {t('readTime')}</span>
             </div>
           </div>
 
           <h1 className="font-outfit text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight">
-            {post.title}
+            {postTitle}
           </h1>
 
           <p className="text-lg text-[var(--muted-foreground)] leading-relaxed max-w-3xl">
-            {post.excerptEn}
+            {postExcerpt}
           </p>
 
           <div className="flex items-center gap-4 pt-4 border-t border-[var(--border)]">
@@ -148,7 +155,7 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
               className="flex items-center gap-2 px-4 py-2 rounded-lg glass text-sm text-[var(--foreground)] hover:bg-white/10 transition-colors"
             >
               <Share2 className="w-4 h-4" />
-              Share Article
+              {t('share')}
             </button>
           </div>
         </header>
@@ -158,7 +165,7 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
           <div className="relative w-full aspect-video rounded-2xl overflow-hidden glass border border-[var(--border)]">
             <Image
               src={post.thumbnailUrl}
-              alt={post.title}
+              alt={postTitle}
               fill
               className="object-cover"
               priority
@@ -174,7 +181,7 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
             <div
               id="blog-content"
               className="tiptap-content max-w-none"
-              dangerouslySetInnerHTML={{ __html: post.contentEn }}
+              dangerouslySetInnerHTML={{ __html: postContent }}
             />
           </main>
 
@@ -183,7 +190,7 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
             <aside className="hidden lg:block w-72 flex-shrink-0 sticky top-24">
               <div className="glass rounded-2xl p-6">
                 <h3 className="font-outfit text-sm font-bold text-[var(--foreground)] uppercase tracking-wider mb-4">
-                  Table of Contents
+                  {t('toc')}
                 </h3>
                 <nav className="space-y-1">
                   {toc.map((item) => (

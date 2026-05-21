@@ -1,5 +1,8 @@
 import { prisma } from '@/lib/prisma'
 import PublicLayoutClient from '@/components/layout/PublicLayoutClient'
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+import { ReactNode } from 'react';
 
 async function getData() {
   try {
@@ -18,14 +21,20 @@ async function getData() {
 
 export default async function PublicLayout({
   children,
+  params
 }: {
-  children: React.ReactNode
+  children: ReactNode;
+  params: Promise<{locale: string}>;
 }) {
+  const { locale } = await params;
   const { settings, socialLinks } = await getData()
+  const messages = await getMessages();
 
   return (
-    <PublicLayoutClient settings={settings} socialLinks={socialLinks}>
-      {children}
-    </PublicLayoutClient>
+    <NextIntlClientProvider messages={messages} locale={locale}>
+      <PublicLayoutClient settings={settings} socialLinks={socialLinks}>
+        {children}
+      </PublicLayoutClient>
+    </NextIntlClientProvider>
   )
 }

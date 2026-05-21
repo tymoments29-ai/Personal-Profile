@@ -6,15 +6,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react'
 import { formatDateShort } from '@/lib/utils'
+import { useLocale, useTranslations } from 'next-intl'
 
 interface BlogListClientProps {
   posts: {
     id: string
     title: string
+    titleId: string | null
     slug: string
     thumbnailUrl: string | null
     category: string
     excerptEn: string
+    excerptId: string | null
     publishedAt: Date | null
   }[]
 }
@@ -23,6 +26,8 @@ const POSTS_PER_PAGE = 6
 
 export default function BlogListClient({ posts }: BlogListClientProps) {
   const [currentPage, setCurrentPage] = useState(1)
+  const locale = useLocale()
+  const t = useTranslations('Blog')
 
   const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE)
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE
@@ -45,7 +50,7 @@ export default function BlogListClient({ posts }: BlogListClientProps) {
     <div className="space-y-8">
       {/* ── Header ── */}
       <h2 className="font-outfit text-3xl font-bold text-[var(--foreground)] mb-8">
-        Latest <span className="text-gradient-gold">Articles</span>
+        {t('latestArticles').split(' ')[0]} <span className="text-gradient-gold">{t('latestArticles').split(' ').slice(1).join(' ')}</span>
       </h2>
 
       {/* ── Blog Grid ── */}
@@ -98,11 +103,11 @@ export default function BlogListClient({ posts }: BlogListClientProps) {
                   </div>
                   
                   <h3 className="font-outfit text-lg font-bold text-[var(--foreground)] mb-2 group-hover:text-[var(--gold)] transition-colors line-clamp-2">
-                    {post.title}
+                    {locale === 'id' ? post.titleId || post.title : post.title}
                   </h3>
                   
                   <p className="text-[var(--muted-foreground)] text-sm line-clamp-3 mt-auto">
-                    {post.excerptEn}
+                    {locale === 'id' ? post.excerptId || post.excerptEn : post.excerptEn}
                   </p>
                 </div>
               </Link>
@@ -111,7 +116,9 @@ export default function BlogListClient({ posts }: BlogListClientProps) {
         </motion.div>
       ) : (
         <div className="py-20 text-center glass rounded-2xl">
-          <p className="text-[var(--muted-foreground)]">No articles published yet.</p>
+          <p className="text-[var(--muted-foreground)]">
+            {locale === 'id' ? 'Belum ada artikel yang dipublikasikan.' : 'No articles published yet.'}
+          </p>
         </div>
       )}
 

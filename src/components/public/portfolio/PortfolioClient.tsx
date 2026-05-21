@@ -5,21 +5,25 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { Eye, Code2, X } from 'lucide-react'
 import type { PortfolioProject } from '@prisma/client'
+import { useLocale, useTranslations } from 'next-intl'
 
 interface PortfolioClientProps {
   projects: PortfolioProject[]
 }
 
 const CATEGORIES = [
-  { id: 'All', label: 'All Projects' },
-  { id: 'web-design', label: 'Web Design' },
-  { id: 'applications', label: 'Applications' },
-  { id: 'web-development', label: 'Web Development' },
+  { id: 'All', labelEn: 'All Projects', labelId: 'Semua Proyek' },
+  { id: 'web-design', labelEn: 'Web Design', labelId: 'Desain Web' },
+  { id: 'applications', labelEn: 'Applications', labelId: 'Aplikasi' },
+  { id: 'web-development', labelEn: 'Web Development', labelId: 'Pengembangan Web' },
 ]
 
 export default function PortfolioClient({ projects }: PortfolioClientProps) {
   const [activeFilter, setActiveFilter] = useState('All')
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null)
+  const locale = useLocale()
+  const t = useTranslations('Portfolio')
+  const tCommon = useTranslations('Common')
 
   const filteredProjects = activeFilter === 'All'
     ? projects
@@ -31,7 +35,7 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
       {/* ── Header & Filter ── */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <h2 className="font-outfit text-3xl font-bold text-[var(--foreground)]">
-          <span className="text-gradient-gold">Portfolio</span>
+          <span className="text-gradient-gold">{t('title')}</span>
         </h2>
 
         {/* Filter Tabs */}
@@ -46,7 +50,7 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
                   : 'bg-black/5 text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-white/10'
               }`}
             >
-              {cat.label}
+              {locale === 'id' ? cat.labelId : cat.labelEn}
             </button>
           ))}
         </div>
@@ -93,7 +97,7 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
                   {project.title}
                 </h3>
                 <p className="text-[var(--gold)] text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-100">
-                  {CATEGORIES.find(c => c.id === project.category)?.label || project.category}
+                  {CATEGORIES.find(c => c.id === project.category)?.[locale === 'id' ? 'labelId' : 'labelEn'] || project.category}
                 </p>
               </div>
             </motion.div>
@@ -104,7 +108,9 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
       {/* Empty State */}
       {filteredProjects.length === 0 && (
         <div className="py-20 text-center">
-          <p className="text-[var(--muted-foreground)]">No projects found in this category.</p>
+          <p className="text-[var(--muted-foreground)]">
+            {locale === 'id' ? 'Tidak ada proyek dalam kategori ini.' : 'No projects found in this category.'}
+          </p>
         </div>
       )}
 
@@ -155,7 +161,7 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
                     </h3>
                     <div className="flex items-center gap-3 text-sm">
                       <span className="text-[var(--gold)] font-medium">
-                        {CATEGORIES.find(c => c.id === selectedProject.category)?.label || selectedProject.category}
+                        {CATEGORIES.find(c => c.id === selectedProject.category)?.[locale === 'id' ? 'labelId' : 'labelEn'] || selectedProject.category}
                       </span>
                       <span className="text-[var(--muted-foreground)]">&bull;</span>
                       <span className="text-[var(--muted-foreground)]">{selectedProject.year}</span>
@@ -164,7 +170,7 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
 
                   <div 
                     className="prose prose-invert prose-sm sm:prose-base max-w-none text-[var(--muted-foreground)]"
-                    dangerouslySetInnerHTML={{ __html: selectedProject.descriptionEn }}
+                    dangerouslySetInnerHTML={{ __html: locale === 'id' ? selectedProject.descriptionId || selectedProject.descriptionEn : selectedProject.descriptionEn }}
                   />
 
                   {/* Tech Stack */}

@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 
 // Dynamically import Map with SSR disabled
 const Map = dynamic(() => import('./MapComponent'), { ssr: false })
@@ -31,6 +32,7 @@ interface ContactClientProps {
 
 export default function ContactClient({ settings }: ContactClientProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const t = useTranslations('Contact')
 
   const {
     register,
@@ -92,7 +94,7 @@ export default function ContactClient({ settings }: ContactClientProps) {
       className="space-y-8"
     >
       <h2 className="font-outfit text-3xl font-bold text-[var(--foreground)] mb-8">
-        Get in <span className="text-gradient-gold">Touch</span>
+        {t('title').split(' ')[0]} <span className="text-gradient-gold">{t('title').split(' ').slice(1).join(' ')}</span>
       </h2>
 
       {/* ── Map Section ── */}
@@ -121,7 +123,7 @@ export default function ContactClient({ settings }: ContactClientProps) {
               {/* Full Name */}
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-[var(--muted-foreground)]">
-                  Full Name <span className="text-red-500">*</span>
+                  {t('name')} <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -139,7 +141,7 @@ export default function ContactClient({ settings }: ContactClientProps) {
               {/* Email */}
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-[var(--muted-foreground)]">
-                  Email Address <span className="text-red-500">*</span>
+                  {t('email')} <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="email"
@@ -158,7 +160,7 @@ export default function ContactClient({ settings }: ContactClientProps) {
             {/* Message */}
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-[var(--muted-foreground)]">
-                Your Message <span className="text-red-500">*</span>
+                {t('message')} <span className="text-red-500">*</span>
               </label>
               <textarea
                 {...register('message')}
@@ -181,11 +183,14 @@ export default function ContactClient({ settings }: ContactClientProps) {
                 className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[var(--gold)] text-white font-semibold rounded-xl px-8 py-3.5 hover:bg-[var(--gold-hover)] transition-all disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    {t('sending')}
+                  </>
                 ) : (
                   <>
                     <Send className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                    Send Message
+                    {t('send')}
                   </>
                 )}
               </button>

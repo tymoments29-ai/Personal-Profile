@@ -1,0 +1,47 @@
+{
+  "Navigation": {
+    "home": "Beranda",
+    "about": "Tentang",
+    "resume": "Resume",
+    "portfolio": "Portofolio",
+    "blog": "Blog",
+    "contact": "Kontak"
+  },
+  "Common": {
+    "readMore": "Baca Selengkapnya",
+    "viewProject": "Lihat Proyek",
+    "loading": "Memuat...",
+    "error": "Terjadi kesalahan"
+  },
+  "Hero": {
+    "greeting": "Halo, Saya",
+    "hireMe": "Pekerjakan Saya",
+    "downloadCv": "Unduh CV"
+  },
+  "About": {
+    "title": "Tentang Saya",
+    "services": "Layanan",
+    "technologies": "Teknologi yang Saya Gunakan"
+  },
+  "Resume": {
+    "title": "Resume",
+    "experience": "Pengalaman",
+    "education": "Pendidikan"
+  },
+  "Portfolio": {
+    "title": "Portofolio",
+    "all": "Semua"
+  },
+  "Blog": {
+    "title": "Blog",
+    "publishedOn": "Diterbitkan pada"
+  },
+  "Contact": {
+    "title": "Hubungi Saya",
+    "name": "Nama Lengkap",
+    "email": "Alamat Email",
+    "message": "Pesan Anda",
+    "send": "Kirim Pesan",
+    "sending": "Mengirim..."
+  }
+}
