@@ -30,7 +30,7 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
       
       {/* ── Header & Filter ── */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <h2 className="font-outfit text-3xl font-bold text-white">
+        <h2 className="font-outfit text-3xl font-bold text-[var(--foreground)]">
           <span className="text-gradient-gold">Portfolio</span>
         </h2>
 
@@ -42,8 +42,8 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
               onClick={() => setActiveFilter(cat.id)}
               className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${
                 activeFilter === cat.id
-                  ? 'bg-[var(--gold)] text-black'
-                  : 'bg-white/5 text-[var(--muted-foreground)] hover:text-white hover:bg-white/10'
+                  ? 'bg-[var(--gold)] text-white'
+                  : 'bg-black/5 text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-white/10'
               }`}
             >
               {cat.label}
@@ -84,11 +84,11 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
               )}
 
               {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center backdrop-blur-sm">
-                <div className="w-10 h-10 rounded-full bg-[var(--gold)] text-black flex items-center justify-center mb-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+              <div className="absolute inset-0 bg-white/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center backdrop-blur-sm">
+                <div className="w-10 h-10 rounded-full bg-[var(--gold)] text-white flex items-center justify-center mb-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                   <Eye className="w-5 h-5" />
                 </div>
-                <h3 className="font-outfit text-lg font-bold text-white mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
+                <h3 className="font-outfit text-lg font-bold text-[var(--foreground)] mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
                   {project.title}
                 </h3>
                 <p className="text-[var(--gold)] text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-100">
@@ -128,14 +128,14 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
               {/* Close Button */}
               <button
                 onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-[var(--gold)] hover:text-black transition-colors"
+                className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-[var(--foreground)] hover:bg-[var(--gold)] hover:text-white transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
 
               <div className="overflow-y-auto custom-scrollbar">
                 {/* Modal Thumbnail */}
-                <div className="relative w-full aspect-video bg-[#0f0f1a]">
+                <div className="relative w-full aspect-video bg-[var(--surface)]">
                   {selectedProject.thumbnailUrl && (
                     <Image
                       src={selectedProject.thumbnailUrl}
@@ -149,7 +149,7 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
                 {/* Modal Content */}
                 <div className="p-6 sm:p-8 space-y-6">
                   <div>
-                    <h3 className="font-outfit text-2xl font-bold text-white mb-2">
+                    <h3 className="font-outfit text-2xl font-bold text-[var(--foreground)] mb-2">
                       {selectedProject.title}
                     </h3>
                     <div className="flex items-center gap-3 text-sm">
@@ -169,12 +169,12 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
                   {/* Tech Stack */}
                   {selectedProject.techStack.length > 0 && (
                     <div>
-                      <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-3">
+                      <h4 className="text-sm font-semibold text-[var(--foreground)] uppercase tracking-wider mb-3">
                         Technologies
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {selectedProject.techStack.map(tech => (
-                          <span key={tech} className="px-3 py-1 rounded-full text-xs bg-white/5 border border-white/10 text-white">
+                          <span key={tech} className="px-3 py-1 rounded-full text-xs bg-black/5 border border-[var(--border)] text-[var(--foreground)]">
                             {tech}
                           </span>
                         ))}
@@ -184,13 +184,13 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
 
                   {/* Links */}
                   {(selectedProject.liveUrl || selectedProject.repoUrl) && (
-                    <div className="flex flex-wrap gap-4 pt-4 border-t border-white/10">
+                    <div className="flex flex-wrap gap-4 pt-4 border-t border-[var(--border)]">
                       {selectedProject.liveUrl && (
                         <a
                           href={selectedProject.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--gold)] text-black font-semibold text-sm hover:bg-[var(--gold-hover)] transition-colors"
+                          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--gold)] text-white font-semibold text-sm hover:bg-[var(--gold-hover)] transition-colors"
                         >
                           <Eye className="w-4 h-4" />
                           Live Demo
@@ -201,7 +201,7 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
                           href={selectedProject.repoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-5 py-2.5 rounded-lg glass text-white font-semibold text-sm hover:bg-white/10 transition-colors"
+                          className="flex items-center gap-2 px-5 py-2.5 rounded-lg glass text-[var(--foreground)] font-semibold text-sm hover:bg-white/10 transition-colors"
                         >
                           <Code2 className="w-4 h-4" />
                           Source Code

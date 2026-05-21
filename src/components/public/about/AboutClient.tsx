@@ -42,7 +42,7 @@ export default function AboutClient({ settings, testimonials, services, technolo
       {/* ── About Text ── */}
       <motion.section variants={itemVariants}>
         <div className="glass rounded-2xl p-6 sm:p-8">
-          <h2 className="font-outfit text-2xl font-bold text-white mb-4">
+          <h2 className="font-outfit text-2xl font-bold text-[var(--foreground)] mb-4">
             About <span className="text-gradient-gold">Me</span>
           </h2>
           <p className="text-[var(--muted-foreground)] leading-relaxed text-sm sm:text-base whitespace-pre-wrap">
@@ -58,7 +58,7 @@ export default function AboutClient({ settings, testimonials, services, technolo
               {technologies.map((tech) => (
                 <span
                   key={tech.id}
-                  className="px-3 py-1 text-xs rounded-full bg-white/5 border border-white/10 text-[var(--muted-foreground)] hover:text-[var(--gold)] hover:border-[var(--gold)]/30 transition-colors cursor-default"
+                  className="px-3 py-1 text-xs rounded-full bg-black/5 border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--gold)] hover:border-[var(--gold)]/30 transition-colors cursor-default"
                 >
                   {tech.name}
                 </span>
@@ -70,7 +70,7 @@ export default function AboutClient({ settings, testimonials, services, technolo
 
       {/* ── Services Grid ── */}
       <motion.section variants={itemVariants}>
-        <h2 className="font-outfit text-xl font-semibold text-white mb-4">
+        <h2 className="font-outfit text-xl font-semibold text-[var(--foreground)] mb-4">
           What I <span className="text-gradient-gold">Do</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -84,11 +84,11 @@ export default function AboutClient({ settings, testimonials, services, technolo
                 className={`glass rounded-2xl p-5 bg-gradient-to-br ${service.colorClass} card-hover cursor-default`}
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-black/5 flex items-center justify-center flex-shrink-0">
                     <Icon className={`w-5 h-5 ${service.iconColor}`} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-outfit font-semibold text-white text-sm mb-1.5">
+                    <h3 className="font-outfit font-semibold text-[var(--foreground)] text-sm mb-1.5">
                       {service.title}
                     </h3>
                     <p className="text-[var(--muted-foreground)] text-xs leading-relaxed break-words whitespace-pre-wrap">
@@ -105,7 +105,7 @@ export default function AboutClient({ settings, testimonials, services, technolo
       {/* ── Testimonials ── */}
       {testimonials.length > 0 && (
         <motion.section variants={itemVariants}>
-          <h2 className="font-outfit text-xl font-semibold text-white mb-4">
+          <h2 className="font-outfit text-xl font-semibold text-[var(--foreground)] mb-4">
             What People <span className="text-gradient-gold">Say</span>
           </h2>
           <TestimonialSlider testimonials={testimonials} />

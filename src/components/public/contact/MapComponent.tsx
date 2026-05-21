@@ -32,7 +32,7 @@ export default function MapComponent({ location }: MapComponentProps) {
 
   if (!isMounted) {
     return (
-      <div className="w-full h-full bg-[#1a1a27] animate-pulse flex items-center justify-center">
+      <div className="w-full h-full bg-[var(--surface-elevated)] animate-pulse flex items-center justify-center">
         <span className="text-[var(--muted-foreground)]">Loading map...</span>
       </div>
     )

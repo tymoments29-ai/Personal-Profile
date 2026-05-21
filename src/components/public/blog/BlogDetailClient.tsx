@@ -134,7 +134,7 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
             </div>
           </div>
 
-          <h1 className="font-outfit text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
+          <h1 className="font-outfit text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight">
             {post.title}
           </h1>
 
@@ -142,10 +142,10 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
             {post.excerptEn}
           </p>
 
-          <div className="flex items-center gap-4 pt-4 border-t border-white/10">
+          <div className="flex items-center gap-4 pt-4 border-t border-[var(--border)]">
             <button
               onClick={handleShare}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg glass text-sm text-white hover:bg-white/10 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg glass text-sm text-[var(--foreground)] hover:bg-white/10 transition-colors"
             >
               <Share2 className="w-4 h-4" />
               Share Article
@@ -155,7 +155,7 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
 
         {/* ── Hero Image ── */}
         {post.thumbnailUrl && (
-          <div className="relative w-full aspect-video rounded-2xl overflow-hidden glass border border-white/10">
+          <div className="relative w-full aspect-video rounded-2xl overflow-hidden glass border border-[var(--border)]">
             <Image
               src={post.thumbnailUrl}
               alt={post.title}
@@ -182,7 +182,7 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
           {toc.length > 0 && (
             <aside className="hidden lg:block w-72 flex-shrink-0 sticky top-24">
               <div className="glass rounded-2xl p-6">
-                <h3 className="font-outfit text-sm font-bold text-white uppercase tracking-wider mb-4">
+                <h3 className="font-outfit text-sm font-bold text-[var(--foreground)] uppercase tracking-wider mb-4">
                   Table of Contents
                 </h3>
                 <nav className="space-y-1">
@@ -193,7 +193,7 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
                       className={`block text-sm py-1.5 transition-colors ${
                         activeId === item.id
                           ? 'text-[var(--gold)] font-medium'
-                          : 'text-[var(--muted-foreground)] hover:text-white'
+                          : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                       }`}
                       style={{ paddingLeft: `${(item.level - 2) * 1}rem` }}
                     >

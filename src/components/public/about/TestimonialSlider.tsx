@@ -65,7 +65,7 @@ export default function TestimonialSlider({ testimonials }: TestimonialSliderPro
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-4 h-4 ${i < testimonial.rating ? 'text-[var(--gold)] fill-[var(--gold)]' : 'text-white/10'}`}
+                  className={`w-4 h-4 ${i < testimonial.rating ? 'text-[var(--gold)] fill-[var(--gold)]' : 'text-[var(--foreground)]/10'}`}
                 />
               ))}
             </div>
@@ -82,12 +82,12 @@ export default function TestimonialSlider({ testimonials }: TestimonialSliderPro
                   <Image src={testimonial.avatarUrl} alt={testimonial.name} fill className="object-cover" sizes="40px" />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-[var(--gold)] to-amber-700 flex items-center justify-center">
-                    <span className="text-sm font-bold text-black">{testimonial.name.charAt(0)}</span>
+                    <span className="text-sm font-bold text-white">{testimonial.name.charAt(0)}</span>
                   </div>
                 )}
               </div>
               <div>
-                <p className="font-outfit font-semibold text-white text-sm">{testimonial.name}</p>
+                <p className="font-outfit font-semibold text-[var(--foreground)] text-sm">{testimonial.name}</p>
                 <p className="text-[var(--muted-foreground)] text-xs">{testimonial.position}</p>
               </div>
             </div>
@@ -113,14 +113,14 @@ export default function TestimonialSlider({ testimonials }: TestimonialSliderPro
           <div className="flex gap-1">
             <button
               onClick={prev}
-              className="w-7 h-7 rounded-lg border border-white/10 flex items-center justify-center text-[var(--muted-foreground)] hover:text-white hover:border-white/30 transition-all"
+              className="w-7 h-7 rounded-lg border border-[var(--border)] flex items-center justify-center text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-white/30 transition-all"
               aria-label="Previous testimonial"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={next}
-              className="w-7 h-7 rounded-lg border border-white/10 flex items-center justify-center text-[var(--muted-foreground)] hover:text-white hover:border-white/30 transition-all"
+              className="w-7 h-7 rounded-lg border border-[var(--border)] flex items-center justify-center text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-white/30 transition-all"
               aria-label="Next testimonial"
             >
               <ChevronRight className="w-4 h-4" />

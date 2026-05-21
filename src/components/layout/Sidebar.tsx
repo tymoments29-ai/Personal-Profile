@@ -85,7 +85,7 @@ export default function Sidebar({ settings, socialLinks, mobile = false }: Sideb
           {/* Name */}
           <motion.h1
             variants={itemVariants}
-            className="font-outfit text-xl font-bold text-white mb-1"
+            className="font-outfit text-xl font-bold text-[var(--foreground)] mb-1"
           >
             {name}
           </motion.h1>
@@ -101,7 +101,7 @@ export default function Sidebar({ settings, socialLinks, mobile = false }: Sideb
 
       {/* Divider */}
       {!mobile && (
-        <motion.div variants={itemVariants} className="border-t border-white/8 mb-5" />
+        <motion.div variants={itemVariants} className="border-t border-[var(--border)] mb-5" />
       )}
 
       {/* Contact Info */}
@@ -122,12 +122,12 @@ export default function Sidebar({ settings, socialLinks, mobile = false }: Sideb
                 {isLink ? (
                   <a
                     href={isLink(value)}
-                    className="text-sm text-white hover:text-[var(--gold)] transition-colors truncate block"
+                    className="text-sm text-[var(--foreground)] hover:text-[var(--gold)] transition-colors truncate block"
                   >
                     {value}
                   </a>
                 ) : (
-                  <p className="text-sm text-white truncate">{value}</p>
+                  <p className="text-sm text-[var(--foreground)] truncate">{value}</p>
                 )}
               </div>
             </div>
@@ -136,7 +136,7 @@ export default function Sidebar({ settings, socialLinks, mobile = false }: Sideb
       </motion.div>
 
       {/* Divider */}
-      <motion.div variants={itemVariants} className="border-t border-white/8 mb-5" />
+      <motion.div variants={itemVariants} className="border-t border-[var(--border)] mb-5" />
 
       {/* Social Media */}
       {socialLinks.length > 0 && (
@@ -155,7 +155,7 @@ export default function Sidebar({ settings, socialLinks, mobile = false }: Sideb
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={link.platform}
-                  className="group w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-[var(--muted-foreground)] hover:text-[var(--gold)] hover:border-[var(--gold)]/40 hover:bg-[var(--gold-muted)] transition-all duration-200"
+                  className="group w-9 h-9 rounded-lg border border-[var(--border)] flex items-center justify-center text-[var(--muted-foreground)] hover:text-[var(--gold)] hover:border-[var(--gold)]/40 hover:bg-[var(--gold-muted)] transition-all duration-200"
                 >
                   <Icon className="w-4 h-4" />
                 </Link>

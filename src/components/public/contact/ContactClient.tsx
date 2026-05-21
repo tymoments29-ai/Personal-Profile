@@ -91,13 +91,13 @@ export default function ContactClient({ settings }: ContactClientProps) {
       animate="visible"
       className="space-y-8"
     >
-      <h2 className="font-outfit text-3xl font-bold text-white mb-8">
+      <h2 className="font-outfit text-3xl font-bold text-[var(--foreground)] mb-8">
         Get in <span className="text-gradient-gold">Touch</span>
       </h2>
 
       {/* ── Map Section ── */}
       <motion.section variants={itemVariants}>
-        <div className="w-full h-80 sm:h-96 rounded-2xl overflow-hidden glass border border-white/10 relative z-0">
+        <div className="w-full h-80 sm:h-96 rounded-2xl overflow-hidden glass border border-[var(--border)] relative z-0">
           <Map location={settings?.location || 'Jakarta, Indonesia'} />
           
           {/* Overlay gradient to blend map edges */}
@@ -108,7 +108,7 @@ export default function ContactClient({ settings }: ContactClientProps) {
       {/* ── Contact Form ── */}
       <motion.section variants={itemVariants}>
         <div className="glass rounded-2xl p-6 sm:p-8">
-          <h3 className="font-outfit text-xl font-bold text-white mb-6">Contact Form</h3>
+          <h3 className="font-outfit text-xl font-bold text-[var(--foreground)] mb-6">Contact Form</h3>
           
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Honeypot field (hidden from users, traps bots) */}
@@ -126,9 +126,9 @@ export default function ContactClient({ settings }: ContactClientProps) {
                 <input
                   type="text"
                   {...register('fullName')}
-                  className={`w-full bg-white/5 border ${
-                    errors.fullName ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-[var(--gold)]'
-                  } rounded-xl px-4 py-3 text-white placeholder-white/20 outline-none transition-colors`}
+                  className={`w-full bg-black/5 border ${
+                    errors.fullName ? 'border-red-500 focus:border-red-500' : 'border-[var(--border)] focus:border-[var(--gold)]'
+                  } rounded-xl px-4 py-3 text-[var(--foreground)] placeholder-black/40 outline-none transition-colors`}
                   placeholder="John Doe"
                 />
                 {errors.fullName && (
@@ -144,9 +144,9 @@ export default function ContactClient({ settings }: ContactClientProps) {
                 <input
                   type="email"
                   {...register('email')}
-                  className={`w-full bg-white/5 border ${
-                    errors.email ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-[var(--gold)]'
-                  } rounded-xl px-4 py-3 text-white placeholder-white/20 outline-none transition-colors`}
+                  className={`w-full bg-black/5 border ${
+                    errors.email ? 'border-red-500 focus:border-red-500' : 'border-[var(--border)] focus:border-[var(--gold)]'
+                  } rounded-xl px-4 py-3 text-[var(--foreground)] placeholder-black/40 outline-none transition-colors`}
                   placeholder="john@example.com"
                 />
                 {errors.email && (
@@ -163,9 +163,9 @@ export default function ContactClient({ settings }: ContactClientProps) {
               <textarea
                 {...register('message')}
                 rows={5}
-                className={`w-full bg-white/5 border ${
-                  errors.message ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-[var(--gold)]'
-                } rounded-xl px-4 py-3 text-white placeholder-white/20 outline-none transition-colors resize-none`}
+                className={`w-full bg-black/5 border ${
+                  errors.message ? 'border-red-500 focus:border-red-500' : 'border-[var(--border)] focus:border-[var(--gold)]'
+                } rounded-xl px-4 py-3 text-[var(--foreground)] placeholder-black/40 outline-none transition-colors resize-none`}
                 placeholder="How can I help you?"
               />
               {errors.message && (
@@ -178,7 +178,7 @@ export default function ContactClient({ settings }: ContactClientProps) {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[var(--gold)] text-black font-semibold rounded-xl px-8 py-3.5 hover:bg-[var(--gold-hover)] transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[var(--gold)] text-white font-semibold rounded-xl px-8 py-3.5 hover:bg-[var(--gold-hover)] transition-all disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin" />

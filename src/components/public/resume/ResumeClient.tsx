@@ -38,10 +38,10 @@ export default function ResumeClient({ education, experience }: ResumeClientProp
             <div className="w-12 h-12 rounded-2xl glass flex items-center justify-center">
               <GraduationCap className="w-6 h-6 text-[var(--gold)]" />
             </div>
-            <h2 className="font-outfit text-2xl font-bold text-white">Education</h2>
+            <h2 className="font-outfit text-2xl font-bold text-[var(--foreground)]">Education</h2>
           </div>
 
-          <div className="relative border-l border-white/10 ml-6 space-y-8 pb-4">
+          <div className="relative border-l border-[var(--border)] ml-6 space-y-8 pb-4">
             {education.map((item, index) => (
               <motion.div
                 key={item.id}
@@ -53,14 +53,14 @@ export default function ResumeClient({ education, experience }: ResumeClientProp
                 
                 {/* Content Card */}
                 <div className="glass rounded-2xl p-5 hover:border-[var(--gold)]/30 transition-colors">
-                  <h3 className="font-outfit text-lg font-semibold text-white mb-1">
+                  <h3 className="font-outfit text-lg font-semibold text-[var(--foreground)] mb-1">
                     {item.institution}
                   </h3>
                   <div className="flex flex-wrap items-center gap-2 mb-3">
                     <span className="text-[var(--gold)] font-medium text-sm">
                       {item.degree} — {item.field}
                     </span>
-                    <span className="text-[var(--muted-foreground)] text-xs bg-white/5 px-2 py-0.5 rounded-full">
+                    <span className="text-[var(--muted-foreground)] text-xs bg-black/5 px-2 py-0.5 rounded-full">
                       {item.startYear} - {item.endYear || 'Present'}
                     </span>
                   </div>
@@ -81,10 +81,10 @@ export default function ResumeClient({ education, experience }: ResumeClientProp
             <div className="w-12 h-12 rounded-2xl glass flex items-center justify-center">
               <Briefcase className="w-6 h-6 text-[var(--gold)]" />
             </div>
-            <h2 className="font-outfit text-2xl font-bold text-white">Experience</h2>
+            <h2 className="font-outfit text-2xl font-bold text-[var(--foreground)]">Experience</h2>
           </div>
 
-          <div className="relative border-l border-white/10 ml-6 space-y-8 pb-4">
+          <div className="relative border-l border-[var(--border)] ml-6 space-y-8 pb-4">
             {experience.map((item, index) => (
               <motion.div
                 key={item.id}
@@ -96,14 +96,14 @@ export default function ResumeClient({ education, experience }: ResumeClientProp
                 
                 {/* Content Card */}
                 <div className="glass rounded-2xl p-5 hover:border-[var(--gold)]/30 transition-colors">
-                  <h3 className="font-outfit text-lg font-semibold text-white mb-1">
+                  <h3 className="font-outfit text-lg font-semibold text-[var(--foreground)] mb-1">
                     {item.position}
                   </h3>
                   <div className="flex flex-wrap items-center gap-2 mb-4">
                     <span className="text-[var(--gold)] font-medium text-sm">
                       {item.company}
                     </span>
-                    <span className="text-[var(--muted-foreground)] text-xs bg-white/5 px-2 py-0.5 rounded-full">
+                    <span className="text-[var(--muted-foreground)] text-xs bg-black/5 px-2 py-0.5 rounded-full">
                       {item.startDate} - {item.endDate || 'Present'}
                     </span>
                   </div>

@@ -22,13 +22,13 @@ export default function PublicLayoutClient({ children, settings, socialLinks }: 
         <div
           className="absolute -top-40 -left-40 w-80 h-80 rounded-full opacity-10"
           style={{
-            background: 'radial-gradient(circle, oklch(0.75 0.15 70) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, var(--gold) 0%, transparent 70%)',
           }}
         />
         <div
           className="absolute top-1/2 -right-40 w-96 h-96 rounded-full opacity-5"
           style={{
-            background: 'radial-gradient(circle, oklch(0.65 0.15 250) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, var(--secondary) 0%, transparent 70%)',
           }}
         />
       </div>
@@ -58,12 +58,12 @@ export default function PublicLayoutClient({ children, settings, socialLinks }: 
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-[var(--gold)] to-amber-600 flex items-center justify-center">
-                    <span className="text-xl font-bold text-black">S</span>
+                    <span className="text-xl font-bold text-white">S</span>
                   </div>
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <h2 className="font-outfit font-semibold text-white text-sm truncate">
+                <h2 className="font-outfit font-semibold text-[var(--foreground)] text-sm truncate">
                   {settings?.nameEn || 'Sukristiyo'}
                 </h2>
                 <p className="text-[var(--muted-foreground)] text-xs truncate">
@@ -72,7 +72,7 @@ export default function PublicLayoutClient({ children, settings, socialLinks }: 
               </div>
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="text-[var(--muted-foreground)] hover:text-white transition-colors p-1"
+                className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors p-1"
                 aria-label="Toggle profile"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

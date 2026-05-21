@@ -44,7 +44,7 @@ export default function BlogListClient({ posts }: BlogListClientProps) {
   return (
     <div className="space-y-8">
       {/* ── Header ── */}
-      <h2 className="font-outfit text-3xl font-bold text-white mb-8">
+      <h2 className="font-outfit text-3xl font-bold text-[var(--foreground)] mb-8">
         Latest <span className="text-gradient-gold">Articles</span>
       </h2>
 
@@ -64,7 +64,7 @@ export default function BlogListClient({ posts }: BlogListClientProps) {
             >
               <Link href={`/blog/${post.slug}`} className="flex flex-col h-full">
                 {/* Thumbnail */}
-                <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#0f0f1a]">
+                <div className="relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface)]">
                   {post.thumbnailUrl ? (
                     <Image
                       src={post.thumbnailUrl}
@@ -82,7 +82,7 @@ export default function BlogListClient({ posts }: BlogListClientProps) {
                   )}
                   {/* Category Badge */}
                   <div className="absolute top-4 left-4 z-10">
-                    <span className="px-3 py-1 text-xs font-medium bg-black/60 backdrop-blur-md text-white rounded-full border border-white/10">
+                    <span className="px-3 py-1 text-xs font-medium bg-white/60 backdrop-blur-md text-[var(--foreground)] rounded-full border border-[var(--border)]">
                       {post.category}
                     </span>
                   </div>
@@ -97,7 +97,7 @@ export default function BlogListClient({ posts }: BlogListClientProps) {
                     </time>
                   </div>
                   
-                  <h3 className="font-outfit text-lg font-bold text-white mb-2 group-hover:text-[var(--gold)] transition-colors line-clamp-2">
+                  <h3 className="font-outfit text-lg font-bold text-[var(--foreground)] mb-2 group-hover:text-[var(--gold)] transition-colors line-clamp-2">
                     {post.title}
                   </h3>
                   
@@ -121,7 +121,7 @@ export default function BlogListClient({ posts }: BlogListClientProps) {
           <button
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            className="p-2 rounded-lg glass disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/5 transition-colors text-white"
+            className="p-2 rounded-lg glass disabled:opacity-50 disabled:cursor-not-allowed hover:bg-black/5 transition-colors text-[var(--foreground)]"
             aria-label="Previous page"
           >
             <ChevronLeft className="w-5 h-5" />
@@ -134,8 +134,8 @@ export default function BlogListClient({ posts }: BlogListClientProps) {
                 onClick={() => setCurrentPage(i + 1)}
                 className={`w-10 h-10 rounded-lg text-sm font-medium transition-colors ${
                   currentPage === i + 1
-                    ? 'bg-[var(--gold)] text-black'
-                    : 'glass text-[var(--muted-foreground)] hover:text-white hover:bg-white/5'
+                    ? 'bg-[var(--gold)] text-white'
+                    : 'glass text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-black/5'
                 }`}
               >
                 {i + 1}
@@ -146,7 +146,7 @@ export default function BlogListClient({ posts }: BlogListClientProps) {
           <button
             onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            className="p-2 rounded-lg glass disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/5 transition-colors text-white"
+            className="p-2 rounded-lg glass disabled:opacity-50 disabled:cursor-not-allowed hover:bg-black/5 transition-colors text-[var(--foreground)]"
             aria-label="Next page"
           >
             <ChevronRight className="w-5 h-5" />

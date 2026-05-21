@@ -36,7 +36,7 @@ export default function TabNav() {
                   transition-colors duration-200 w-full
                   ${isActive
                     ? 'text-[var(--gold)]'
-                    : 'text-[var(--muted-foreground)] hover:text-white'
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                   }
                 `}
                 aria-current={isActive ? 'page' : undefined}
