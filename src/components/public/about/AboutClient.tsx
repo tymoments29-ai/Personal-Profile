@@ -45,7 +45,7 @@ export default function AboutClient({ settings, testimonials, services, technolo
           <h2 className="font-outfit text-2xl font-bold text-white mb-4">
             About <span className="text-gradient-gold">Me</span>
           </h2>
-          <p className="text-[var(--muted-foreground)] leading-relaxed text-sm sm:text-base">
+          <p className="text-[var(--muted-foreground)] leading-relaxed text-sm sm:text-base whitespace-pre-wrap">
             {aboutText}
           </p>
 
@@ -87,7 +87,7 @@ export default function AboutClient({ settings, testimonials, services, technolo
                   <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
                     <Icon className={`w-5 h-5 ${service.iconColor}`} />
                   </div>
-                  <div>
+                  <div className="flex-1 min-w-0">
                     <h3 className="font-outfit font-semibold text-white text-sm mb-1.5">
                       {service.title}
                     </h3>
