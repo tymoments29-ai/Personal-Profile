@@ -9,8 +9,25 @@ import { formatDate } from '@/lib/utils'
 import type { BlogPost } from '@prisma/client'
 import { useLocale, useTranslations } from 'next-intl'
 
+type SerializedBlogPost = {
+  id: string
+  title: string
+  titleId: string | null
+  slug: string
+  thumbnailUrl: string | null
+  category: string
+  excerptEn: string
+  excerptId: string | null
+  contentEn: string
+  contentId: string | null
+  status: string
+  publishedAt: string | null
+  createdAt: string
+  updatedAt: string
+}
+
 interface BlogDetailClientProps {
-  post: BlogPost
+  post: SerializedBlogPost
   readingTime: number
 }
 

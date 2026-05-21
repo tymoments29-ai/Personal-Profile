@@ -57,7 +57,15 @@ export default async function BlogDetailPage({ params }: PageProps) {
   const content = locale === 'id' ? post.contentId || post.contentEn : post.contentEn
   const readingTime = estimateReadingTime(content)
 
-  return <BlogDetailClient post={post} readingTime={readingTime} />
+  // Serialize Date fields to strings for client component compatibility
+  const serializedPost = {
+    ...post,
+    publishedAt: post.publishedAt?.toISOString() ?? null,
+    createdAt: post.createdAt.toISOString(),
+    updatedAt: post.updatedAt.toISOString(),
+  }
+
+  return <BlogDetailClient post={serializedPost} readingTime={readingTime} />
 }
 
 // Generate static paths for all published posts (SSG)
