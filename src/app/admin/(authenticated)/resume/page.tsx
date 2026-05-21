@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -105,10 +105,12 @@ export default function AdminResumePage() {
         <TabsContent value="experience" className="space-y-4 pt-4">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-semibold">Experience List</h2>
-            <Button disabled>
-              <Plus className="mr-2 h-4 w-4" />
-              Add Experience
-            </Button>
+            <Link href="/admin/resume/experience/new">
+              <Button>
+                <Plus className="mr-2 h-4 w-4" />
+                Add Experience
+              </Button>
+            </Link>
           </div>
           <Card>
             <CardContent className="p-0">
@@ -168,10 +170,12 @@ export default function AdminResumePage() {
         <TabsContent value="education" className="space-y-4 pt-4">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-semibold">Education List</h2>
-            <Button disabled>
-              <Plus className="mr-2 h-4 w-4" />
-              Add Education
-            </Button>
+            <Link href="/admin/resume/education/new">
+              <Button>
+                <Plus className="mr-2 h-4 w-4" />
+                Add Education
+              </Button>
+            </Link>
           </div>
           <Card>
             <CardContent className="p-0">
