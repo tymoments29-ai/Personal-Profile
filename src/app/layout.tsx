@@ -22,6 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 import { Toaster } from '@/components/ui/sonner'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://sukristiyo.my.id'),
   title: {
     default: 'Sukristiyo — DevOps, SRE & Cloud Engineer',
     template: '%s | Sukristiyo',
@@ -40,12 +41,13 @@ export const metadata: Metadata = {
     'Jakarta',
     'Indonesia',
   ],
-  authors: [{ name: 'Sukristiyo', url: 'https://sukristiyo.dev' }],
+  authors: [{ name: 'Sukristiyo', url: 'https://sukristiyo.my.id' }],
   creator: 'Sukristiyo',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     alternateLocale: 'id_ID',
+    url: 'https://sukristiyo.my.id',
     siteName: 'Sukristiyo Portfolio',
     title: 'Sukristiyo — DevOps, SRE & Cloud Engineer',
     description:

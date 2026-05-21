@@ -34,6 +34,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const title = locale === 'id' ? post.titleId || post.title : post.title
   const description = locale === 'id' ? post.excerptId || post.excerptEn : post.excerptEn
 
+  const siteUrl = 'https://sukristiyo.my.id'
+  const postUrl = `${siteUrl}/${locale}/blog/${slug}`
+  const ogImage = post.thumbnailUrl
+    ? [{ url: post.thumbnailUrl, width: 1200, height: 630, alt: title }]
+    : []
+
   return {
     title,
     description,
@@ -41,14 +47,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title,
       description,
       type: 'article',
+      url: postUrl,
+      siteName: 'Sukristiyo Portfolio',
+      locale: locale === 'id' ? 'id_ID' : 'en_US',
       publishedTime: post.publishedAt?.toISOString(),
-      images: post.thumbnailUrl ? [post.thumbnailUrl] : undefined,
+      authors: ['Sukristiyo'],
+      images: ogImage,
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: post.thumbnailUrl ? [post.thumbnailUrl] : undefined,
+      images: post.thumbnailUrl ? [post.thumbnailUrl] : [],
     },
   }
 }
