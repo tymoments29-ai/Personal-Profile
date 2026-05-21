@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import SocialLinksManager from "@/components/admin/settings/SocialLinksManager";
 
 const settingsSchema = z.object({
   nameEn: z.string().min(1, "Site name is required"),
@@ -258,6 +259,7 @@ export default function SettingsPage() {
           </form>
         </Form>
       </div>
+      <SocialLinksManager />
     </div>
   );
 }

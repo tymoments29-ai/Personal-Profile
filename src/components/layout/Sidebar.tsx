@@ -14,20 +14,14 @@ import {
   Instagram,
   Facebook,
 } from 'lucide-react'
-import type { SiteSettings } from '@prisma/client'
+import * as LucideIcons from 'lucide-react'
+import type { SiteSettings, SocialLink } from '@prisma/client'
 
 interface SidebarProps {
   settings: SiteSettings | null
+  socialLinks: SocialLink[]
   mobile?: boolean
 }
-
-const socialLinks = [
-  { key: 'githubUrl', icon: Github, label: 'GitHub' },
-  { key: 'linkedinUrl', icon: Linkedin, label: 'LinkedIn' },
-  { key: 'twitterUrl', icon: Twitter, label: 'Twitter / X' },
-  { key: 'instagramUrl', icon: Instagram, label: 'Instagram' },
-  { key: 'facebookUrl', icon: Facebook, label: 'Facebook' },
-] as const
 
 const contactItems = [
   { key: 'email', icon: Mail, label: 'Email', isLink: (val: string) => `mailto:${val}` },
@@ -36,7 +30,7 @@ const contactItems = [
   { key: 'location', icon: MapPin, label: 'Location', isLink: null },
 ] as const
 
-export default function Sidebar({ settings, mobile = false }: SidebarProps) {
+export default function Sidebar({ settings, socialLinks, mobile = false }: SidebarProps) {
   const name = settings?.nameEn || 'Sukristiyo'
   const subtitle = settings?.subtitleEn || 'DevOps · SRE · Cloud Engineer · Data Center'
   const profilePhoto = settings?.profilePhotoUrl
@@ -145,30 +139,31 @@ export default function Sidebar({ settings, mobile = false }: SidebarProps) {
       <motion.div variants={itemVariants} className="border-t border-white/8 mb-5" />
 
       {/* Social Media */}
-      <motion.div variants={itemVariants}>
-        <p className="text-xs text-[var(--muted-foreground)] font-medium uppercase tracking-wide mb-3">
-          Social Media
-        </p>
-        <div className="flex gap-2 flex-wrap">
-          {socialLinks.map(({ key, icon: Icon, label }) => {
-            const url = settings?.[key as keyof SiteSettings] as string | undefined | null
-            if (!url) return null
+      {socialLinks.length > 0 && (
+        <motion.div variants={itemVariants}>
+          <p className="text-xs text-[var(--muted-foreground)] font-medium uppercase tracking-wide mb-3">
+            Social Media
+          </p>
+          <div className="flex gap-2 flex-wrap">
+            {socialLinks.map((link) => {
+              const Icon = (LucideIcons as any)[link.iconName] || LucideIcons.Link
 
-            return (
-              <Link
-                key={key}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="group w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-[var(--muted-foreground)] hover:text-[var(--gold)] hover:border-[var(--gold)]/40 hover:bg-[var(--gold-muted)] transition-all duration-200"
-              >
-                <Icon className="w-4 h-4" />
-              </Link>
-            )
-          })}
-        </div>
-      </motion.div>
+              return (
+                <Link
+                  key={link.id}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.platform}
+                  className="group w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-[var(--muted-foreground)] hover:text-[var(--gold)] hover:border-[var(--gold)]/40 hover:bg-[var(--gold-muted)] transition-all duration-200"
+                >
+                  <Icon className="w-4 h-4" />
+                </Link>
+              )
+            })}
+          </div>
+        </motion.div>
+      )}
     </motion.div>
   )
 }

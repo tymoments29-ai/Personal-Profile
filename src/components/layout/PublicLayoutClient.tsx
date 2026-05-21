@@ -4,14 +4,15 @@ import { useState } from 'react'
 import Sidebar from '@/components/layout/Sidebar'
 import TabNav from '@/components/layout/TabNav'
 import { motion, AnimatePresence } from 'framer-motion'
-import type { SiteSettings } from '@prisma/client'
+import type { SiteSettings, SocialLink } from '@prisma/client'
 
 interface PublicLayoutClientProps {
   children: React.ReactNode
   settings: SiteSettings | null
+  socialLinks: SocialLink[]
 }
 
-export default function PublicLayoutClient({ children, settings }: PublicLayoutClientProps) {
+export default function PublicLayoutClient({ children, settings, socialLinks }: PublicLayoutClientProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
@@ -38,7 +39,7 @@ export default function PublicLayoutClient({ children, settings }: PublicLayoutC
         {/* Left Column: Fixed Sidebar (desktop) */}
         <aside className="hidden lg:block w-[320px] xl:w-[360px] flex-shrink-0">
           <div className="sticky top-8">
-            <Sidebar settings={settings} />
+            <Sidebar settings={settings} socialLinks={socialLinks} />
           </div>
         </aside>
 
@@ -91,7 +92,7 @@ export default function PublicLayoutClient({ children, settings }: PublicLayoutC
                   transition={{ duration: 0.3 }}
                   className="overflow-hidden mt-2"
                 >
-                  <Sidebar settings={settings} mobile />
+                  <Sidebar settings={settings} mobile socialLinks={socialLinks} />
                 </motion.div>
               )}
             </AnimatePresence>

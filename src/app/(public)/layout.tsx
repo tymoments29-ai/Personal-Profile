@@ -1,12 +1,18 @@
 import { prisma } from '@/lib/prisma'
 import PublicLayoutClient from '@/components/layout/PublicLayoutClient'
 
-async function getSiteSettings() {
+async function getData() {
   try {
-    const settings = await prisma.siteSettings.findFirst()
-    return settings
+    const [settings, socialLinks] = await Promise.all([
+      prisma.siteSettings.findFirst(),
+      prisma.socialLink.findMany({
+        where: { isActive: true },
+        orderBy: { order: 'asc' },
+      }),
+    ])
+    return { settings, socialLinks }
   } catch {
-    return null
+    return { settings: null, socialLinks: [] }
   }
 }
 
@@ -15,10 +21,10 @@ export default async function PublicLayout({
 }: {
   children: React.ReactNode
 }) {
-  const settings = await getSiteSettings()
+  const { settings, socialLinks } = await getData()
 
   return (
-    <PublicLayoutClient settings={settings}>
+    <PublicLayoutClient settings={settings} socialLinks={socialLinks}>
       {children}
     </PublicLayoutClient>
   )
