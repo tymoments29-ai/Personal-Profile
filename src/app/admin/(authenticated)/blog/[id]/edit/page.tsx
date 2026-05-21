@@ -24,6 +24,7 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
     slug: post.slug,
     contentEn: post.contentEn,
     excerptEn: post.excerptEn,
+    thumbnailUrl: post.thumbnailUrl,
     status: post.status,
   };
 
