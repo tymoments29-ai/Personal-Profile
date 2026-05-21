@@ -57,7 +57,7 @@ export default async function AboutAdminPage() {
                     <td className="px-6 py-4">{item.iconName}</td>
                     <td className="px-6 py-4">{item.order}</td>
                     <td className="px-6 py-4 text-right space-x-2">
-                      <Link href={`/admin/about/services/${item.id}`}>
+                      <Link href={`/admin/about/services/${item.id}/edit`}>
                         <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-400 hover:text-white">
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -98,7 +98,7 @@ export default async function AboutAdminPage() {
                     <td className="px-6 py-4 font-medium text-white">{item.name}</td>
                     <td className="px-6 py-4">{item.order}</td>
                     <td className="px-6 py-4 text-right space-x-2">
-                      <Link href={`/admin/about/technologies/${item.id}`}>
+                      <Link href={`/admin/about/technologies/${item.id}/edit`}>
                         <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-400 hover:text-white">
                           <Edit className="h-4 w-4" />
                         </Button>
