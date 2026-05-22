@@ -47,6 +47,7 @@ model BlogPost {
   slug         String    @unique
   thumbnailUrl String?
   category     String    @default("General")
+  tags         String    @default("")
   excerptEn    String    @default("") @db.Text
   excerptId    String?   @db.Text
   contentEn    String    @default("") @db.Text

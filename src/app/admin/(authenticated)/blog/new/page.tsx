@@ -12,12 +12,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { ImageUpload } from "@/components/admin/ImageUpload";
+import { TagsInput } from "@/components/admin/TagsInput";
+
+const CATEGORIES = [
+  "General", "DevOps", "Linux", "Docker", "Kubernetes",
+  "CI/CD", "Cloud", "Security", "Networking", "SRE",
+];
 
 const postSchema = z.object({
   title: z.string().min(1, "Title is required"),
   slug: z.string().min(1, "Slug is required"),
+  category: z.string().default("General"),
+  tags: z.string().default(""),
   contentEn: z.string().min(1, "Content is required"),
   excerptEn: z.string().optional(),
   thumbnailUrl: z.string().optional(),
@@ -33,6 +42,8 @@ export default function NewPostPage() {
     defaultValues: {
       title: "",
       slug: "",
+      category: "General",
+      tags: "",
       contentEn: "",
       excerptEn: "",
       thumbnailUrl: "",
@@ -40,10 +51,8 @@ export default function NewPostPage() {
     },
   });
 
-  // Auto-generate slug from title
-  const generateSlug = (title: string) => {
-    return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
-  };
+  const generateSlug = (title: string) =>
+    title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
 
   async function onSubmit(values: z.infer<typeof postSchema>) {
     setIsLoading(true);
@@ -51,6 +60,8 @@ export default function NewPostPage() {
       const apiData = {
         title: values.title,
         slug: values.slug,
+        category: values.category,
+        tags: values.tags,
         contentEn: values.contentEn,
         excerptEn: values.excerptEn,
         thumbnailUrl: values.thumbnailUrl || null,
@@ -65,11 +76,11 @@ export default function NewPostPage() {
       });
 
       if (!res.ok) throw new Error("Failed to create post");
-      
+
       toast.success("Post created successfully");
       router.push("/admin/blog");
       router.refresh();
-    } catch (error) {
+    } catch {
       toast.error("An error occurred while saving the post");
     } finally {
       setIsLoading(false);
@@ -93,6 +104,8 @@ export default function NewPostPage() {
       <div className="p-6 rounded-2xl border border-border bg-card backdrop-blur-xl shadow-xl">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+
+            {/* Title + Slug */}
             <div className="grid gap-6 md:grid-cols-2">
               <FormField
                 control={form.control}
@@ -101,9 +114,9 @@ export default function NewPostPage() {
                   <FormItem>
                     <FormLabel className="text-muted-foreground">Post Title</FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder="The Future of Web Development" 
-                        className="bg-muted border-border text-foreground focus-visible:ring-primary h-12" 
+                      <Input
+                        placeholder="How To Install Jenkins on Ubuntu"
+                        className="bg-muted border-border text-foreground focus-visible:ring-primary h-12"
                         {...field}
                         onChange={(e) => {
                           field.onChange(e);
@@ -125,10 +138,10 @@ export default function NewPostPage() {
                   <FormItem>
                     <FormLabel className="text-muted-foreground">URL Slug</FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder="the-future-of-web-development" 
-                        className="bg-muted border-border text-foreground focus-visible:ring-primary h-12" 
-                        {...field} 
+                      <Input
+                        placeholder="how-to-install-jenkins-on-ubuntu"
+                        className="bg-muted border-border text-foreground focus-visible:ring-primary h-12"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage className="text-red-400" />
@@ -137,6 +150,54 @@ export default function NewPostPage() {
               />
             </div>
 
+            {/* Category + Tags */}
+            <div className="grid gap-6 md:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-muted-foreground">Category</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="bg-muted border-border text-foreground h-12">
+                          <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {CATEGORIES.map((cat) => (
+                          <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage className="text-red-400" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="tags"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-muted-foreground">Tags / Skills</FormLabel>
+                    <FormControl>
+                      <TagsInput
+                        value={field.value}
+                        onChange={field.onChange}
+                        placeholder="linux, docker, ansible... (Enter to add)"
+                      />
+                    </FormControl>
+                    <FormDescription className="text-xs text-muted-foreground">
+                      Ketik tag lalu tekan Enter atau koma untuk menambahkan
+                    </FormDescription>
+                    <FormMessage className="text-red-400" />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {/* Thumbnail */}
             <FormField
               control={form.control}
               name="thumbnailUrl"
@@ -151,17 +212,18 @@ export default function NewPostPage() {
               )}
             />
 
+            {/* Excerpt */}
             <FormField
               control={form.control}
               name="excerptEn"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-muted-foreground">Excerpt (Optional)</FormLabel>
+                  <FormLabel className="text-muted-foreground">Excerpt / Short Description (Optional)</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="A short summary of the post..." 
-                      className="bg-muted border-border text-foreground focus-visible:ring-primary" 
-                      {...field} 
+                    <Input
+                      placeholder="A short summary of the post..."
+                      className="bg-muted border-border text-foreground focus-visible:ring-primary"
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage className="text-red-400" />
@@ -169,6 +231,7 @@ export default function NewPostPage() {
               )}
             />
 
+            {/* Content */}
             <FormField
               control={form.control}
               name="contentEn"
@@ -183,6 +246,7 @@ export default function NewPostPage() {
               )}
             />
 
+            {/* Publish toggle + Save */}
             <div className="flex items-center justify-between pt-4 border-t border-border">
               <FormField
                 control={form.control}
@@ -193,7 +257,7 @@ export default function NewPostPage() {
                       <Switch checked={field.value} onCheckedChange={field.onChange} className="data-[state=checked]:bg-primary" />
                     </FormControl>
                     <div className="space-y-1 leading-none">
-                      <FormLabel className="text-zinc-200">Publish immediately</FormLabel>
+                      <FormLabel className="text-foreground">Publish immediately</FormLabel>
                       <FormDescription className="text-muted-foreground text-xs">
                         Make this post visible to the public.
                       </FormDescription>
@@ -202,8 +266,8 @@ export default function NewPostPage() {
                 )}
               />
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="h-12 px-8 text-base font-medium shadow-lg shadow-primary/20 transition-all hover:shadow-primary/40 group"
                 disabled={isLoading}
               >
