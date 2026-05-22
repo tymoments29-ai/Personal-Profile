@@ -15,6 +15,7 @@ type SerializedBlogPost = {
   slug: string
   thumbnailUrl: string | null
   category: string
+  tags: string
   excerptEn: string
   excerptId: string | null
   contentEn: string
@@ -135,9 +136,23 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
           </h1>
 
           {postExcerpt && (
-            <p className="text-base text-[var(--muted-foreground)] leading-relaxed max-w-3xl mb-6">
+            <p className="text-base text-[var(--muted-foreground)] leading-relaxed max-w-3xl mb-4">
               {postExcerpt}
             </p>
+          )}
+
+          {/* Tags chips — styled like DigitalOcean */}
+          {post.tags && post.tags.trim() && (
+            <div className="flex flex-wrap gap-2 mb-6">
+              {post.tags.split(',').map((tag) => tag.trim()).filter(Boolean).map((tag) => (
+                <span
+                  key={tag}
+                  className="px-4 py-1.5 text-sm font-medium rounded-lg bg-[var(--surface)] text-[var(--muted-foreground)] border border-[var(--border)] hover:border-[var(--gold)]/40 transition-colors"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
           )}
 
           <button
