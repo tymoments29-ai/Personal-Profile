@@ -12,13 +12,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { TagsInput } from "@/components/admin/TagsInput";
 
+const CATEGORIES = [
+  "General", "DevOps", "Linux", "Docker", "Kubernetes",
+  "CI/CD", "Cloud", "Security", "Networking", "SRE",
+];
+
 const postSchema = z.object({
   title: z.string().min(1, "Title is required"),
   slug: z.string().min(1, "Slug is required"),
+  category: z.string().default("General"),
   tags: z.string().default(""),
   contentEn: z.string().min(1, "Content is required"),
   excerptEn: z.string().optional(),
@@ -31,6 +38,7 @@ interface EditPostFormProps {
     id: string;
     title: string;
     slug: string;
+    category: string;
     tags: string;
     contentEn: string;
     excerptEn: string;
@@ -48,6 +56,7 @@ export function EditPostForm({ post }: EditPostFormProps) {
     defaultValues: {
       title: post.title,
       slug: post.slug,
+      category: post.category || "General",
       tags: post.tags || "",
       contentEn: post.contentEn,
       excerptEn: post.excerptEn || "",
@@ -66,6 +75,7 @@ export function EditPostForm({ post }: EditPostFormProps) {
       const apiData = {
         title: values.title,
         slug: values.slug,
+        category: values.category,
         tags: values.tags,
         contentEn: values.contentEn,
         excerptEn: values.excerptEn,
@@ -185,23 +195,49 @@ export function EditPostForm({ post }: EditPostFormProps) {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="tags"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-muted-foreground">Tags / Skills</FormLabel>
-                  <FormControl>
-                    <TagsInput
-                      value={field.value}
-                      onChange={field.onChange}
-                      placeholder="linux-basics, ubuntu, ssh... (Enter untuk tambah)"
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-400" />
-                </FormItem>
-              )}
-            />
+            {/* Category + Tags in 2-col grid */}
+            <div className="grid gap-6 md:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-muted-foreground">Category / Topic</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="bg-muted border-border text-foreground h-12">
+                          <SelectValue placeholder="Pilih kategori" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {CATEGORIES.map((cat) => (
+                          <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage className="text-red-400" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="tags"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-muted-foreground">Tags / Skills</FormLabel>
+                    <FormControl>
+                      <TagsInput
+                        value={field.value}
+                        onChange={field.onChange}
+                        placeholder="linux-basics, ubuntu, ssh..."
+                      />
+                    </FormControl>
+                    <FormMessage className="text-red-400" />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               control={form.control}
