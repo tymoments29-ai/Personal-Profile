@@ -22,8 +22,6 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
     id: post.id,
     title: post.title,
     slug: post.slug,
-    category: post.category || "General",
-    tags: post.tags || "",
     contentEn: post.contentEn,
     excerptEn: post.excerptEn,
     thumbnailUrl: post.thumbnailUrl,

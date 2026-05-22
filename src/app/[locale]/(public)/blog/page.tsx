@@ -19,7 +19,6 @@ async function getBlogPosts() {
         slug: true,
         thumbnailUrl: true,
         category: true,
-        tags: true,
         excerptEn: true,
         excerptId: true,
         publishedAt: true,
