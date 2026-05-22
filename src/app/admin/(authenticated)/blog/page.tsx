@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { format } from "date-fns";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
@@ -54,9 +54,17 @@ export default async function AdminBlogPage() {
                 <TableRow key={post.id} className="border-b border-white/5 hover:bg-card transition-colors">
                   <TableCell className="font-medium text-foreground">{post.title}</TableCell>
                   <TableCell>
-                    <Badge variant={post.published ? "default" : "secondary"} className={post.published ? "bg-primary/20 text-primary border-primary/30" : "bg-zinc-800 text-muted-foreground"}>
-                      {post.published ? "Published" : "Draft"}
-                    </Badge>
+                    {post.status === 'published' ? (
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-500 border border-emerald-500/30">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        Published
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-500 border border-amber-500/30">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                        Draft
+                      </span>
+                    )}
                   </TableCell>
                   <TableCell className="text-muted-foreground">
                     {format(new Date(post.createdAt), "MMM d, yyyy")}
