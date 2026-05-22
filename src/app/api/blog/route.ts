@@ -10,6 +10,7 @@ const blogPostSchema = z.object({
   slug: z.string().optional(),
   thumbnailUrl: z.string().nullable().optional(),
   category: z.string().default('General'),
+  tags: z.string().default(''),
   excerptEn: z.string().default(''),
   excerptId: z.string().optional(),
   contentEn: z.string().default(''),

@@ -12,15 +12,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { TagsInput } from "@/components/admin/TagsInput";
-
-const CATEGORIES = [
-  "General", "DevOps", "Linux", "Docker", "Kubernetes",
-  "CI/CD", "Cloud", "Security", "Networking", "SRE",
-];
+import { CategoryCombobox } from "@/components/admin/CategoryCombobox";
 
 const postSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -203,18 +198,12 @@ export function EditPostForm({ post }: EditPostFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-muted-foreground">Category / Topic</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <FormControl>
-                        <SelectTrigger className="bg-muted border-border text-foreground h-12">
-                          <SelectValue placeholder="Pilih kategori" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {CATEGORIES.map((cat) => (
-                          <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <FormControl>
+                      <CategoryCombobox
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
                     <FormMessage className="text-red-400" />
                   </FormItem>
                 )}

@@ -14,10 +14,14 @@ import { Switch } from "@/components/ui/switch";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { ImageUpload } from "@/components/admin/ImageUpload";
+import { TagsInput } from "@/components/admin/TagsInput";
+import { CategoryCombobox } from "@/components/admin/CategoryCombobox";
 
 const postSchema = z.object({
   title: z.string().min(1, "Title is required"),
   slug: z.string().min(1, "Slug is required"),
+  category: z.string().default("General"),
+  tags: z.string().default(""),
   contentEn: z.string().min(1, "Content is required"),
   excerptEn: z.string().optional(),
   thumbnailUrl: z.string().optional(),
@@ -33,6 +37,8 @@ export default function NewPostPage() {
     defaultValues: {
       title: "",
       slug: "",
+      category: "General",
+      tags: "",
       contentEn: "",
       excerptEn: "",
       thumbnailUrl: "",
@@ -51,6 +57,8 @@ export default function NewPostPage() {
       const apiData = {
         title: values.title,
         slug: values.slug,
+        category: values.category,
+        tags: values.tags,
         contentEn: values.contentEn,
         excerptEn: values.excerptEn,
         thumbnailUrl: values.thumbnailUrl || null,
@@ -150,6 +158,41 @@ export default function NewPostPage() {
                 </FormItem>
               )}
             />
+
+            {/* Category + Tags */}
+            <div className="grid gap-6 md:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-muted-foreground">Category / Topic</FormLabel>
+                    <FormControl>
+                      <CategoryCombobox value={field.value} onChange={field.onChange} />
+                    </FormControl>
+                    <FormMessage className="text-red-400" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="tags"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-muted-foreground">Tags / Skills</FormLabel>
+                    <FormControl>
+                      <TagsInput
+                        value={field.value}
+                        onChange={field.onChange}
+                        placeholder="linux-basics, ubuntu, ssh..."
+                      />
+                    </FormControl>
+                    <FormMessage className="text-red-400" />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               control={form.control}
