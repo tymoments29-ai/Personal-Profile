@@ -37,8 +37,8 @@ function ToolbarButton({ onClick, active, disabled, title, children }: ToolbarBu
         "flex items-center justify-center w-8 h-8 rounded cursor-pointer transition-all select-none",
         "text-sm font-medium",
         active
-          ? "bg-white/20 text-white"
-          : "text-zinc-400 hover:text-white hover:bg-white/10",
+          ? "bg-blue-100 text-blue-700 dark:bg-white/20 dark:text-white"
+          : "text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-white/10",
         disabled ? "opacity-40 cursor-not-allowed" : "",
       ].join(" ")}
     >
@@ -48,7 +48,7 @@ function ToolbarButton({ onClick, active, disabled, title, children }: ToolbarBu
 }
 
 function Divider() {
-  return <div className="w-px h-5 bg-white/10 mx-0.5 flex-shrink-0" />;
+  return <div className="w-px h-5 bg-gray-300 dark:bg-white/10 mx-0.5 flex-shrink-0" />;
 }
 
 export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
