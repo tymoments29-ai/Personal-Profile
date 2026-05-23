@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import { put } from '@vercel/blob'
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
-const MAX_SIZE_BYTES = 4 * 1024 * 1024 // 4MB
+const MAX_SIZE_BYTES = 2 * 1024 * 1024 // 2MB
 
 export async function POST(request: Request) {
   try {
