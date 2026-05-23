@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { Eye, Code2, X } from 'lucide-react'
+import { Eye, Code2, X, Share2 } from 'lucide-react'
+import { toast } from 'sonner'
 import type { PortfolioProject } from '@prisma/client'
 import { useLocale, useTranslations } from 'next-intl'
 import { ProjectGallery } from './ProjectGallery'
@@ -25,6 +26,46 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
   const locale = useLocale()
   const t = useTranslations('Portfolio')
   const tCommon = useTranslations('Common')
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const projectId = params.get('project')
+    if (projectId) {
+      const project = projects.find(p => p.id === projectId)
+      if (project) {
+        setSelectedProject(project)
+      }
+    }
+  }, [projects])
+
+  const handleOpenProject = (project: PortfolioProject) => {
+    setSelectedProject(project)
+    window.history.pushState({}, '', `?project=${project.id}`)
+  }
+
+  const handleCloseProject = () => {
+    setSelectedProject(null)
+    window.history.pushState({}, '', window.location.pathname)
+  }
+
+  const handleShare = async () => {
+    if (!selectedProject) return;
+    const url = `${window.location.origin}${window.location.pathname}?project=${selectedProject.id}`;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: selectedProject.title,
+          text: `Check out my project: ${selectedProject.title}`,
+          url: url,
+        });
+      } catch (error) {
+        console.log('Error sharing:', error);
+      }
+    } else {
+      navigator.clipboard.writeText(url);
+      toast.success(locale === 'id' ? 'Link disalin ke clipboard!' : 'Link copied to clipboard!');
+    }
+  }
 
   const filteredProjects = activeFilter === 'All'
     ? projects
@@ -69,7 +110,7 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.3 }}
               className="group relative rounded-2xl overflow-hidden glass card-hover cursor-pointer aspect-video"
-              onClick={() => setSelectedProject(project)}
+              onClick={() => handleOpenProject(project)}
             >
               {/* Thumbnail */}
               {project.thumbnailUrl ? (
@@ -123,7 +164,7 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setSelectedProject(null)}
+              onClick={handleCloseProject}
               className="absolute inset-0 bg-black/80 backdrop-blur-sm"
             />
             
@@ -133,13 +174,22 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
               exit={{ opacity: 0, y: 50, scale: 0.95 }}
               className="relative w-full max-w-3xl glass-strong rounded-2xl overflow-hidden shadow-2xl border border-[var(--gold)]/20 flex flex-col max-h-[90vh]"
             >
-              {/* Close Button */}
-              <button
-                onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-[var(--foreground)] hover:bg-[var(--gold)] hover:text-white transition-colors"
-              >
-                <X className="w-4 h-4" />
-              </button>
+              <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
+                <button
+                  onClick={handleShare}
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-[var(--foreground)] hover:bg-[var(--gold)] hover:text-white transition-colors shadow-lg"
+                  title="Share Project"
+                >
+                  <Share2 className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={handleCloseProject}
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-[var(--foreground)] hover:bg-[var(--gold)] hover:text-white transition-colors shadow-lg"
+                  title="Close"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
 
               <div className="overflow-y-auto custom-scrollbar">
                 {/* Modal Gallery */}
