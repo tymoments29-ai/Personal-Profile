@@ -25,18 +25,13 @@ import { Toaster } from '@/components/ui/sonner'
 const BASE_URL = 'https://sukristiyo.my.id'
 
 export async function generateMetadata(): Promise<Metadata> {
-  // Fetch profile photo from DB to use as OG image
-  let profilePhotoUrl: string | null = null
-  try {
-    const settings = await prisma.siteSettings.findFirst()
-    profilePhotoUrl = settings?.profilePhotoUrl ?? null
-  } catch {
-    // fallback: no image
-  }
+  // Use the new clean API route for the OG image
+  // This avoids WhatsApp crawler bugs with %20 spaces in Vercel Blob URLs
+  const ogImageUrl = `${BASE_URL}/api/og`
 
-  const ogImages = profilePhotoUrl
-    ? [{ url: profilePhotoUrl, width: 400, height: 400, alt: 'Sukristiyo — DevOps, SRE & Cloud Engineer' }]
-    : []
+  const ogImages = [
+    { url: ogImageUrl, width: 400, height: 400, alt: 'Sukristiyo — DevOps, SRE & Cloud Engineer' }
+  ]
 
   return {
     metadataBase: new URL(BASE_URL),
