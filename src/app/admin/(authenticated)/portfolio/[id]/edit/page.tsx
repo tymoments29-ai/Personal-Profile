@@ -19,7 +19,7 @@ const projectSchema = z.object({
   title: z.string().min(1, "Title is required"),
   category: z.string().min(1, "Category is required"),
   thumbnailUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
-  images: z.array(z.string().url()).default([]),
+  images: z.array(z.string()).optional(),
   descriptionEn: z.string().min(1, "English description is required"),
   descriptionId: z.string().optional(),
   techStack: z.string().min(1, "Tech stack is required (comma separated)"),
@@ -196,7 +196,7 @@ export default function EditPortfolioProjectPage() {
             <div className="space-y-2">
               <Label>Project Images & Cover</Label>
               <MultiImageUpload 
-                images={watch("images")} 
+                images={watch("images") || []} 
                 coverImage={watch("thumbnailUrl") || null} 
                 onChange={(images, cover) => {
                   setValue("images", images, { shouldDirty: true });
