@@ -39,6 +39,10 @@ export async function generateMetadata(): Promise<Metadata> {
       default: 'Sukristiyo — DevOps, SRE & Cloud Engineer',
       template: '%s | Sukristiyo',
     },
+    icons: {
+      icon: ogImageUrl,
+      apple: ogImageUrl,
+    },
     description:
       'Personal portfolio of Sukristiyo — IT professional specializing in DevOps, Site Reliability Engineering, Cloud Infrastructure, and Data Center management based in Jakarta, Indonesia.',
     keywords: [
