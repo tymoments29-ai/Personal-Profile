@@ -22,8 +22,8 @@ export function ImageUpload({ value, onChange, label = "Upload Image" }: ImageUp
       return;
     }
 
-    if (file.size > 2 * 1024 * 1024) {
-      alert("File size exceeds 2MB limit");
+    if (file.size > 4 * 1024 * 1024) {
+      alert(`${file.name} exceeds 4MB limit`);
       return;
     }
 
@@ -117,7 +117,7 @@ export function ImageUpload({ value, onChange, label = "Upload Image" }: ImageUp
                 <p className="mb-2 text-sm font-medium">
                   <span className="text-primary font-semibold">Click to upload</span> or drag and drop
                 </p>
-                <p className="text-xs">PNG, JPG or WEBP (Max 2MB)</p>
+                <p className="text-xs">PNG, JPG or WEBP (Max 4MB)</p>
               </>
             )}
           </div>

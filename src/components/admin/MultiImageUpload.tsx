@@ -23,8 +23,8 @@ export function MultiImageUpload({ images = [], coverImage, onChange, label = "U
         alert(`${file.name} is not an image file`);
         return false;
       }
-      if (file.size > 2 * 1024 * 1024) {
-        alert(`${file.name} exceeds 2MB limit`);
+      if (file.size > 4 * 1024 * 1024) {
+        alert(`${file.name} exceeds 4MB limit`);
         return false;
       }
       return true;
@@ -174,7 +174,7 @@ export function MultiImageUpload({ images = [], coverImage, onChange, label = "U
               <p className="mb-2 text-sm font-medium text-center px-4">
                 <span className="text-primary font-semibold">Click to upload</span> or drag and drop multiple images
               </p>
-              <p className="text-xs">PNG, JPG or WEBP (Max 2MB each)</p>
+              <p className="text-xs">PNG, JPG or WEBP (Max 4MB each)</p>
             </>
           )}
         </div>
