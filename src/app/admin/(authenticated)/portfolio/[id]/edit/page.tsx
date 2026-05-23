@@ -13,11 +13,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { MultiImageUpload } from "@/components/admin/MultiImageUpload";
 
 const projectSchema = z.object({
   title: z.string().min(1, "Title is required"),
   category: z.string().min(1, "Category is required"),
   thumbnailUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  images: z.array(z.string().url()).default([]),
   descriptionEn: z.string().min(1, "English description is required"),
   descriptionId: z.string().optional(),
   techStack: z.string().min(1, "Tech stack is required (comma separated)"),
@@ -42,6 +44,8 @@ export default function EditPortfolioProjectPage() {
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<ProjectFormValues>({
     resolver: zodResolver(projectSchema),
@@ -49,6 +53,7 @@ export default function EditPortfolioProjectPage() {
       title: "",
       category: "web-development",
       thumbnailUrl: "",
+      images: [],
       descriptionEn: "",
       descriptionId: "",
       techStack: "",
@@ -66,10 +71,11 @@ export default function EditPortfolioProjectPage() {
         const res = await fetch(`/api/portfolio/${id}`);
         if (!res.ok) throw new Error("Project not found");
         const data = await res.json();
-        reset({
+          reset({
           title: data.title || "",
           category: data.category || "web-development",
           thumbnailUrl: data.thumbnailUrl || "",
+          images: data.images || [],
           descriptionEn: data.descriptionEn || "",
           descriptionId: data.descriptionId || "",
           techStack: Array.isArray(data.techStack) ? data.techStack.join(", ") : "",
@@ -95,6 +101,7 @@ export default function EditPortfolioProjectPage() {
         ...data,
         techStack: data.techStack.split(",").map((tech) => tech.trim()).filter(Boolean),
         thumbnailUrl: data.thumbnailUrl || null,
+        images: data.images || [],
         repoUrl: data.repoUrl || null,
         liveUrl: data.liveUrl || null,
       };
@@ -187,9 +194,16 @@ export default function EditPortfolioProjectPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="thumbnailUrl">Thumbnail URL</Label>
-              <Input id="thumbnailUrl" {...register("thumbnailUrl")} placeholder="https://example.com/image.jpg" />
-              {errors.thumbnailUrl && <p className="text-sm text-red-500">{errors.thumbnailUrl.message}</p>}
+              <Label>Project Images & Cover</Label>
+              <MultiImageUpload 
+                images={watch("images")} 
+                coverImage={watch("thumbnailUrl") || null} 
+                onChange={(images, cover) => {
+                  setValue("images", images, { shouldDirty: true });
+                  setValue("thumbnailUrl", cover || "", { shouldDirty: true });
+                }}
+              />
+              {errors.images && <p className="text-sm text-red-500">{errors.images.message}</p>}
             </div>
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

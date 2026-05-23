@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Eye, Code2, X } from 'lucide-react'
 import type { PortfolioProject } from '@prisma/client'
 import { useLocale, useTranslations } from 'next-intl'
+import { ProjectGallery } from './ProjectGallery'
 
 interface PortfolioClientProps {
   projects: PortfolioProject[]
@@ -141,17 +142,12 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
               </button>
 
               <div className="overflow-y-auto custom-scrollbar">
-                {/* Modal Thumbnail */}
-                <div className="relative w-full aspect-video bg-[var(--surface)]">
-                  {selectedProject.thumbnailUrl && (
-                    <Image
-                      src={selectedProject.thumbnailUrl}
-                      alt={selectedProject.title}
-                      fill
-                      className="object-cover"
-                    />
-                  )}
-                </div>
+                {/* Modal Gallery */}
+                <ProjectGallery 
+                  images={selectedProject.images || []} 
+                  thumbnailUrl={selectedProject.thumbnailUrl} 
+                  title={selectedProject.title} 
+                />
 
                 {/* Modal Content */}
                 <div className="p-6 sm:p-8 space-y-6">

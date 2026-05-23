@@ -6,12 +6,13 @@ import { NextResponse } from 'next/server'
 const portfolioSchema = z.object({
   title: z.string().min(1),
   category: z.enum(['web-design', 'applications', 'web-development']).default('web-development'),
-  thumbnailUrl: z.string().url().optional(),
+  thumbnailUrl: z.string().url().optional().or(z.literal('')),
+  images: z.array(z.string().url()).default([]),
   descriptionEn: z.string().min(1),
   descriptionId: z.string().optional(),
   techStack: z.array(z.string()),
-  repoUrl: z.string().url().optional(),
-  liveUrl: z.string().url().optional(),
+  repoUrl: z.string().url().optional().or(z.literal('')),
+  liveUrl: z.string().url().optional().or(z.literal('')),
   year: z.number().int().default(new Date().getFullYear()),
   order: z.number().int().default(0),
 })

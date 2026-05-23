@@ -63,6 +63,7 @@ model PortfolioProject {
   title         String
   category      String   @default("web-development")
   thumbnailUrl  String?
+  images        String[] @default([])
   descriptionEn String   @default("") @db.Text
   descriptionId String?  @db.Text
   techStack     String[]

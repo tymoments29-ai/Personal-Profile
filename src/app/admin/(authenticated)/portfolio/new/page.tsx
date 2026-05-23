@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -13,11 +13,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { MultiImageUpload } from "@/components/admin/MultiImageUpload";
 
 const projectSchema = z.object({
   title: z.string().min(1, "Title is required"),
   category: z.string().min(1, "Category is required"),
   thumbnailUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  images: z.array(z.string().url()).default([]),
   descriptionEn: z.string().min(1, "English description is required"),
   descriptionId: z.string().optional(),
   techStack: z.string().min(1, "Tech stack is required (comma separated)"),
@@ -36,6 +38,8 @@ export default function NewPortfolioProjectPage() {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<ProjectFormValues>({
     resolver: zodResolver(projectSchema),
@@ -43,6 +47,7 @@ export default function NewPortfolioProjectPage() {
       title: "",
       category: "web-development",
       thumbnailUrl: "",
+      images: [],
       descriptionEn: "",
       descriptionId: "",
       techStack: "",
@@ -58,8 +63,9 @@ export default function NewPortfolioProjectPage() {
     try {
       const payload = {
         ...data,
-        techStack: data.techStack.split(",").map((tech) => tech.trim()).filter(Boolean),
+        techStack: data.techStack.split(",").map(t => t.trim()).filter(Boolean),
         thumbnailUrl: data.thumbnailUrl || null,
+        images: data.images || [],
         repoUrl: data.repoUrl || null,
         liveUrl: data.liveUrl || null,
       };
@@ -116,9 +122,16 @@ export default function NewPortfolioProjectPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="thumbnailUrl">Thumbnail URL</Label>
-              <Input id="thumbnailUrl" {...register("thumbnailUrl")} placeholder="https://example.com/image.jpg" />
-              {errors.thumbnailUrl && <p className="text-sm text-red-500">{errors.thumbnailUrl.message}</p>}
+              <Label>Project Images & Cover</Label>
+              <MultiImageUpload 
+                images={watch("images")} 
+                coverImage={watch("thumbnailUrl") || null} 
+                onChange={(images, cover) => {
+                  setValue("images", images, { shouldDirty: true });
+                  setValue("thumbnailUrl", cover || "", { shouldDirty: true });
+                }}
+              />
+              {errors.images && <p className="text-sm text-red-500">{errors.images.message}</p>}
             </div>
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

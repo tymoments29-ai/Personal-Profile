@@ -6,12 +6,13 @@ import { NextResponse } from 'next/server'
 const portfolioPatchSchema = z.object({
   title: z.string().min(1).optional(),
   category: z.enum(['web-design', 'applications', 'web-development']).optional(),
-  thumbnailUrl: z.string().url().optional(),
+  thumbnailUrl: z.string().url().optional().or(z.literal('')),
+  images: z.array(z.string().url()).optional(),
   descriptionEn: z.string().min(1).optional(),
   descriptionId: z.string().optional(),
   techStack: z.array(z.string()).optional(),
-  repoUrl: z.string().url().optional(),
-  liveUrl: z.string().url().optional(),
+  repoUrl: z.string().url().optional().or(z.literal('')),
+  liveUrl: z.string().url().optional().or(z.literal('')),
   year: z.number().int().optional(),
   order: z.number().int().optional(),
 })
