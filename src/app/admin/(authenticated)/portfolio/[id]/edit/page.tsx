@@ -112,12 +112,15 @@ export default function EditPortfolioProjectPage() {
         body: JSON.stringify(payload),
       });
 
-      if (!res.ok) throw new Error("Failed to update project");
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.error || "Failed to update project");
+      }
 
       toast.success("Project updated successfully");
       router.push("/admin/portfolio");
     } catch (error) {
-      toast.error("Failed to update project");
+      toast.error(error instanceof Error ? error.message : "Failed to update project");
     } finally {
       setIsSubmitting(false);
     }
@@ -130,14 +133,22 @@ export default function EditPortfolioProjectPage() {
       const res = await fetch(`/api/portfolio/${id}`, {
         method: "DELETE",
       });
-      if (!res.ok) throw new Error("Failed to delete");
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.error || "Failed to delete");
+      }
       toast.success("Project deleted successfully");
       router.push("/admin/portfolio");
     } catch (error) {
-      toast.error("Failed to delete project");
+      toast.error(error instanceof Error ? error.message : "Failed to delete project");
     } finally {
       setIsDeleting(false);
     }
+  };
+
+  const onError = (errors: any) => {
+    const errorFields = Object.keys(errors).map(field => field.charAt(0).toUpperCase() + field.slice(1));
+    toast.error(`Mohon lengkapi field wajib (*): ${errorFields.join(", ")}`);
   };
 
   if (isLoading) {
@@ -173,7 +184,7 @@ export default function EditPortfolioProjectPage() {
         </Button>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit, onError)}>
         <Card>
           <CardHeader>
             <CardTitle>Project Details</CardTitle>

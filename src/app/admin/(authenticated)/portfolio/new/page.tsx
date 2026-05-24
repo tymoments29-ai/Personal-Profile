@@ -76,15 +76,23 @@ export default function NewPortfolioProjectPage() {
         body: JSON.stringify(payload),
       });
 
-      if (!res.ok) throw new Error("Failed to create project");
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.error || "Failed to create project");
+      }
       
       toast.success("Project created successfully");
       router.push("/admin/portfolio");
     } catch (error) {
-      toast.error("Failed to create project");
+      toast.error(error instanceof Error ? error.message : "Failed to create project");
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const onError = (errors: any) => {
+    const errorFields = Object.keys(errors).map(field => field.charAt(0).toUpperCase() + field.slice(1));
+    toast.error(`Mohon lengkapi field wajib (*): ${errorFields.join(", ")}`);
   };
 
   return (
@@ -101,7 +109,7 @@ export default function NewPortfolioProjectPage() {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit, onError)}>
         <Card>
           <CardHeader>
             <CardTitle>Project Details</CardTitle>
