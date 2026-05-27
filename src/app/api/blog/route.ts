@@ -54,6 +54,7 @@ export async function GET(request: Request) {
         excerptId: true,
         status: true,
         publishedAt: true,
+        views: true,
         createdAt: true,
         updatedAt: true,
       },

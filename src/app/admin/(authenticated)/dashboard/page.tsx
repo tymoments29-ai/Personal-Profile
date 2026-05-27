@@ -1,25 +1,32 @@
-﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, Briefcase, MessageSquare, MessageCircle } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 
 export default async function DashboardPage() {
   // Fetch basic stats (handling potential errors gracefully if models don't exist yet)
-  let statsData = { posts: 0, projects: 0, messages: 0, testimonials: 0 };
+  let statsData = { posts: 0, projects: 0, messages: 0, testimonials: 0, views: 0 };
   
   try {
-    const [posts, projects, messages, testimonials] = await Promise.all([
+    const [posts, projects, messages, testimonials, viewsSum] = await Promise.all([
       prisma.blogPost.count().catch(() => 0),
       prisma.portfolioProject.count().catch(() => 0),
       prisma.contactMessage.count({ where: { isRead: false } }).catch(() => 0),
       prisma.testimonial.count().catch(() => 0),
+      prisma.blogPost.aggregate({ _sum: { views: true } }).catch(() => ({ _sum: { views: 0 } })),
     ]);
-    statsData = { posts, projects, messages, testimonials };
+    statsData = { 
+      posts, 
+      projects, 
+      messages, 
+      testimonials, 
+      views: viewsSum?._sum?.views ?? 0 
+    };
   } catch (error) {
     console.error("Failed to fetch dashboard stats", error);
   }
 
   const stats = [
-    { title: "Total Posts", value: statsData.posts, icon: FileText, color: "text-blue-500", bg: "bg-blue-500/10" },
+    { title: "Total Posts", value: statsData.posts, subtext: `${statsData.views.toLocaleString()} total views`, icon: FileText, color: "text-blue-500", bg: "bg-blue-500/10" },
     { title: "Projects", value: statsData.projects, icon: Briefcase, color: "text-purple-500", bg: "bg-purple-500/10" },
     { title: "Unread Messages", value: statsData.messages, icon: MessageSquare, color: "text-emerald-500", bg: "bg-emerald-500/10" },
     { title: "Testimonials", value: statsData.testimonials, icon: MessageCircle, color: "text-orange-500", bg: "bg-orange-500/10" },
@@ -45,6 +52,9 @@ export default async function DashboardPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-card-foreground">{stat.value}</div>
+                {"subtext" in stat && stat.subtext && (
+                  <p className="text-xs text-muted-foreground mt-1">{stat.subtext}</p>
+                )}
               </CardContent>
             </Card>
           );

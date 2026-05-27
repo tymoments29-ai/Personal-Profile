@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import { motion, AnimatePresence, Variants } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Calendar, ChevronLeft, ChevronRight, Eye } from 'lucide-react'
 import { formatDateShort } from '@/lib/utils'
 import { useLocale, useTranslations } from 'next-intl'
 
@@ -19,6 +19,7 @@ interface BlogListClientProps {
     excerptEn: string
     excerptId: string | null
     publishedAt: Date | null
+    views: number
   }[]
 }
 
@@ -140,11 +141,19 @@ export default function BlogListClient({ posts }: BlogListClientProps) {
 
                   {/* Content */}
                   <div className="p-5 flex flex-col flex-grow">
-                    <div className="flex items-center gap-2 text-[var(--muted-foreground)] text-xs mb-3">
-                      <Calendar className="w-3.5 h-3.5" />
-                      <time dateTime={post.publishedAt?.toISOString()}>
-                        {formatDateShort(post.publishedAt)}
-                      </time>
+                    <div className="flex items-center gap-4 text-[var(--muted-foreground)] text-xs mb-3">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3.5 h-3.5" />
+                        <time dateTime={post.publishedAt?.toISOString()}>
+                          {formatDateShort(post.publishedAt)}
+                        </time>
+                      </span>
+                      {post.views !== undefined && (
+                        <span className="flex items-center gap-1">
+                          <Eye className="w-3.5 h-3.5" />
+                          <span>{post.views} {t('views')}</span>
+                        </span>
+                      )}
                     </div>
                     
                     <h3 className="font-outfit text-lg font-bold text-[var(--foreground)] mb-2 group-hover:text-[var(--gold)] transition-colors line-clamp-2">

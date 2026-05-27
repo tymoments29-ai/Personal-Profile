@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { format } from "date-fns";
-import { Plus, Edit, Trash2 } from "lucide-react";
+import { Plus, Edit, Trash2, Eye } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -38,6 +38,7 @@ export default async function AdminBlogPage() {
             <TableRow className="hover:bg-transparent">
               <TableHead className="text-muted-foreground font-medium">Title</TableHead>
               <TableHead className="text-muted-foreground font-medium">Status</TableHead>
+              <TableHead className="text-muted-foreground font-medium">Views</TableHead>
               <TableHead className="text-muted-foreground font-medium">Date</TableHead>
               <TableHead className="text-right text-muted-foreground font-medium">Actions</TableHead>
             </TableRow>
@@ -45,7 +46,7 @@ export default async function AdminBlogPage() {
           <TableBody>
             {posts.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={4} className="h-24 text-center text-muted-foreground">
+                <TableCell colSpan={5} className="h-24 text-center text-muted-foreground">
                   No posts found. Create your first post!
                 </TableCell>
               </TableRow>
@@ -65,6 +66,12 @@ export default async function AdminBlogPage() {
                         Draft
                       </span>
                     )}
+                  </TableCell>
+                  <TableCell className="text-foreground font-medium">
+                    <span className="flex items-center gap-1.5">
+                      <Eye className="h-3.5 w-3.5 text-muted-foreground" />
+                      {post.views ?? 0}
+                    </span>
                   </TableCell>
                   <TableCell className="text-muted-foreground">
                     {format(new Date(post.createdAt), "MMM d, yyyy")}

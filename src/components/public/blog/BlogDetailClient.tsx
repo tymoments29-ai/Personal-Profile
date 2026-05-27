@@ -4,7 +4,7 @@ import { useEffect, useCallback } from 'react'
 import { motion, useScroll, useSpring } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Calendar, Clock, ChevronLeft, Share2 } from 'lucide-react'
+import { Calendar, Clock, ChevronLeft, Share2, Eye } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
 import { useLocale, useTranslations } from 'next-intl'
 
@@ -21,6 +21,7 @@ type SerializedBlogPost = {
   contentEn: string
   contentId: string | null
   status: string
+  views: number
   publishedAt: string | null
   createdAt: string
   updatedAt: string
@@ -84,6 +85,14 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
     addCopyButtons()
   }, [postContent, addCopyButtons])
 
+  useEffect(() => {
+    if (post.id) {
+      fetch(`/api/blog/${post.id}/view`, { method: 'POST' }).catch((err) =>
+        console.error('Failed to increment views:', err)
+      )
+    }
+  }, [post.id])
+
   const handleShare = async () => {
     if (navigator.share) {
       try {
@@ -128,6 +137,12 @@ export default function BlogDetailClient({ post, readingTime }: BlogDetailClient
                 <Clock className="w-3.5 h-3.5" />
                 {readingTime} {t('readTime')}
               </span>
+              {post.views !== undefined && (
+                <span className="flex items-center gap-1.5">
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>{post.views} {t('views')}</span>
+                </span>
+              )}
             </div>
           </div>
 

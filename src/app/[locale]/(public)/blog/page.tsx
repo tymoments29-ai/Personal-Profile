@@ -22,6 +22,7 @@ async function getBlogPosts() {
         excerptEn: true,
         excerptId: true,
         publishedAt: true,
+        views: true,
       },
     })
     return posts
