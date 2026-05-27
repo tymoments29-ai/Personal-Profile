@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # ────────────────────────────────────────────────────────
+  # Next.js Application Service
+  # ────────────────────────────────────────────────────────
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: portfolio-web
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      # Port configuration inside the container
+      PORT: 3000
+      # Binding hostname
+      HOSTNAME: "0.0.0.0"
+      
+      # ⚠️ OPTION A: If you want to use the local PostgreSQL container (defined below), 
+      # uncomment the line below to override the Neon DATABASE_URL from your .env file:
+      # DATABASE_URL: "postgresql://postgres:secure_password_here@db:5432/portfolio?sslmode=disable"
+      
+    # ⚠️ OPTION A: If using the local database container, uncomment the dependency:
+    # depends_on:
+    #   - db
+
+  # ────────────────────────────────────────────────────────
+  # OPTION A: Local PostgreSQL Service (Uncomment to use)
+  # ────────────────────────────────────────────────────────
+  # db:
+  #   image: postgres:16-alpine
+  #   container_name: portfolio-db
+  #   restart: always
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: secure_password_here
+  #     POSTGRES_DB: portfolio
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U postgres"]
+  #     interval: 5s
+  #     timeout: 5s
+  #     retries: 5
+
+# ⚠️ OPTION A: Persistent database volume (Uncomment if using the db service)
+# volumes:
+#   postgres_data:

@@ -1,0 +1,39 @@
+# Dependency directories
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Environments and secrets
+.env
+.env*.local
+.env*.development
+.env*.production
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Docker files
+Dockerfile
+docker-compose.yaml
+.dockerignore
+
+# Misc
+README.md
+.vercel/
+.nextbuildinfo
+tsconfig.tsbuildinfo
+eslint.config.mjs
+postcss.config.mjs
+components.json
+docs/
+scratch/
