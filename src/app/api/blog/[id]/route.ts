@@ -57,7 +57,6 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   const updateData: Record<string, unknown> = { ...data }
 
   if (data.title) {
-    updateData.slug = slugify(data.title) + '-' + id.slice(-6)
     updateData.titleId = await translateToIndonesian(data.title) || undefined;
   }
   if (data.excerptEn) {

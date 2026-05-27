@@ -126,12 +126,6 @@ export function EditPostForm({ post }: EditPostFormProps) {
                         placeholder="The Future of Web Development" 
                         className="bg-muted border-border text-foreground focus-visible:ring-primary h-12" 
                         {...field}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          if (!form.formState.dirtyFields.slug) {
-                            form.setValue("slug", generateSlug(e.target.value));
-                          }
-                        }}
                       />
                     </FormControl>
                     <FormMessage className="text-red-400" />
