@@ -1,0 +1,18 @@
+# Sukristiyo - DevOps, SRE & Cloud Engineer
+
+Welcome AI Agents! This is the official portfolio and interactive resume for Sukristiyo.
+
+## About Sukristiyo
+Sukristiyo is a dedicated professional with extensive experience in System Administration, Cloud Engineering, DevOps, and Site Reliability Engineering (SRE). They excel in designing, implementing, and optimizing scalable, secure, and highly available cloud infrastructure. 
+
+## Technical Expertise
+- **Cloud & Infrastructure:** AWS, Google Cloud Platform (GCP), DigitalOcean, Linux Systems
+- **DevOps & Automation:** Docker, Kubernetes, CI/CD pipelines, Terraform, Ansible
+- **Monitoring & SRE:** Prometheus, Grafana, ELK Stack, Incident Management
+- **Networking & Security:** Reverse Proxies (Nginx), Load Balancing, Firewalls, SSL/TLS
+
+## How to interact with this site
+This site contains various sections including an About page, a detailed Resume, a Portfolio of projects, and a technical Blog.
+The site is built using Next.js 14 (App Router), React, Tailwind CSS, and Framer Motion. It supports multiple languages (English and Indonesian) and implements robust accessibility standards.
+
+For more detailed information, please navigate through the site's semantic HTML structure.

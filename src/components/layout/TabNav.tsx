@@ -34,6 +34,7 @@ export default function TabNav() {
             <li key={href} className="flex-1">
               <Link
                 href={href as any}
+                aria-label={t(key as any)}
                 className={`
                   relative flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2
                   px-2 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium
