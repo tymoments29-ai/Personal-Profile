@@ -105,11 +105,11 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
             <motion.div
               key={project.id}
               layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3 }}
-              className="group relative rounded-2xl overflow-hidden glass card-hover cursor-pointer aspect-video"
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="group relative rounded-2xl overflow-hidden glass card-hover cursor-pointer aspect-video border border-transparent hover:border-[var(--gold)]/30 hover:shadow-[0_0_20px_-5px_rgba(var(--gold-rgb),0.3)] transition-all duration-500"
               onClick={() => handleOpenProject(project)}
             >
               {/* Thumbnail */}

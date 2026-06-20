@@ -60,7 +60,11 @@ export default function Sidebar({ settings, socialLinks, mobile = false }: Sideb
         <motion.div variants={itemVariants} className="flex flex-col items-center text-center mb-6">
           {/* Avatar */}
           <div className="relative mb-4">
-            <div className="relative w-28 h-28 rounded-2xl overflow-hidden border-2 border-[var(--gold)] glow-gold">
+            <motion.div
+              animate={{ y: [0, -4, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="relative w-28 h-28 rounded-2xl overflow-hidden border-2 border-[var(--gold)] glow-gold"
+            >
               {profilePhoto ? (
                 <Image
                   src={profilePhoto}
@@ -77,7 +81,7 @@ export default function Sidebar({ settings, socialLinks, mobile = false }: Sideb
                   </span>
                 </div>
               )}
-            </div>
+            </motion.div>
             {/* Online indicator */}
             <span className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-[var(--bg-secondary)]" />
           </div>
@@ -85,7 +89,7 @@ export default function Sidebar({ settings, socialLinks, mobile = false }: Sideb
           {/* Name */}
           <motion.h1
             variants={itemVariants}
-            className="font-outfit text-xl font-bold text-[var(--foreground)] mb-1"
+            className="font-outfit text-xl font-bold text-[var(--foreground)] mb-1 animate-shimmer"
           >
             {name}
           </motion.h1>

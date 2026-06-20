@@ -54,7 +54,7 @@ export default function ResumeClient({ education, experience }: ResumeClientProp
               className="relative pl-14"
             >
               {/* Timeline Dot */}
-              <div className="absolute left-[18px] top-1.5 w-3 h-3 rounded-full bg-[var(--gold)] border-2 border-[#1e1e20] shadow-[0_0_0_4px_var(--background)]" />
+              <div className="absolute left-[18px] top-1.5 w-3 h-3 rounded-full bg-[var(--gold)] border-2 border-[#1e1e20] shadow-[0_0_0_4px_var(--background),0_0_15px_var(--gold)]" />
               
               {/* Content */}
               <div className="space-y-2">
@@ -98,7 +98,7 @@ export default function ResumeClient({ education, experience }: ResumeClientProp
               className="relative pl-14"
             >
               {/* Timeline Dot */}
-              <div className="absolute left-[18px] top-1.5 w-3 h-3 rounded-full bg-[var(--gold)] border-2 border-[#1e1e20] shadow-[0_0_0_4px_var(--background)]" />
+              <div className="absolute left-[18px] top-1.5 w-3 h-3 rounded-full bg-[var(--gold)] border-2 border-[#1e1e20] shadow-[0_0_0_4px_var(--background),0_0_15px_var(--gold)]" />
               
               {/* Content */}
               <div className="space-y-2">

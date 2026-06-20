@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import Sidebar from '@/components/layout/Sidebar'
 import TabNav from '@/components/layout/TabNav'
 import ParticleBackground from '@/components/layout/ParticleBackground'
@@ -15,6 +16,7 @@ interface PublicLayoutClientProps {
 
 export default function PublicLayoutClient({ children, settings, socialLinks }: PublicLayoutClientProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const pathname = usePathname()
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)]">
@@ -89,15 +91,18 @@ export default function PublicLayoutClient({ children, settings, socialLinks }: 
           <TabNav />
 
           {/* Page Content */}
-          <motion.div
-            key="content"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-            className="mt-6"
-          >
-            {children}
-          </motion.div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={pathname}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              className="mt-6"
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div>
     </div>

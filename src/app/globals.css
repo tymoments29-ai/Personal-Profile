@@ -439,6 +439,26 @@
   }
 
   /* Animated border gradient */
+  .animate-shimmer {
+    background: linear-gradient(
+      to right,
+      var(--foreground) 20%,
+      var(--gold) 40%,
+      var(--gold) 60%,
+      var(--foreground) 80%
+    );
+    background-size: 200% auto;
+    animation: shine 3s linear infinite;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  @keyframes shine {
+    to {
+      background-position: 200% center;
+    }
+  }
+
   .border-gradient {
     border: 1px solid transparent;
     background-clip: padding-box;
