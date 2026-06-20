@@ -179,6 +179,7 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
                   onClick={handleShare}
                   className="w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-[var(--foreground)] hover:bg-[var(--gold)] hover:text-white transition-colors shadow-lg"
                   title="Share Project"
+                  aria-label="Share Project"
                 >
                   <Share2 className="w-4 h-4" />
                 </button>
@@ -186,6 +187,7 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
                   onClick={handleCloseProject}
                   className="w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-[var(--foreground)] hover:bg-[var(--gold)] hover:text-white transition-colors shadow-lg"
                   title="Close"
+                  aria-label="Close Project Modal"
                 >
                   <X className="w-4 h-4" />
                 </button>

@@ -26,12 +26,12 @@ export default function TabNav() {
       role="navigation"
       aria-label="Main navigation"
     >
-      <ul className="flex flex-1 gap-1" role="list">
+      <ul className="flex flex-1 gap-1">
         {tabs.map(({ href, key, icon: Icon }) => {
           const isActive = pathname === href || pathname.startsWith(`${href}/`)
 
           return (
-            <li key={href} className="flex-1" role="none">
+            <li key={href} className="flex-1">
               <Link
                 href={href as any}
                 className={`

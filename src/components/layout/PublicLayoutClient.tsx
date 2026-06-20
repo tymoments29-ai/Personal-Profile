@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
+import Image from 'next/image'
 import Sidebar from '@/components/layout/Sidebar'
 import TabNav from '@/components/layout/TabNav'
 import ParticleBackground from '@/components/layout/ParticleBackground'
@@ -56,11 +57,13 @@ export default function PublicLayoutClient({ children, settings, socialLinks }: 
             <div className="glass rounded-2xl p-4 flex items-center gap-3">
               <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-[var(--gold)] flex-shrink-0">
                 {settings?.profilePhotoUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                  <Image
                     src={settings.profilePhotoUrl}
-                    alt={settings.nameEn}
-                    className="w-full h-full object-cover"
+                    alt={settings.nameEn || 'Sukristiyo'}
+                    fill
+                    sizes="48px"
+                    priority
+                    className="object-cover"
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-[var(--gold)] to-amber-600 flex items-center justify-center">

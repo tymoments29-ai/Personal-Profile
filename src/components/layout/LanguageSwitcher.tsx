@@ -17,7 +17,10 @@ export function LanguageSwitcher() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="w-10 h-10 rounded-full bg-card border border-border shadow-sm flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors outline-none focus-visible:ring-1 focus-visible:ring-ring">
+      <DropdownMenuTrigger 
+        className="w-10 h-10 rounded-full bg-card border border-border shadow-sm flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        aria-label="Change language"
+      >
         <Globe className="h-[1.2rem] w-[1.2rem]" />
         <span className="sr-only">Toggle language</span>
       </DropdownMenuTrigger>
