@@ -72,7 +72,6 @@ export default function Sidebar({ settings, socialLinks, mobile = false }: Sideb
                   fill
                   className="object-cover"
                   sizes="112px"
-                  priority
                 />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-amber-400 via-[var(--gold)] to-amber-700 flex items-center justify-center">

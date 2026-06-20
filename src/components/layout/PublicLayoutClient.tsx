@@ -5,7 +5,11 @@ import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import Sidebar from '@/components/layout/Sidebar'
 import TabNav from '@/components/layout/TabNav'
-import ParticleBackground from '@/components/layout/ParticleBackground'
+import dynamic from 'next/dynamic'
+
+const ParticleBackground = dynamic(() => import('@/components/layout/ParticleBackground'), {
+  ssr: false,
+})
 import { motion, AnimatePresence } from 'framer-motion'
 import type { SiteSettings, SocialLink } from '@prisma/client'
 
