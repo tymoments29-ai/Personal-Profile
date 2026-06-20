@@ -92,6 +92,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/react"
+import NextTopLoader from 'nextjs-toploader'
 
 import { ThemeProvider } from '@/components/layout/ThemeProvider'
 
@@ -108,6 +109,7 @@ export default function RootLayout({
           defaultTheme="light"
           enableSystem
         >
+          <NextTopLoader color="var(--gold)" showSpinner={false} />
           {children}
           <Analytics />
           <SpeedInsights />
@@ -116,6 +118,22 @@ export default function RootLayout({
             position="bottom-right"
           />
         </ThemeProvider>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Sukristiyo",
+              "url": "https://sukristiyo.my.id",
+              "jobTitle": "DevOps, SRE & Cloud Engineer",
+              "sameAs": [
+                "https://github.com/sukristiyo",
+                "https://www.linkedin.com/in/sukristiyo/"
+              ]
+            })
+          }}
+        />
       </body>
     </html>
   )
