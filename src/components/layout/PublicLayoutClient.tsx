@@ -20,6 +20,23 @@ export default function PublicLayoutClient({ children, settings, socialLinks }: 
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)]">
+      {/* SEO: Dynamic Canonical & Hreflang Tags */}
+      {(() => {
+        const basePath = pathname.replace(/^\/(en|id)/, '') || '/'
+        const enUrl = `https://sukristiyo.my.id/en${basePath === '/' ? '' : basePath}`
+        const idUrl = `https://sukristiyo.my.id/id${basePath === '/' ? '' : basePath}`
+        const canonicalUrl = `https://sukristiyo.my.id${pathname}`
+        
+        return (
+          <>
+            <link rel="canonical" href={canonicalUrl} />
+            <link rel="alternate" hrefLang="en" href={enUrl} />
+            <link rel="alternate" hrefLang="id" href={idUrl} />
+            <link rel="alternate" hrefLang="x-default" href={enUrl} />
+          </>
+        )
+      })()}
+
       <ParticleBackground />
 
       {/* Desktop: 2-column layout */}
