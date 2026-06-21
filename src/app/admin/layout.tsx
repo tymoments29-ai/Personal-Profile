@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { PwaRegistry } from "@/components/admin/PwaRegistry";
 import { Metadata, Viewport } from "next";
 
 export const viewport: Viewport = {
@@ -15,5 +16,10 @@ export const metadata: Metadata = {
 };
 
 export default function RootAdminLayout({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      <PwaRegistry />
+      {children}
+    </>
+  );
 }
