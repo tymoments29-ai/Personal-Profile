@@ -102,8 +102,6 @@ export default function BlogListClient({ posts }: BlogListClientProps) {
           <motion.div
             key={activeCategory}
             variants={containerVariants}
-            initial="hidden"
-            animate="visible"
             exit={{ opacity: 0 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >

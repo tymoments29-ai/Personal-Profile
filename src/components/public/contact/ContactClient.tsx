@@ -89,8 +89,6 @@ export default function ContactClient({ settings }: ContactClientProps) {
   return (
     <motion.div
       variants={containerVariants}
-      initial="hidden"
-      animate="visible"
       className="space-y-8"
     >
       <h2 className="font-outfit text-3xl font-bold text-[var(--foreground)] mb-8">

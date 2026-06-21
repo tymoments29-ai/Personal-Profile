@@ -30,8 +30,6 @@ export default function ResumeClient({ education, experience }: ResumeClientProp
   return (
     <motion.div
       variants={containerVariants}
-      initial="hidden"
-      animate="visible"
       className="max-w-4xl mx-auto space-y-16"
     >
       {/* ── Education Timeline ── */}

@@ -37,8 +37,6 @@ export default function AboutClient({ settings, testimonials, services, technolo
   return (
     <motion.div
       variants={containerVariants}
-      initial="hidden"
-      animate="visible"
       className="space-y-8"
     >
       {/* ── About Text ── */}
