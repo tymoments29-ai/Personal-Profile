@@ -115,7 +115,7 @@ export default function PublicLayoutClient({ children, settings, socialLinks }: 
           <TabNav />
 
           {/* Page Content */}
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={pathname}
               initial={{ opacity: 0, y: 16 }}
