@@ -3,6 +3,8 @@ import { Inter, Outfit, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { prisma } from '@/lib/prisma'
 
+export const revalidate = 3600 // Cache pages for 1 hour to fix high TTFB
+
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
