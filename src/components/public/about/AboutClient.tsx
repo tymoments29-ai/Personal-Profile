@@ -40,7 +40,7 @@ export default function AboutClient({ settings, testimonials, services, technolo
       className="space-y-8"
     >
       {/* ── About Text ── */}
-      <motion.section variants={itemVariants}>
+      <section>
         <div className="glass rounded-2xl p-6 sm:p-8">
           <h2 className="font-outfit text-2xl font-bold text-[var(--foreground)] mb-4">
             {t('title').split(' ')[0]} <span className="text-gradient-gold">{t('title').split(' ').slice(1).join(' ')}</span>
@@ -66,7 +66,7 @@ export default function AboutClient({ settings, testimonials, services, technolo
             </div>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* ── Services Grid ── */}
       <motion.section variants={itemVariants}>
