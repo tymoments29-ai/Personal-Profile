@@ -35,10 +35,7 @@ export default function AboutClient({ settings, testimonials, services, technolo
     : settings?.aboutTextEn || ''
 
   return (
-    <motion.div
-      variants={containerVariants}
-      className="space-y-8"
-    >
+    <div className="space-y-8">
       {/* ── About Text ── */}
       <section>
         <div className="glass rounded-2xl p-6 sm:p-8">
@@ -111,6 +108,6 @@ export default function AboutClient({ settings, testimonials, services, technolo
           <TestimonialSlider testimonials={testimonials} />
         </motion.section>
       )}
-    </motion.div>
+    </div>
   )
 }

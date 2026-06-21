@@ -399,18 +399,26 @@
   /* Glass effect for light mode */
   .glass {
     background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
   }
 
   .glass-strong {
     background: var(--glass-strong-bg);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
     border: 1px solid var(--glass-strong-border);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Only apply expensive blur on larger devices (tablets/desktops) to save mobile GPU */
+  @media (min-width: 768px) {
+    .glass {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .glass-strong {
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+    }
   }
 
   /* Glow effects */
