@@ -46,10 +46,19 @@ export default function LoginPage() {
         window.location.href = "/admin/dashboard";
       }
     } catch (error: any) {
-      if (error?.message?.includes("429") || error?.status === 429) {
+      console.error("Login error:", error);
+      // Vercel WAF returns an HTML page for 429 Rate Limit. 
+      // NextAuth tries to parse it as JSON and throws a SyntaxError.
+      if (
+        error?.message?.includes("429") || 
+        error?.status === 429 || 
+        error?.message?.includes("Unexpected token") || 
+        error?.message?.includes("JSON") ||
+        error?.name === "SyntaxError"
+      ) {
         toast.error("Too many attempts. Please try again in 1 minute.");
       } else {
-        toast.error("An error occurred");
+        toast.error("An error occurred. Please try again.");
       }
     } finally {
       setIsLoading(false);
