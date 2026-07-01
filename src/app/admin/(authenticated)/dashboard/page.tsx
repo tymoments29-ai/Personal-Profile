@@ -1,10 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, Briefcase, MessageSquare, MessageCircle } from "lucide-react";
+import { FileText, Briefcase, MessageSquare, MessageCircle, Plus, Mail, ArrowRight } from "lucide-react";
 import { prisma } from "@/lib/prisma";
-
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 export default async function DashboardPage() {
   // Fetch basic stats (handling potential errors gracefully if models don't exist yet)
   let statsData = { posts: 0, projects: 0, messages: 0, testimonials: 0, views: 0 };
+  let recentActivities: { type: string; title: string; date: Date; url: string }[] = [];
   
   try {
     const [posts, projects, messages, testimonials, viewsSum] = await Promise.all([
@@ -19,8 +21,22 @@ export default async function DashboardPage() {
       projects, 
       messages, 
       testimonials, 
-      views: viewsSum?._sum?.views ?? 0 
     };
+
+    const recentMessages = await prisma.contactMessage.findMany({
+      take: 3,
+      orderBy: { createdAt: "desc" },
+    }).catch(() => []);
+
+    const recentPosts = await prisma.blogPost.findMany({
+      take: 3,
+      orderBy: { createdAt: "desc" },
+    }).catch(() => []);
+
+    recentActivities = [
+      ...recentMessages.map((m) => ({ type: "Message", title: `From ${m.fullName}`, date: m.createdAt, url: "/admin/messages" })),
+      ...recentPosts.map((p) => ({ type: "Blog", title: p.title, date: p.createdAt, url: "/admin/blog" })),
+    ].sort((a, b) => b.date.getTime() - a.date.getTime()).slice(0, 5);
   } catch (error) {
     console.error("Failed to fetch dashboard stats", error);
   }
@@ -67,9 +83,32 @@ export default async function DashboardPage() {
             <CardTitle className="text-card-foreground">Recent Activity</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-muted-foreground text-sm flex items-center justify-center h-48 border border-dashed border-border rounded-lg bg-muted/50">
-              Activity chart or list will appear here
-            </div>
+            {recentActivities.length > 0 ? (
+              <div className="space-y-4">
+                {recentActivities.map((activity, idx) => (
+                  <div key={idx} className="flex items-center justify-between p-3 rounded-lg border border-border bg-muted/30">
+                    <div className="flex items-center space-x-3">
+                      <div className={`p-2 rounded-full ${activity.type === 'Message' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-blue-500/10 text-blue-500'}`}>
+                        {activity.type === 'Message' ? <Mail className="h-4 w-4" /> : <FileText className="h-4 w-4" />}
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-foreground">{activity.title}</p>
+                        <p className="text-xs text-muted-foreground">{activity.type} • {activity.date.toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                    <Link href={activity.url}>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground">
+                        <ArrowRight className="h-4 w-4" />
+                      </Button>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-muted-foreground text-sm flex items-center justify-center h-48 border border-dashed border-border rounded-lg bg-muted/50">
+                No recent activity yet.
+              </div>
+            )}
           </CardContent>
         </Card>
         <Card className="col-span-3 bg-card border-border backdrop-blur-xl">
@@ -77,9 +116,24 @@ export default async function DashboardPage() {
             <CardTitle className="text-card-foreground">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-             <div className="text-muted-foreground text-sm flex items-center justify-center h-48 border border-dashed border-border rounded-lg bg-muted/50">
-                Quick action shortcuts placeholder
-             </div>
+            <Link href="/admin/blog" className="block">
+              <Button className="w-full justify-start h-12 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20" variant="outline">
+                <Plus className="mr-2 h-4 w-4" />
+                Write New Blog Post
+              </Button>
+            </Link>
+            <Link href="/admin/portfolio" className="block">
+              <Button className="w-full justify-start h-12 bg-purple-500/10 hover:bg-purple-500/20 text-purple-600 border border-purple-500/20 dark:text-purple-400" variant="outline">
+                <Briefcase className="mr-2 h-4 w-4" />
+                Add New Project
+              </Button>
+            </Link>
+            <Link href="/admin/messages" className="block">
+              <Button className="w-full justify-start h-12 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 border border-emerald-500/20 dark:text-emerald-400" variant="outline">
+                <MessageSquare className="mr-2 h-4 w-4" />
+                Check Messages
+              </Button>
+            </Link>
           </CardContent>
         </Card>
       </div>
