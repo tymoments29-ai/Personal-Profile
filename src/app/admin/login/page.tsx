@@ -37,14 +37,20 @@ export default function LoginPage() {
         password: values.password,
       });
 
-      if (res?.error) {
+      if (res?.status === 429) {
+        toast.error("Too many attempts. Please try again in 1 minute.");
+      } else if (res?.error) {
         toast.error("Invalid credentials");
       } else {
         toast.success("Logged in successfully");
         window.location.href = "/admin/dashboard";
       }
-    } catch (error) {
-      toast.error("An error occurred");
+    } catch (error: any) {
+      if (error?.message?.includes("429") || error?.status === 429) {
+        toast.error("Too many attempts. Please try again in 1 minute.");
+      } else {
+        toast.error("An error occurred");
+      }
     } finally {
       setIsLoading(false);
     }
