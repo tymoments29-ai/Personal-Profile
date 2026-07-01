@@ -142,6 +142,11 @@ export default function LoginPage() {
                 </>
               )}
             </Button>
+
+            <p className="text-center text-xs text-muted-foreground mt-6">
+              Protected by advanced security. <br />
+              Unauthorized access is strictly prohibited.
+            </p>
           </form>
         </Form>
       </motion.div>
