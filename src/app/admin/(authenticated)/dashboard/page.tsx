@@ -20,7 +20,8 @@ export default async function DashboardPage() {
       posts, 
       projects, 
       messages, 
-      testimonials, 
+      testimonials,
+      views: viewsSum?._sum?.views ?? 0,
     };
 
     const recentMessages = await prisma.contactMessage.findMany({
