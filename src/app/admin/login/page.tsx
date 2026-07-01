@@ -128,25 +128,27 @@ export default function LoginPage() {
               )}
             />
 
-            <Button 
-              type="submit" 
-              className="w-full h-12 text-base font-medium shadow-lg shadow-primary/20 transition-all hover:shadow-primary/40 group"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              ) : (
-                <>
-                  Sign In
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </>
-              )}
-            </Button>
+            <div>
+              <Button 
+                type="submit" 
+                className="w-full h-12 text-base font-medium shadow-lg shadow-primary/20 transition-all hover:shadow-primary/40 group"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                ) : (
+                  <>
+                    Sign In
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
+              </Button>
 
-            <p className="text-center text-xs text-muted-foreground mt-6">
-              Protected by advanced security. <br />
-              Unauthorized access is strictly prohibited.
-            </p>
+              <p className="text-center text-[11px] text-muted-foreground mt-4">
+                Protected by advanced security. <br />
+                Unauthorized access is strictly prohibited.
+              </p>
+            </div>
           </form>
         </Form>
       </motion.div>
