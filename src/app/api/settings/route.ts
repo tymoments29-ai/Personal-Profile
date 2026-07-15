@@ -24,22 +24,22 @@ const defaultSettings = {
 }
 
 const settingsPatchSchema = z.object({
-  profilePhotoUrl: z.string().url().optional(),
+  profilePhotoUrl: z.string().url().optional().or(z.literal('')),
   nameEn: z.string().optional(),
   nameId: z.string().optional(),
   subtitleEn: z.string().optional(),
   subtitleId: z.string().optional(),
   aboutTextEn: z.string().optional(),
   aboutTextId: z.string().optional(),
-  email: z.string().email().optional(),
+  email: z.string().email().optional().or(z.literal('')),
   phone: z.string().optional(),
   birthDate: z.string().optional(),
   location: z.string().optional(),
-  githubUrl: z.string().url().optional(),
-  linkedinUrl: z.string().url().optional(),
-  twitterUrl: z.string().url().optional(),
-  instagramUrl: z.string().url().optional(),
-  facebookUrl: z.string().url().optional(),
+  githubUrl: z.string().url().optional().or(z.literal('')),
+  linkedinUrl: z.string().url().optional().or(z.literal('')),
+  twitterUrl: z.string().url().optional().or(z.literal('')),
+  instagramUrl: z.string().url().optional().or(z.literal('')),
+  facebookUrl: z.string().url().optional().or(z.literal('')),
 })
 
 export async function GET() {
