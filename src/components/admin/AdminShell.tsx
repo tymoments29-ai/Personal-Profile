@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard, FileText, Briefcase, GraduationCap,
@@ -25,7 +26,13 @@ const navItems = [
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
-export function AdminShell({ children }: { children: React.ReactNode }) {
+interface AdminShellProps {
+  children: React.ReactNode;
+  profileName?: string;
+  profilePhoto?: string | null;
+}
+
+export function AdminShell({ children, profileName, profilePhoto }: AdminShellProps) {
   // Desktop: starts open. Mobile: starts closed.
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const pathname = usePathname();
@@ -154,13 +161,17 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           <div className="flex items-center space-x-2 md:space-x-4">
             <ThemeToggle />
             <div className="flex items-center space-x-2 border-l border-border pl-2 md:pl-4">
-              <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30 flex-shrink-0">
-                <span className="text-sm font-medium text-primary">
-                  {session?.user?.name?.charAt(0) || "A"}
-                </span>
+              <div className="relative h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30 flex-shrink-0 overflow-hidden">
+                {profilePhoto ? (
+                  <Image src={profilePhoto} alt={profileName || "Admin"} fill className="object-cover" />
+                ) : (
+                  <span className="text-sm font-medium text-primary">
+                    {profileName?.charAt(0) || session?.user?.name?.charAt(0) || "A"}
+                  </span>
+                )}
               </div>
               <span className="text-sm font-medium text-foreground hidden md:block">
-                {session?.user?.name || "Admin"}
+                {profileName || session?.user?.name || "Admin"}
               </span>
             </div>
           </div>

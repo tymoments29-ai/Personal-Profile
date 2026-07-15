@@ -100,6 +100,7 @@ export async function PATCH(request: Request) {
     }
     revalidatePath('/about');
     revalidatePath('/');
+    revalidatePath('/admin', 'layout');
 
     return NextResponse.json(settings)
   } catch (error) {
