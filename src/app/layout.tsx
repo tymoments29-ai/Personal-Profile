@@ -56,8 +56,8 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${name}`,
     },
     icons: {
-      icon: ogImageUrl,
-      apple: ogImageUrl,
+      icon: settings?.profilePhotoUrl || ogImageUrl,
+      apple: settings?.profilePhotoUrl || ogImageUrl,
     },
     description: description,
     keywords: [
@@ -106,11 +106,28 @@ import NextTopLoader from 'nextjs-toploader'
 
 import { ThemeProvider } from '@/components/layout/ThemeProvider'
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  let settings;
+  try {
+    settings = await prisma.siteSettings.findFirst();
+  } catch (error) {
+    console.error("Failed to fetch settings for layout:", error);
+  }
+  const name = settings?.nameEn || 'Sukristiyo';
+  const subtitle = settings?.subtitleEn || 'DevOps, SRE & Cloud Engineer';
+
+  const sameAsUrls = [
+    settings?.githubUrl,
+    settings?.linkedinUrl,
+    settings?.twitterUrl,
+    settings?.instagramUrl,
+    settings?.facebookUrl,
+  ].filter(Boolean) as string[];
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable} antialiased transition-colors duration-500`}>
@@ -134,10 +151,10 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              "name": "Sukristiyo",
+              "name": name,
               "url": "https://sukristiyo.my.id",
-              "jobTitle": "DevOps, SRE & Cloud Engineer",
-              "sameAs": [
+              "jobTitle": subtitle,
+              "sameAs": sameAsUrls.length > 0 ? sameAsUrls : [
                 "https://github.com/sukristiyo",
                 "https://www.linkedin.com/in/sukristiyo/"
               ]
