@@ -39,8 +39,8 @@ export function ImageUpload({ value, onChange, label = "Upload Image" }: ImageUp
       });
 
       if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || "Failed to upload image");
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.error || "Failed to upload image");
       }
 
       const data = await res.json();

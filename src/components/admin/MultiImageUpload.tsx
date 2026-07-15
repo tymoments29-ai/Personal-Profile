@@ -46,7 +46,8 @@ export function MultiImageUpload({ images = [], coverImage, onChange, label = "U
         });
 
         if (!res.ok) {
-          throw new Error("Failed to upload image");
+          const errData = await res.json().catch(() => null);
+          throw new Error(errData?.error || "Failed to upload image");
         }
         const data = await res.json();
         uploadedUrls.push(data.url);

@@ -81,13 +81,16 @@ export default function SettingsPage() {
         body: formData,
       });
       
-      if (!res.ok) throw new Error("Upload failed");
+      if (!res.ok) {
+        const errData = await res.json().catch(() => null);
+        throw new Error(errData?.error || "Upload failed");
+      }
       
       const data = await res.json();
       form.setValue("profilePhotoUrl", data.url, { shouldDirty: true });
       toast.success("Photo uploaded successfully");
-    } catch (error) {
-      toast.error("Failed to upload photo");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to upload photo");
     } finally {
       setIsUploading(false);
     }
@@ -102,11 +105,14 @@ export default function SettingsPage() {
         body: JSON.stringify(values),
       });
 
-      if (!res.ok) throw new Error("Failed to save settings");
+      if (!res.ok) {
+        const errData = await res.json().catch(() => null);
+        throw new Error(errData?.error || "Failed to save settings");
+      }
       
       toast.success("Settings saved successfully");
-    } catch (error) {
-      toast.error("An error occurred while saving settings");
+    } catch (error: any) {
+      toast.error(error.message || "An error occurred while saving settings");
     } finally {
       setIsLoading(false);
     }
