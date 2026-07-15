@@ -32,50 +32,58 @@ export async function generateMetadata(): Promise<Metadata> {
   const ogImageUrl = `${BASE_URL}/api/og`
 
   const ogImages = [
-    { url: ogImageUrl, width: 400, height: 400, alt: 'Sukristiyo — DevOps, SRE & Cloud Engineer' }
+    { url: ogImageUrl, width: 400, height: 400, alt: 'Portfolio OG Image' }
   ]
+
+  let settings;
+  try {
+    settings = await prisma.siteSettings.findFirst();
+  } catch (error) {
+    console.error("Failed to fetch settings for metadata:", error);
+  }
+
+  const name = settings?.nameEn || 'Sukristiyo';
+  const subtitle = settings?.subtitleEn || 'DevOps, SRE & Cloud Engineer';
+  const fullTitle = `${name} — ${subtitle}`;
+  const description = settings?.aboutTextEn 
+    ? (settings.aboutTextEn.length > 150 ? settings.aboutTextEn.substring(0, 150) + '...' : settings.aboutTextEn)
+    : `Personal portfolio of ${name} — IT professional specializing in DevOps, Site Reliability Engineering, Cloud Infrastructure, and Data Center management.`;
 
   return {
     metadataBase: new URL(BASE_URL),
     title: {
-      default: 'Sukristiyo — DevOps, SRE & Cloud Engineer',
-      template: '%s | Sukristiyo',
+      default: fullTitle,
+      template: `%s | ${name}`,
     },
     icons: {
       icon: ogImageUrl,
       apple: ogImageUrl,
     },
-    description:
-      'Personal portfolio of Sukristiyo — IT professional specializing in DevOps, Site Reliability Engineering, Cloud Infrastructure, and Data Center management based in Jakarta, Indonesia.',
+    description: description,
     keywords: [
-      'Sukristiyo',
+      name,
       'DevOps Engineer',
       'SRE',
       'Cloud Engineer',
       'Data Center',
-      'AWS',
-      'Nutanix',
-      'VMware',
-      'Jakarta',
-      'Indonesia',
+      'Portfolio',
     ],
-    authors: [{ name: 'Sukristiyo', url: BASE_URL }],
-    creator: 'Sukristiyo',
+    authors: [{ name: name, url: BASE_URL }],
+    creator: name,
     openGraph: {
       type: 'website',
       locale: 'en_US',
       alternateLocale: 'id_ID',
       url: BASE_URL,
-      siteName: 'Sukristiyo Portfolio',
-      title: 'Sukristiyo — DevOps, SRE & Cloud Engineer',
-      description:
-        'Personal portfolio of Sukristiyo — IT professional specializing in DevOps, SRE, Cloud Infrastructure, and Data Center management.',
+      siteName: `${name} Portfolio`,
+      title: fullTitle,
+      description: description,
       images: ogImages,
     },
     twitter: {
       card: 'summary',
-      title: 'Sukristiyo — DevOps, SRE & Cloud Engineer',
-      description: 'IT professional specializing in DevOps, SRE, Cloud Infrastructure, and Data Center management.',
+      title: fullTitle,
+      description: description,
       images: ogImages.map((img) => img.url),
     },
     robots: {
