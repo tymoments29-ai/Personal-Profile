@@ -84,6 +84,14 @@ export async function PATCH(request: Request) {
       const translated = await translateToIndonesian(dataToSave.aboutTextEn);
       if (translated) dataToSave.aboutTextId = translated;
     }
+    if (dataToSave.birthDate) {
+      const translated = await translateToIndonesian(dataToSave.birthDate);
+      if (translated) dataToSave.birthDateId = translated;
+    }
+    if (dataToSave.location) {
+      const translated = await translateToIndonesian(dataToSave.location);
+      if (translated) dataToSave.locationId = translated;
+    }
 
     // Ensure a record exists before updating
     const existing = await prisma.siteSettings.findFirst()

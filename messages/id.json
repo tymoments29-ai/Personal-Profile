@@ -49,5 +49,12 @@
     "message": "Pesan Anda",
     "send": "Kirim Pesan",
     "sending": "Mengirim..."
+  },
+  "Sidebar": {
+    "email": "Surel",
+    "phone": "Telepon",
+    "birthDate": "Tanggal Lahir",
+    "location": "Lokasi",
+    "socialMedia": "Media Sosial"
   }
 }

@@ -49,5 +49,12 @@
     "message": "Your Message",
     "send": "Send Message",
     "sending": "Sending..."
+  },
+  "Sidebar": {
+    "email": "Email",
+    "phone": "Phone",
+    "birthDate": "Birthday",
+    "location": "Location",
+    "socialMedia": "Social Media"
   }
 }

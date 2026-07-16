@@ -31,7 +31,9 @@ model SiteSettings {
   email           String   @default("sukrisstiyo29@gmail.com")
   phone           String   @default("+62 821-7016-7025")
   birthDate       String   @default("September 26, 1999")
+  birthDateId     String?
   location        String   @default("Jakarta, Indonesia")
+  locationId      String?
   githubUrl       String?
   linkedinUrl     String?
   twitterUrl      String?

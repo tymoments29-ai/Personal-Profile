@@ -15,6 +15,7 @@ import {
   Facebook,
 } from 'lucide-react'
 import * as LucideIcons from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
 import type { SiteSettings, SocialLink } from '@prisma/client'
 
 interface SidebarProps {
@@ -24,15 +25,19 @@ interface SidebarProps {
 }
 
 const contactItems = [
-  { key: 'email', icon: Mail, label: 'Email', isLink: (val: string) => `mailto:${val}` },
-  { key: 'phone', icon: Phone, label: 'Phone', isLink: (val: string) => `tel:${val}` },
-  { key: 'birthDate', icon: Calendar, label: 'Birthday', isLink: null },
-  { key: 'location', icon: MapPin, label: 'Location', isLink: null },
+  { key: 'email', icon: Mail, isLink: (val: string) => `mailto:${val}` },
+  { key: 'phone', icon: Phone, isLink: (val: string) => `tel:${val}` },
+  { key: 'birthDate', icon: Calendar, isLink: null },
+  { key: 'location', icon: MapPin, isLink: null },
 ] as const
 
 export default function Sidebar({ settings, socialLinks, mobile = false }: SidebarProps) {
-  const name = settings?.nameEn || 'Sukristiyo'
-  const subtitle = settings?.subtitleEn || 'DevOps · SRE · Cloud Engineer · Data Center'
+  const locale = useLocale()
+  const t = useTranslations('Sidebar')
+  const isId = locale === 'id'
+
+  const name = isId ? (settings?.nameId || settings?.nameEn || 'Sukristiyo') : (settings?.nameEn || 'Sukristiyo')
+  const subtitle = isId ? (settings?.subtitleId || settings?.subtitleEn || 'DevOps · SRE · Cloud Engineer · Data Center') : (settings?.subtitleEn || 'DevOps · SRE · Cloud Engineer · Data Center')
   const profilePhoto = settings?.profilePhotoUrl
 
   const containerVariants = {
@@ -109,8 +114,16 @@ export default function Sidebar({ settings, socialLinks, mobile = false }: Sideb
 
       {/* Contact Info */}
       <motion.div variants={itemVariants} className="space-y-3 mb-5">
-        {contactItems.map(({ key, icon: Icon, label, isLink }) => {
-          const value = settings?.[key as keyof SiteSettings] as string | undefined | null
+        {contactItems.map(({ key, icon: Icon, isLink }) => {
+          let value = settings?.[key as keyof SiteSettings] as string | undefined | null
+          // Use localized value if available
+          if (locale === 'id') {
+            const localizedValue = settings?.[`${key}Id` as keyof SiteSettings] as string | undefined | null
+            if (localizedValue) {
+              value = localizedValue
+            }
+          }
+          
           if (!value) return null
 
           return (
@@ -120,7 +133,7 @@ export default function Sidebar({ settings, socialLinks, mobile = false }: Sideb
               </div>
               <div className="min-w-0">
                 <p className="text-xs text-[var(--muted-foreground)] font-medium uppercase tracking-wide mb-0.5">
-                  {label}
+                  {t(key)}
                 </p>
                 {isLink ? (
                   <a
@@ -145,7 +158,7 @@ export default function Sidebar({ settings, socialLinks, mobile = false }: Sideb
       {socialLinks.length > 0 && (
         <motion.div variants={itemVariants}>
           <p className="text-xs text-[var(--muted-foreground)] font-medium uppercase tracking-wide mb-3">
-            Social Media
+            {t('socialMedia')}
           </p>
           <div className="flex gap-2 flex-wrap">
             {socialLinks.map((link) => {
